@@ -97,6 +97,7 @@ public class WritableRasterTest extends JFrame {
                 triangle.normalize();
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
+                canvas.Clear();
             }
         }
     }
