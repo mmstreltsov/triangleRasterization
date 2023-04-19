@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 
 
 public class WritableRasterTest extends JFrame {
@@ -31,7 +32,6 @@ public class WritableRasterTest extends JFrame {
         JRadioButton pixelButton = new JRadioButton("Pixel-by-Pixel", false);
         JRadioButton arrayButton = new JRadioButton("Buffered Array", false);
         fps = new JLabel("FPS: 0");
-
         panel.add(fps);
         panel.add(pixelButton);
         panel.add(arrayButton);
@@ -66,9 +66,7 @@ public class WritableRasterTest extends JFrame {
 
     class BackgroundWorker implements  Runnable {
         private final int[] blueColorPixel = new int[]{155, 0, 255};
-        private final int[] greenColorPixel = new int[]{0, 255, 0};
         private int[] blueColorArray;
-        private int[] greenColorArray;
         private final PixelScreen screen;
 
         BackgroundWorker(PixelScreen screen) {
@@ -78,10 +76,6 @@ public class WritableRasterTest extends JFrame {
             blueColorArray = new int[w * h * 3];
             for (int i = 2; i < w * h * 3; i += 3) {
                 blueColorArray[i] = 255;
-            }
-            greenColorArray = new int[w * h * 3];
-            for (int i = 1; i < w * h * 3; i += 3) {
-                greenColorArray[i] = 255;
             }
         }
 
@@ -95,25 +89,14 @@ public class WritableRasterTest extends JFrame {
         }
 
         private void draw() throws InterruptedException {
-            long time;
-            int x1, y1, x2, y2, x3, y3;
-
             while(true) {
-                Random random = new Random();
-                x1 = random.nextInt(1800);
-                y1 = random.nextInt(900);
-                x2 = random.nextInt(1800);
-                y2 = random.nextInt(900);
-                x3 = random.nextInt(1800);
-                y3 = random.nextInt(900);
-                Triangle triangle = new Triangle(x1, y1, x2, y2, x3, y3);
+                Render render = new Render();
+                List<Triangle> triangles;
+                triangles = render.getRenderedTriangles();
+                Triangle triangle = triangles.get(0);
                 triangle.normalize();
-                time = System.nanoTime();
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
-                fps.setText("FPS: " + (int) (100000000000. / (System.nanoTime() - time)) / 50.);
-                Thread.sleep(500);
-                canvas.Clear();
             }
         }
     }
