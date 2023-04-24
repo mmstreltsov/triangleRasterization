@@ -44,4 +44,12 @@ public class Camera {
     public int hashCode() {
         return Objects.hash(point);
     }
+
+    public Vector3D getViewPoint() {
+        return viewPoint;
+    }
+
+    public void setViewPoint(Vector3D viewPoint) {
+        this.viewPoint = viewPoint;
+    }
 }

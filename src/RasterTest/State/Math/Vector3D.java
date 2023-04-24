@@ -1,10 +1,8 @@
 package RasterTest.State.Math;
 
-import RasterTest.State.Math.Coord3D;
-
-public class Vector3D extends Coord3D {
+public class Vector3D extends HomogeneousCoord {
     public Vector3D(double x, double y, double z) {
-        super(x, y, z);
+        super(x, y, z, 0);
     }
 
     public Vector3D normalized() {
@@ -12,4 +10,5 @@ public class Vector3D extends Coord3D {
         val = Math.sqrt(val);
         return new Vector3D(this.getX() / val, this.getY() / val, this.getZ() / val);
     }
+
 }
