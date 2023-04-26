@@ -13,6 +13,11 @@ public class HomogeneousCoord {
         this.w = w;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + ") + (" + y + ") + (" + z + ")";
+    }
+
     public HomogeneousCoord additional(HomogeneousCoord other) {
         return new HomogeneousCoord(x + other.x, y + other.y, z + other.z, w + other.w);
     }
