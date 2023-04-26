@@ -2,7 +2,8 @@ package RasterTest.State.Math;
 
 public class Matrix4x4 {
 
-    public Matrix4x4() {}
+    public Matrix4x4() {
+    }
 
     public Matrix4x4(double m11, double m12, double m13, double m14,
                      double m21, double m22, double m23, double m24,
@@ -32,6 +33,7 @@ public class Matrix4x4 {
         this.m33 = lambda;
         this.m44 = lambda;
     }
+
     public Matrix4x4(Matrix4x4 other) {
         this.m11 = other.m11;
         this.m12 = other.m12;
@@ -70,12 +72,12 @@ public class Matrix4x4 {
         double resultM44 = (m41 * otherMatrix.m14) + (m42 * otherMatrix.m24) + (m43 * otherMatrix.m34) + (m44 * otherMatrix.m44);
 
 
-
         return new Matrix4x4(resultM11, resultM12, resultM13, resultM14,
                 resultM21, resultM22, resultM23, resultM24,
                 resultM31, resultM32, resultM33, resultM34,
                 resultM41, resultM42, resultM43, resultM44);
     }
+
     public HomogeneousCoord multiplyOnHomo(HomogeneousCoord row) {
         double x = row.getX();
         double y = row.getY();

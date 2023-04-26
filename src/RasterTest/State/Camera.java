@@ -1,55 +1,48 @@
 package RasterTest.State;
 
-import RasterTest.State.Math.Coord3D;
+import RasterTest.State.Animation.Rotation;
+import RasterTest.State.Animation.Translation;
+import RasterTest.State.Math.EulerAngles;
 import RasterTest.State.Math.Vector3D;
 
-import java.util.Objects;
-
 public class Camera {
-    private Coord3D point;
+    private Translation offset;
+    private Rotation rotation;
+    private Vector3D direction;
 
-    private Vector3D viewPoint;
-
-    public Camera(Coord3D point, Vector3D viewPoint) {
-        this.point = point;
-        this.viewPoint = viewPoint;
+    public Camera(Translation offset, Rotation rotation, Vector3D direction) {
+        this.offset = new Translation(offset, true);
+        this.rotation = rotation;
+        this.direction = direction;
     }
 
     public Camera() {
-        this.point = new Coord3D(0, 0, -10);
-        this.viewPoint = new Vector3D(0, 0, 1).normalized();
+        offset =  new Translation(new Vector3D(0, 0, -10), true);
+        rotation = new Rotation(new EulerAngles(0., 0., 0.), true);
+        direction = new Vector3D(0, 0, 1);
     }
 
-    public Camera(Coord3D point) {
-        this.point = point;
+    public Translation getOffset() {
+        return offset;
     }
 
-    public Coord3D getPoint() {
-        return point;
+    public void setOffset(Translation offset) {
+        this.offset = offset;
     }
 
-    public void setPoint(Coord3D point) {
-        this.point = point;
+    public Rotation getRotation() {
+        return rotation;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Camera camera = (Camera) o;
-        return Objects.equals(point, camera.point);
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(point);
+    public Vector3D getDirection() {
+        return direction;
     }
 
-    public Vector3D getViewPoint() {
-        return viewPoint;
-    }
-
-    public void setViewPoint(Vector3D viewPoint) {
-        this.viewPoint = viewPoint;
+    public void setDirection(Vector3D direction) {
+        this.direction = direction;
     }
 }
