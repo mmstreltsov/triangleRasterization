@@ -45,24 +45,25 @@ public class EulerAngles {
 
     public Matrix4x4 RAlpha() {
         Matrix4x4 matrix = new Matrix4x4();
-        matrix.setM11(Math.cos(alpha));
-        matrix.setM22(Math.cos(alpha));
-        matrix.setM12(-Math.sin(alpha));
-        matrix.setM21(Math.sin(alpha));
 
-        matrix.setM33(1.);
+        matrix.setM22(Math.cos(alpha));
+        matrix.setM33(Math.cos(alpha));
+        matrix.setM23(-Math.sin(alpha));
+        matrix.setM32(Math.sin(alpha));
+
+        matrix.setM11(1.);
         matrix.setM44(1.);
         return matrix;
     }
 
     public Matrix4x4 RBeta() {
         Matrix4x4 matrix = new Matrix4x4();
-        matrix.setM22(Math.cos(beta));
+        matrix.setM11(Math.cos(beta));
         matrix.setM33(Math.cos(beta));
-        matrix.setM23(-Math.sin(beta));
-        matrix.setM32(Math.sin(beta));
+        matrix.setM13(Math.sin(beta));
+        matrix.setM31(-Math.sin(beta));
 
-        matrix.setM11(1.);
+        matrix.setM22(1.);
         matrix.setM44(1.);
         return matrix;
     }
