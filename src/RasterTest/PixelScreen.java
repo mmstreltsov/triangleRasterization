@@ -33,8 +33,8 @@ public class PixelScreen extends Canvas{
     }
 
     public void Clear() {
-        for (int x = 0; x < resolutionX; x++) {
-            for (int y = 0; y < resolutionY; y++) {
+        for(int x = 0; x < resolutionX; x++) {
+            for(int y = 0; y < resolutionY; y++) {
                 this.wr.setPixel(x, y, new int[]{0, 0, 0});
             }
         }
