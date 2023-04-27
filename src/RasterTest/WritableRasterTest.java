@@ -1,4 +1,12 @@
 package RasterTest;
+import RasterTest.State.Animation.ToRotate;
+import RasterTest.State.Math.Coord3D;
+import RasterTest.State.Math.Triangle3D;
+import RasterTest.State.Math.Vector3D;
+import RasterTest.State.Model;
+import RasterTest.State.RenderObject;
+import RasterTest.State.Scene;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -89,15 +97,38 @@ public class WritableRasterTest extends JFrame {
         }
 
         private void draw() throws InterruptedException {
+            Model model = new Model();
+            Coord3D x = new Coord3D(5., 0., 0.);
+            Coord3D y = new Coord3D(-5., 0., 0.);
+            Coord3D z = new Coord3D(0., 5., 0.);
+
+            model.setTriangulation(new ArrayList<>(List.of(new Triangle3D(x, y, z))));
+
+            Scene scene = new Scene();
+            scene.getModelInstance().getTranslation().setTranslation(new Vector3D(0, 0, 20));
+
             while(true) {
-                Render render = new Render();
-                List<Triangle> triangles;
-                triangles = render.getRenderedTriangles();
+
+                ToRotate.rotate(scene.getModelInstance().getRotation(), 0 ,0, 0.01);
+                RenderObject renderObject = new RenderObject(scene, model);
+                renderObject.init();
+
+                List<Triangle> triangles = new ArrayList<>();
+                renderObject.getTriangles().forEach(it -> {
+                    Triangle triangle = new Triangle((int)it.getVertex1().getX() + DEFAULT_WIDTH/2, (int)it.getVertex1().getY() + DEFAULT_HEIGHT / 2,
+                            (int)it.getVertex2().getX() + DEFAULT_WIDTH / 2, (int)it.getVertex2().getY() + DEFAULT_HEIGHT / 2,
+                            (int)it.getVertex3().getX() + DEFAULT_WIDTH / 2, (int) it.getVertex3().getY() + DEFAULT_HEIGHT / 2);
+                    triangles.add(triangle);
+                });
+                if (triangles.isEmpty()) {
+                    return;
+                }
                 Triangle triangle = triangles.get(0);
                 triangle.normalize();
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
                 canvas.Clear();
+                Thread.sleep(5);
             }
         }
     }
