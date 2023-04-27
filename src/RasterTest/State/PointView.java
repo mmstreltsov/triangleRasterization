@@ -1,19 +1,17 @@
 package RasterTest.State;
 
+import RasterTest.PixelScreen;
 import RasterTest.State.Math.Matrix4x4;
 
 public class PointView implements Transformation {
 
     public static PointView pointView;
     private double d;
-    private double cWidth;
-    private double cHeight;
+    private double cWidth = PixelScreen.resolutionX;
+    private double cHeight = PixelScreen.resolutionY;
 
     private double vWidth;
 
-    public double getD() {
-        return d;
-    }
 
     private double vHeight;
 
@@ -24,21 +22,19 @@ public class PointView implements Transformation {
         return pointView;
     }
 
-    public static PointView fabric(double d, double cWidth, double cHeight, double vWidth, double vHeight) {
+    public static PointView fabric(double d, double vWidth, double vHeight) {
         if (pointView == null) {
-            pointView = new PointView(d, cWidth, cHeight, vWidth, vHeight);
+            pointView = new PointView(d, vWidth, vHeight);
         }
         else {
             pointView.d = d;
             pointView.vHeight = vHeight;
             pointView.vWidth = vWidth;
-            pointView.cWidth = cWidth;
-            pointView.cHeight = cHeight;
         }
         return pointView;
     }
 
-    private PointView(double d, double cWidth, double cHeight, double vWidth, double vHeight) {
+    private PointView(double d, double vWidth, double vHeight) {
         this.d = d;
         this.cWidth = cWidth;
         this.cHeight = cHeight;
@@ -48,11 +44,8 @@ public class PointView implements Transformation {
 
     private PointView() {
         this.d = 10.;
-        this.cWidth = 600.;
-        this.cHeight = 400;
-        this.vWidth = 600.;
-        this.vHeight = 400;
-
+        this.vWidth = 640.;
+        this.vHeight = 480;
     }
 
     @Override
@@ -110,5 +103,8 @@ public class PointView implements Transformation {
         this.vHeight = vHeight;
     }
 
+    public double getD() {
+        return d;
+    }
 
 }
