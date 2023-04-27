@@ -34,4 +34,8 @@ public class Scale {
     public void setScale(Vector3D scale) {
         this.scale = scale;
     }
+    public void setScale(double x, double y, double z) {
+        this.scale = new Vector3D(x, y, z);
+    }
+
 }
