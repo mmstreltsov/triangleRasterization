@@ -5,12 +5,6 @@ import RasterTest.State.Math.Vector3D;
 
 public class Scale {
 
-    public Vector3D getScale() {
-        return scale;
-    }
-    public void setScale(Vector3D scale) {
-        this.scale = scale;
-    }
 
     private Vector3D scale;
 
@@ -31,5 +25,13 @@ public class Scale {
         matrix.setM44(1.);
 
         return matrix;
+    }
+
+    public Vector3D getScale() {
+        return scale;
+    }
+
+    public void setScale(Vector3D scale) {
+        this.scale = scale;
     }
 }

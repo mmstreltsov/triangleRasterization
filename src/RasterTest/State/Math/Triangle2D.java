@@ -39,6 +39,14 @@ public class Triangle2D {
         this.vertex3 = vertex3;
     }
 
+    @Override
+    public String toString() {
+        return "Triangle2D{" +
+                "vertex1=" + vertex1 +
+                ", vertex2=" + vertex2 +
+                ", vertex3=" + vertex3 +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

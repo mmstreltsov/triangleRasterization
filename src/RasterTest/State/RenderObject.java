@@ -5,12 +5,16 @@ import RasterTest.State.Math.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenderScene {
+public class RenderObject {
     private Scene scene;
     private Model models;
 
-    List<Triangle2D> triangles;
-    public RenderScene(Scene scene, Model models) {
+    public List<Triangle2D> getTriangles() {
+        return triangles;
+    }
+
+    private List<Triangle2D> triangles;
+    public RenderObject(Scene scene, Model models) {
         this.scene = scene;
         this.models = models;
         triangles = new ArrayList<>();

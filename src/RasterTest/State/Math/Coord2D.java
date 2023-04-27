@@ -7,6 +7,10 @@ public class Coord2D {
     private double y;
 
 
+    @Override
+    public String toString() {
+        return "(" + x  + ", " + + y + ')';
+    }
 
     private double zCoord;
 

@@ -7,15 +7,19 @@ import RasterTest.State.Math.Matrix4x4;
 import RasterTest.State.Math.Vector3D;
 
 public class Camera implements Transformation {
+
+    private static Camera camera;
     private Translation offset;
     private Rotation rotation;
 
-    public Camera(Translation offset, Rotation rotation) {
-        this.offset = new Translation(offset, true);
-        this.rotation = rotation;
+    public static Camera fabric() {
+        if (camera == null) {
+            camera = new Camera();
+        }
+        return camera;
     }
 
-    public Camera() {
+    private Camera() {
         offset = new Translation(new Vector3D(0, 0, -10), true);
         rotation = new Rotation(new EulerAngles(0., 0., 0.), true);
     }
@@ -33,7 +37,7 @@ public class Camera implements Transformation {
     }
 
     public void setOffset(Translation offset) {
-        this.offset = offset;
+        this.offset = new Translation(offset, true);
     }
 
     public Rotation getRotation() {
@@ -41,6 +45,6 @@ public class Camera implements Transformation {
     }
 
     public void setRotation(Rotation rotation) {
-        this.rotation = rotation;
+        this.rotation = new Rotation(rotation, true);
     }
 }

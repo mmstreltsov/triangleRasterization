@@ -3,14 +3,42 @@ package RasterTest.State;
 import RasterTest.State.Math.Matrix4x4;
 
 public class PointView implements Transformation {
-     private double d;
-     private double cWidth;
-     private double cHeight;
 
-     private double vWidth;
-     private double vHeight;
+    public static PointView pointView;
+    private double d;
+    private double cWidth;
+    private double cHeight;
 
-    public PointView(double d, double cWidth, double cHeight, double vWidth, double vHeight) {
+    private double vWidth;
+
+    public double getD() {
+        return d;
+    }
+
+    private double vHeight;
+
+    public static PointView fabric() {
+        if (pointView == null) {
+            pointView = new PointView();
+        }
+        return pointView;
+    }
+
+    public static PointView fabric(double d, double cWidth, double cHeight, double vWidth, double vHeight) {
+        if (pointView == null) {
+            pointView = new PointView(d, cWidth, cHeight, vWidth, vHeight);
+        }
+        else {
+            pointView.d = d;
+            pointView.vHeight = vHeight;
+            pointView.vWidth = vWidth;
+            pointView.cWidth = cWidth;
+            pointView.cHeight = cHeight;
+        }
+        return pointView;
+    }
+
+    private PointView(double d, double cWidth, double cHeight, double vWidth, double vHeight) {
         this.d = d;
         this.cWidth = cWidth;
         this.cHeight = cHeight;
@@ -18,7 +46,7 @@ public class PointView implements Transformation {
         this.vHeight = vHeight;
     }
 
-    public PointView() {
+    private PointView() {
         this.d = 10.;
         this.cWidth = 600.;
         this.cHeight = 400;
@@ -44,6 +72,42 @@ public class PointView implements Transformation {
         matrix.setM11(cWidth / vWidth);
         matrix.setM22(cHeight / vHeight);
         return matrix;
+    }
+
+    public void setD(double d) {
+        this.d = d;
+    }
+
+    public double getcWidth() {
+        return cWidth;
+    }
+
+    public void setcWidth(double cWidth) {
+        this.cWidth = cWidth;
+    }
+
+    public double getcHeight() {
+        return cHeight;
+    }
+
+    public void setcHeight(double cHeight) {
+        this.cHeight = cHeight;
+    }
+
+    public double getvWidth() {
+        return vWidth;
+    }
+
+    public void setvWidth(double vWidth) {
+        this.vWidth = vWidth;
+    }
+
+    public double getvHeight() {
+        return vHeight;
+    }
+
+    public void setvHeight(double vHeight) {
+        this.vHeight = vHeight;
     }
 
 
