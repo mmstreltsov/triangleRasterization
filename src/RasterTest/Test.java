@@ -1,6 +1,8 @@
 package RasterTest;
 
 import RasterTest.State.Animation.ToRotate;
+import RasterTest.State.Animation.Translation;
+import RasterTest.State.Camera;
 import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Triangle3D;
 import RasterTest.State.Math.Vector3D;
@@ -20,14 +22,19 @@ public class Test {
 
     Test() {
         this.model = new Model();
-        Coord3D x = new Coord3D(5., 0., 0.);
-        Coord3D y = new Coord3D(-5., 0., 0.);
-        Coord3D z = new Coord3D(0., 5., 0.);
+        Coord3D x = new Coord3D(10., 0., 0.);
+        Coord3D y = new Coord3D(-10., 0., 0.);
+        Coord3D z = new Coord3D(0., 10., 0.);
 
         this.model.setTriangulation(new ArrayList<>(List.of(new Triangle3D(x, y, z))));
 
+
+
         this.scene = new Scene();
         this.scene.getModelInstance().getTranslation().setTranslation(new Vector3D(0, 0, 20));
+        Camera camera = Camera.fabric();
+        camera.setOffset(new Translation(new Vector3D(5., 0,  0)));
+
     }
 
     public List<Triangle> convert(RenderObject renderObject) {
