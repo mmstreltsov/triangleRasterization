@@ -95,10 +95,10 @@ public class WritableRasterTest extends JFrame {
             while(true) {
                 RenderObject renderObject = test.makeAnimation();
                 Triangle triangle = test.convert(renderObject).get(0);
-
                 triangle.normalize();
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
+                Thread.sleep(5);
                 canvas.Clear();
             }
         }
