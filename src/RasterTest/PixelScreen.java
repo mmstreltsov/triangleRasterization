@@ -5,25 +5,21 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import javax.swing.JFrame;
 
-/**
- * Kudryashov Evgeny 271 SE
- */
-
 public class PixelScreen extends Canvas{
-    private final int resolutionX = 1920;
-    private final int resolutionY = 1080;
+    private final int resolutionX = 640;
+    private final int resolutionY = 480;
     private final BufferedImage bi;
     private final WritableRaster wr;
 
     public PixelScreen() {
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.BLACK);
         this.bi = new BufferedImage(resolutionX,resolutionY,BufferedImage.TYPE_INT_RGB);
         this.wr = this.bi.getRaster();
     }
 
     public void fillPixels(int[] color) {
-        for(int x = 0; x < this.getWidth(); x++) {
-            for(int y = 0; y < this.getHeight(); y++) {
+        for(int x = 0; x < resolutionX; x++) {
+            for(int y = 0; y < resolutionY; y++) {
                 this.wr.setPixel(x, y, color);
             }
         }
@@ -37,13 +33,12 @@ public class PixelScreen extends Canvas{
     }
 
     public void Clear() {
-        for(int x = 0; x < 640; x++) {
-            for(int y = 0; y < 480; y++) {
+        for (int x = 0; x < resolutionX; x++) {
+            for (int y = 0; y < resolutionY; y++) {
                 this.wr.setPixel(x, y, new int[]{0, 0, 0});
             }
         }
     }
-
     public void drawTriangle(Triangle triangle, int[] color) {
         int[][] a = triangle.findCoordinates();
         for (int[] ints : a) {
