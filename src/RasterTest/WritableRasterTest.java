@@ -72,8 +72,8 @@ public class WritableRasterTest extends JFrame {
 
         BackgroundWorker(PixelScreen screen) {
             this.screen = screen;
-            int w = screen.getResolutionY();
-            int h = screen.getResolutionX();
+            int w = DEFAULT_WIDTH;
+            int h = DEFAULT_HEIGHT;
             blueColorArray = new int[w * h * 3];
             for (int i = 2; i < w * h * 3; i += 3) {
                 blueColorArray[i] = 255;
@@ -99,7 +99,6 @@ public class WritableRasterTest extends JFrame {
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
                 canvas.Clear();
-                Thread.sleep(5);
             }
         }
     }
