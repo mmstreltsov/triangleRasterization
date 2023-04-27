@@ -97,33 +97,14 @@ public class WritableRasterTest extends JFrame {
         }
 
         private void draw() throws InterruptedException {
-            Model model = new Model();
-            Coord3D x = new Coord3D(5., 0., 0.);
-            Coord3D y = new Coord3D(-5., 0., 0.);
-            Coord3D z = new Coord3D(0., 5., 0.);
-
-            model.setTriangulation(new ArrayList<>(List.of(new Triangle3D(x, y, z))));
-
-            Scene scene = new Scene();
-            scene.getModelInstance().getTranslation().setTranslation(new Vector3D(0, 0, 20));
+            Test test = new Test();
 
             while(true) {
-
-                ToRotate.rotate(scene.getModelInstance().getRotation(), 0 ,0, 0.01);
-                RenderObject renderObject = new RenderObject(scene, model);
+                ToRotate.rotate(test.scene.getModelInstance().getRotation(), 0.01, 0.01, 0.01);
+                RenderObject renderObject = new RenderObject(test.scene, test.model);
                 renderObject.init();
 
-                List<Triangle> triangles = new ArrayList<>();
-                renderObject.getTriangles().forEach(it -> {
-                    Triangle triangle = new Triangle((int)it.getVertex1().getX() + DEFAULT_WIDTH/2, (int)it.getVertex1().getY() + DEFAULT_HEIGHT / 2,
-                            (int)it.getVertex2().getX() + DEFAULT_WIDTH / 2, (int)it.getVertex2().getY() + DEFAULT_HEIGHT / 2,
-                            (int)it.getVertex3().getX() + DEFAULT_WIDTH / 2, (int) it.getVertex3().getY() + DEFAULT_HEIGHT / 2);
-                    triangles.add(triangle);
-                });
-                if (triangles.isEmpty()) {
-                    return;
-                }
-                Triangle triangle = triangles.get(0);
+                Triangle triangle = test.convert(renderObject).get(0);
                 triangle.normalize();
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
