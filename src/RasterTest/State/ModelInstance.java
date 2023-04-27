@@ -5,7 +5,7 @@ import RasterTest.State.Animation.Scale;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Math.Matrix4x4;
 
-public class ModelInstance extends Model {
+public class ModelInstance implements Transformation {
     private Scale scale;
     private Rotation rotation;
     private Translation translation;
@@ -18,14 +18,13 @@ public class ModelInstance extends Model {
         this.translation = translation;
     }
 
-    public ModelInstance(Model other, Scale scale, Rotation rotation, Translation translation) {
-        super(other);
-        this.scale = scale;
-        this.rotation = rotation;
-        this.translation = translation;
+    public ModelInstance() {
+        this.scale = new Scale();
+        this.rotation = new Rotation();
+        this.translation = new Translation();
     }
 
-
+    @Override
     public Matrix4x4 transformation() {
         Matrix4x4 matrix = new Matrix4x4(1.);
         matrix = matrix.multiplyOnMatrix(translation.translating());
