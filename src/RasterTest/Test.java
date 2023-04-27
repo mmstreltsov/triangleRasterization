@@ -1,6 +1,7 @@
 package RasterTest;
 
 import RasterTest.State.Animation.ToRotate;
+import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Camera;
 import RasterTest.State.Math.Coord3D;
@@ -31,9 +32,11 @@ public class Test {
 
 
         this.scene = new Scene();
-        this.scene.getModelInstance().getTranslation().setTranslation(new Vector3D(0, 0, 20));
+        ToTranslate.translate(scene.getModelInstance().getTranslation(), 0, 0, -20);
+
         Camera camera = Camera.fabric();
-        camera.setOffset(new Translation(new Vector3D(5., 0,  0)));
+        ToTranslate.translate(camera.getOffset(), 5, 0, 0);
+        ToRotate.rotate(camera.getRotation(), 0, 1, 0);
 
     }
 

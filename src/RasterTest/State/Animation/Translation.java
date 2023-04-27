@@ -18,6 +18,9 @@ public class Translation {
     }
 
 
+    public Translation(double x, double y, double z) {
+        this.translation = new Vector3D(x, y, z);
+    }
     public Translation(Vector3D translation) {
         this.translation = translation;
     }
