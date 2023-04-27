@@ -21,8 +21,8 @@ public class Coord2D {
     }
 
     public Coord2D(double x, double y, double z_coord) {
-        this.x = x;
-        this.y = y;
+        this.x = x / z_coord;
+        this.y = y / z_coord;
         this.zCoord = z_coord;
     }
 

@@ -20,6 +20,10 @@ public class Rotation {
         this.rotation = new EulerAngles(x, y, z);
     }
 
+    public Rotation(double x, double y, double z) {
+        this.rotation = new EulerAngles(x, y, z);
+    }
+
     public Rotation(EulerAngles rotation) {
         this.rotation = rotation;
     }

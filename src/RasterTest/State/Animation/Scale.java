@@ -8,6 +8,10 @@ public class Scale {
 
     private Vector3D scale;
 
+
+    public Scale(double x, double y, double z) {
+        this.scale = new Vector3D(x, y, z);
+    }
     public Scale(Vector3D scale) {
         this.scale = scale;
     }

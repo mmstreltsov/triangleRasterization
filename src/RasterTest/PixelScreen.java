@@ -39,7 +39,6 @@ public class PixelScreen extends Canvas{
             }
         }
     }
-
     public void drawTriangle(Triangle triangle, int[] color) {
         int[][] a = triangle.findCoordinates();
         for (int[] ints : a) {
