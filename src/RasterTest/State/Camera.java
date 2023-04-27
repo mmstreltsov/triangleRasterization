@@ -1,47 +1,50 @@
 package RasterTest.State;
 
-import RasterTest.State.Math.Coord3D;
+import RasterTest.State.Animation.Rotation;
+import RasterTest.State.Animation.Translation;
+import RasterTest.State.Math.EulerAngles;
+import RasterTest.State.Math.Matrix4x4;
 import RasterTest.State.Math.Vector3D;
 
-import java.util.Objects;
+public class Camera implements Transformation {
 
-public class Camera {
-    private Coord3D point;
+    private static Camera camera;
+    private Translation offset;
+    private Rotation rotation;
 
-    private Vector3D viewPoint;
-
-    public Camera(Coord3D point, Vector3D viewPoint) {
-        this.point = point;
-        this.viewPoint = viewPoint;
+    public static Camera fabric() {
+        if (camera == null) {
+            camera = new Camera();
+        }
+        return camera;
     }
 
-    public Camera() {
-        this.point = new Coord3D(0, 0, -10);
-        this.viewPoint = new Vector3D(0, 0, 1).normalized();
-    }
-
-    public Camera(Coord3D point) {
-        this.point = point;
-    }
-
-    public Coord3D getPoint() {
-        return point;
-    }
-
-    public void setPoint(Coord3D point) {
-        this.point = point;
+    private Camera() {
+        offset = new Translation(new Vector3D(0, 0, -10), true);
+        rotation = new Rotation(new EulerAngles(0., 0., 0.), true);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Camera camera = (Camera) o;
-        return Objects.equals(point, camera.point);
+    public Matrix4x4 transformation() {
+        Matrix4x4 matrix = new Matrix4x4(1.);
+        matrix = matrix.multiplyOnMatrix(offset.translating());
+        matrix = matrix.multiplyOnMatrix(rotation.rotating());
+        return matrix;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(point);
+    public Translation getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Translation offset) {
+        this.offset = new Translation(offset, true);
+    }
+
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(Rotation rotation) {
+        this.rotation = new Rotation(rotation, true);
     }
 }

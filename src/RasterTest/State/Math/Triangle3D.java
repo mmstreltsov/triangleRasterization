@@ -13,6 +13,25 @@ public class Triangle3D {
         this.vertex3 = vertex3;
     }
 
+    public Triangle3D transformation(Matrix4x4 matrix) {
+        HomogeneousCoord v1 = matrix.multiplyOnHomo(vertex1);
+        HomogeneousCoord v2 = matrix.multiplyOnHomo(vertex2);
+        HomogeneousCoord v3 = matrix.multiplyOnHomo(vertex3);
+        Coord3D x = new Coord3D(v1.getX(), v1.getY(), v1.getZ());
+        Coord3D y = new Coord3D(v2.getX(), v2.getY(), v2.getZ());
+        Coord3D z = new Coord3D(v3.getX(), v3.getY(), v3.getZ());
+
+        return new Triangle3D(x, y, z);
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle3D{" +
+                "vertex1=" + vertex1 +
+                ", vertex2=" + vertex2 +
+                ", vertex3=" + vertex3 +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
