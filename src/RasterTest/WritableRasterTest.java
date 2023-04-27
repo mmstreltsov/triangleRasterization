@@ -1,18 +1,11 @@
 package RasterTest;
-import RasterTest.State.Animation.ToRotate;
-import RasterTest.State.Math.Coord3D;
-import RasterTest.State.Math.Triangle3D;
-import RasterTest.State.Math.Vector3D;
-import RasterTest.State.Model;
+
 import RasterTest.State.RenderObject;
-import RasterTest.State.Scene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.List;
 
 
 public class WritableRasterTest extends JFrame {
@@ -100,10 +93,7 @@ public class WritableRasterTest extends JFrame {
             Test test = new Test();
 
             while(true) {
-                ToRotate.rotate(test.scene.getModelInstance().getRotation(), 0.01, 0.01, 0.01);
-                RenderObject renderObject = new RenderObject(test.scene, test.model);
-                renderObject.init();
-
+                RenderObject renderObject = test.makeAnimation();
                 Triangle triangle = test.convert(renderObject).get(0);
                 triangle.normalize();
                 //screen.fillPixels(blueColorPixel);

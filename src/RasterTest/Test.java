@@ -1,5 +1,6 @@
 package RasterTest;
 
+import RasterTest.State.Animation.ToRotate;
 import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Triangle3D;
 import RasterTest.State.Math.Vector3D;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Test {
-    Scene scene;
-    Model model;
+    public Scene scene;
+    public Model model;
 
     private static final int DEFAULT_WIDTH = 640;
     private static final int DEFAULT_HEIGHT = 480;
@@ -38,5 +39,12 @@ public class Test {
             triangles.add(triangle);
         });
         return triangles;
+    }
+
+    public RenderObject makeAnimation() {
+        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0.01, 0.01, 0.01);
+        RenderObject renderObject = new RenderObject(this.scene, this.model);
+        renderObject.init();
+        return renderObject;
     }
 }
