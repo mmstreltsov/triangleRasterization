@@ -6,8 +6,8 @@ import java.awt.image.WritableRaster;
 import javax.swing.JFrame;
 
 public class PixelScreen extends Canvas{
-    private final int resolutionX = 640;
-    private final int resolutionY = 480;
+    public static final int resolutionX = 640;
+    public static final int resolutionY = 480;
     private final BufferedImage bi;
     private final WritableRaster wr;
 

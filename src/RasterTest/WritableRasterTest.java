@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class WritableRasterTest extends JFrame {
 
-    private static final int DEFAULT_WIDTH = 640;
-    private static final int DEFAULT_HEIGHT = 480;
+    public static final int DEFAULT_WIDTH = PixelScreen.resolutionX;
+    public static final int DEFAULT_HEIGHT = PixelScreen.resolutionY;
     private JLabel fps;
     private PixelScreen canvas;
 

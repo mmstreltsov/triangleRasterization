@@ -15,39 +15,32 @@ public class Test {
     public Scene scene;
     public Model model;
 
-    private static final int DEFAULT_WIDTH = 640;
-    private static final int DEFAULT_HEIGHT = 480;
-
     Test() {
         this.model = new Model();
-        Coord3D x = new Coord3D(100., 0., 0.);
-        Coord3D y = new Coord3D(-100., 0., 0.);
-        Coord3D z = new Coord3D(0., 100., 0.);
+        Coord3D x = new Coord3D(30., 0., 0.);
+        Coord3D y = new Coord3D(-30., 0., 0.);
+        Coord3D z = new Coord3D(0., 30., 0.);
 
         this.model.setTriangulation(new ArrayList<>(List.of(new Triangle3D(x, y, z))));
 
 
         this.scene = new Scene();
-        ToTranslate.translate(scene.getModelInstance().getTranslation(), 0, 0, 0);
+        ToTranslate.translate(scene.getModelInstance().getTranslation(), 0, 0, 3);
 
     }
 
     public List<Triangle> convert(RenderObject renderObject) {
         List<Triangle> triangles = new ArrayList<>();
         renderObject.getTriangles().forEach(it -> {
-            Triangle triangle = new Triangle((int) it.getVertex1().getX() + DEFAULT_WIDTH / 2, (int) it.getVertex1().getY() + DEFAULT_HEIGHT / 2,
-                    (int) it.getVertex2().getX() + DEFAULT_WIDTH / 2, (int) it.getVertex2().getY() + DEFAULT_HEIGHT / 2,
-                    (int) it.getVertex3().getX() + DEFAULT_WIDTH / 2, (int) it.getVertex3().getY() + DEFAULT_HEIGHT / 2);
+            Triangle triangle = Converter.convert(it);
             triangles.add(triangle);
         });
         return triangles;
     }
 
-        private double[] off = new double[] {1, 2, 3, 4, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1, 0};
-    private int i = 0;
+
     public RenderObject makeAnimation() {
-        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0, 0.01);
-        ToTranslate.translate(this.scene.getModelInstance().getTranslation(), 0, 0, off[i++ % off.length]);
+        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0.01, 0.01);
         RenderObject renderObject = new RenderObject(this.scene, this.model);
         renderObject.init();
         return renderObject;

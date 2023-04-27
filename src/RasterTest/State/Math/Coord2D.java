@@ -20,10 +20,10 @@ public class Coord2D {
         this.zCoord = 0;
     }
 
-    public Coord2D(double x, double y, double z_coord) {
-        this.x = x / z_coord;
-        this.y = y / z_coord;
-        this.zCoord = z_coord;
+    public Coord2D(double x, double y, double zCoord) {
+        this.x = x / zCoord;
+        this.y = y / zCoord;
+        this.zCoord = zCoord;
     }
 
     public double getX() {
