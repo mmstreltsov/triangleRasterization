@@ -16,7 +16,9 @@ public class Rotation {
     public void setRotation(EulerAngles rotation) {
         this.rotation = rotation;
     }
-
+    public void setRotation(double x, double y, double z) {
+        this.rotation = new EulerAngles(x, y, z);
+    }
 
     public Rotation(EulerAngles rotation) {
         this.rotation = rotation;
