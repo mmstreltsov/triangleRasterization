@@ -31,7 +31,10 @@ public class RenderObject {
             Coord2D b = Scene.getting2DCoordinate(v2);
             Coord2D c = Scene.getting2DCoordinate(v3);
 
-            triangles.add(new Triangle2D(a, b, c));
+            Triangle2D tmp = new Triangle2D(a, b, c);
+            tmp.setLightCoefficient(it.getLightCoefficient());
+
+            triangles.add(tmp);
         });
     }
 }

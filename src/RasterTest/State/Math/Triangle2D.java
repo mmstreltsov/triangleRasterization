@@ -5,10 +5,16 @@ import java.util.Objects;
 public class Triangle2D {
     private Coord2D vertex1;
     private Coord2D vertex2;
-
-
     private Coord2D vertex3;
 
+    private double lightCoefficient = 0;
+
+    public double getLightCoefficient() {
+        return lightCoefficient;
+    }
+    public void setLightCoefficient(double lightCoefficient) {
+        this.lightCoefficient = lightCoefficient;
+    }
     public Triangle2D(Coord2D vertex1, Coord2D vertex2, Coord2D vertex3) {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
