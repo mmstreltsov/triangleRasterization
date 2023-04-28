@@ -30,21 +30,11 @@ public class Rotation {
 
     public Rotation(EulerAngles rotation, boolean isReversed) {
         this.isReversed = isReversed;
-        if (isReversed) {
-            this.rotation = new EulerAngles(-rotation.getAlpha(), -rotation.getBeta(), -rotation.getGamma());
-        }
-        else {
-            this.rotation = rotation;
-        }
+        this.rotation = rotation;
     }
     public Rotation(Rotation rotation, boolean isReversed) {
         this.isReversed = isReversed;
-        if (isReversed) {
-            this.rotation = new EulerAngles(-rotation.getRotation().getAlpha(), -rotation.getRotation().getBeta(), -rotation.getRotation().getGamma());
-        }
-        else {
-            this.rotation = rotation.getRotation();
-        }
+        this.rotation = rotation.getRotation();
     }
 
     public Rotation() {
@@ -54,9 +44,9 @@ public class Rotation {
     public Matrix4x4 rotating() {
         Matrix4x4 matrix = new Matrix4x4(1.);
         if (isReversed) {
-            matrix = matrix.multiplyOnMatrix(rotation.RGamma());
-            matrix = matrix.multiplyOnMatrix(rotation.RBeta());
-            matrix = matrix.multiplyOnMatrix(rotation.RAlpha());
+            matrix = matrix.multiplyOnMatrix(rotation.RGammaNegative());
+            matrix = matrix.multiplyOnMatrix(rotation.RBetaNegative());
+            matrix = matrix.multiplyOnMatrix(rotation.RAlphaNegative());
         }
         else {
             matrix = matrix.multiplyOnMatrix(rotation.RAlpha());

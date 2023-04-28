@@ -1,11 +1,18 @@
 package RasterTest;
 
+import RasterTest.State.Animation.ToTranslate;
+import RasterTest.State.Animation.Translation;
+import RasterTest.State.Camera;
 import RasterTest.State.RenderObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 
 public class WritableRasterTest extends JFrame {
@@ -15,10 +22,14 @@ public class WritableRasterTest extends JFrame {
     private JLabel fps;
     private PixelScreen canvas;
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         JFrame f = new WritableRasterTest();
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setVisible(true);
+
+
+        /// TESTING METHOD
+        CameraAnimTest.testing();
     }
 
     public WritableRasterTest(){
@@ -98,7 +109,7 @@ public class WritableRasterTest extends JFrame {
                 triangle.normalize();
                 //screen.fillPixels(blueColorPixel);
                 screen.drawTriangle(triangle, blueColorPixel);
-                Thread.sleep(5);
+                Thread.sleep(25);
                 canvas.Clear();
             }
         }

@@ -44,8 +44,15 @@ public class EulerAngles {
     }
 
     public Matrix4x4 RAlpha() {
-        Matrix4x4 matrix = new Matrix4x4();
+        return alphaMatrix(alpha);
+    }
 
+    public Matrix4x4 RAlphaNegative() {
+        return alphaMatrix(-alpha);
+    }
+
+    private Matrix4x4 alphaMatrix(double alpha) {
+        Matrix4x4 matrix = new Matrix4x4();
         matrix.setM22(Math.cos(alpha));
         matrix.setM33(Math.cos(alpha));
         matrix.setM23(-Math.sin(alpha));
@@ -57,6 +64,14 @@ public class EulerAngles {
     }
 
     public Matrix4x4 RBeta() {
+        return betaMatrix(beta);
+    }
+
+    public Matrix4x4 RBetaNegative(){
+        return betaMatrix(-beta);
+    }
+
+    private Matrix4x4 betaMatrix( double beta) {
         Matrix4x4 matrix = new Matrix4x4();
         matrix.setM11(Math.cos(beta));
         matrix.setM33(Math.cos(beta));
@@ -69,6 +84,14 @@ public class EulerAngles {
     }
 
     public Matrix4x4 RGamma() {
+        return gammaMatrix(gamma);
+    }
+
+    public Matrix4x4 RGammaNegative() {
+        return gammaMatrix(-gamma);
+    }
+
+    private Matrix4x4 gammaMatrix(double gamma) {
         Matrix4x4 matrix = new Matrix4x4();
         matrix.setM11(Math.cos(gamma));
         matrix.setM22(Math.cos(gamma));
@@ -79,7 +102,6 @@ public class EulerAngles {
         matrix.setM44(1.);
         return matrix;
     }
-
 
 
 }

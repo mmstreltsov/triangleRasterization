@@ -2,6 +2,7 @@ package RasterTest;
 
 import RasterTest.State.Animation.ToRotate;
 import RasterTest.State.Animation.ToTranslate;
+import RasterTest.State.Camera;
 import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Triangle3D;
 import RasterTest.State.Model;
@@ -25,7 +26,7 @@ public class Test {
 
 
         this.scene = new Scene();
-        ToTranslate.translate(scene.getModelInstance().getTranslation(), -20, 35, 21);
+        ToTranslate.translate(scene.getModelInstance().getTranslation(), -20, 35, 35);
     }
 
     public List<Triangle> convert(RenderObject renderObject) {
@@ -39,8 +40,11 @@ public class Test {
 
 
 
+    double[] arr = new double[] {1, 2, 3, 4, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, -4, -3, -2, -1,};
+    int i = 0;
     public RenderObject makeAnimation() {
-        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0.01, 0);
+//        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0.01, 0.01, 0.01);
+        ToTranslate.translate(Camera.fabric().getOffset(), 0 ,0, arr[i++ % arr.length]);
         RenderObject renderObject = new RenderObject(this.scene, this.model);
         renderObject.init();
         return renderObject;

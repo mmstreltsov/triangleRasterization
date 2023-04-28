@@ -26,22 +26,12 @@ public class Translation {
     }
     public Translation(Translation other, boolean isReversed) {
         this.isReversed = isReversed;
-        if (isReversed) {
-            this.transl = new Vector3D(-other.transl.getX(), -other.transl.getY(), -other.transl.getZ());
-        }
-        else {
-            this.transl = other.getTransl();
-        }
+        this.transl = other.getTransl();
     }
 
     public Translation(Vector3D other, boolean isReversed) {
         this.isReversed = isReversed;
-        if (isReversed) {
-            this.transl = new Vector3D(-other.getX(), -other.getY(), -other.getZ());
-        }
-        else {
-            this.transl = other;
-        }
+        this.transl = other;
     }
 
     public Translation() {
@@ -59,6 +49,12 @@ public class Translation {
         // because of implementation. (0, 0) in other angle
         matrix.setM24(-1 * transl.getY());
         matrix.setM34(transl.getZ());
+
+        if (isReversed) {
+            matrix.setM14(matrix.getM14() * -1);
+            matrix.setM24(matrix.getM24() * -1);
+            matrix.setM34(matrix.getM34() * -1);
+        }
         return matrix;
     }
 }
