@@ -1,5 +1,7 @@
 package RasterTest.State.Math;
 
+import RasterTest.State.Light;
+
 import java.util.Objects;
 
 public class Triangle3D {
@@ -7,10 +9,18 @@ public class Triangle3D {
     private Coord3D vertex2;
     private Coord3D vertex3;
 
+    public double getLightCoefficient() {
+        return lightCoefficient;
+    }
+
+    private double lightCoefficient;
+
     public Triangle3D(Coord3D vertex1, Coord3D vertex2, Coord3D vertex3) {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
         this.vertex3 = vertex3;
+
+        this.lightCoefficient = Vector3D.cosAngleBetweenVectors(Light.fabric().getDirection(), this.normal());
     }
 
     public Vector3D normal() {

@@ -22,5 +22,6 @@ public class Main {
         Triangle3D triangle3D = new Triangle3D(v1, v2, v3);
 
         System.out.println(triangle3D.normal());
+        System.out.println(triangle3D.getLightCoefficient());
     }
 }

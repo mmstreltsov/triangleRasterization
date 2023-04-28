@@ -5,6 +5,8 @@ import RasterTest.State.Math.Vector3D;
 public class Light {
 
     private static Light light;
+
+
     private Vector3D direction;
 
     public static Light fabric() {
@@ -17,8 +19,7 @@ public class Light {
     public static Light fabric(Vector3D direction) {
         if (light == null) {
             light = new Light(direction);
-        }
-        else {
+        } else {
             light.direction = direction;
         }
         return light;
@@ -30,5 +31,13 @@ public class Light {
 
     private Light(Vector3D vec) {
         this.direction = vec;
+    }
+
+    public Vector3D getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Vector3D direction) {
+        this.direction = direction;
     }
 }

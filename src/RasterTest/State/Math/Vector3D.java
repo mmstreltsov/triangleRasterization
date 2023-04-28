@@ -6,8 +6,7 @@ public class Vector3D extends HomogeneousCoord {
     }
 
     public static Vector3D normalized(Vector3D a) {
-        double val = Math.pow(a.getX(), 2) + Math.pow(a.getY(), 2) + Math.pow(a.getZ(), 2);
-        val = Math.sqrt(val);
+        double val = magnitude(a);
         return new Vector3D(a.getX() / val, a.getY() / val, a.getZ() / val);
     }
 
@@ -20,5 +19,24 @@ public class Vector3D extends HomogeneousCoord {
 
     public static double dotProduct(Vector3D a, Vector3D b) {
         return a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ();
+    }
+
+    public static double magnitude(Vector3D a) {
+        double val = Math.pow(a.getX(), 2) + Math.pow(a.getY(), 2) + Math.pow(a.getZ(), 2);
+        val = Math.sqrt(val);
+        return val;
+    }
+
+    private static final double EPS = 1e-7;
+    public static double cosAngleBetweenVectors(Vector3D a1, Vector3D a2) {
+        double m1 = magnitude(a1);
+        double m2 = magnitude(a2);
+        if (m1 < EPS || m2 < EPS) {
+            return 0.;
+        }
+        double cos = dotProduct(a1, a2) / (m1 * m2);
+
+        // Договоримся
+        return Math.abs(cos);
     }
 }
