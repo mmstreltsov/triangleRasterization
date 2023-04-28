@@ -13,6 +13,20 @@ public class Triangle3D {
         this.vertex3 = vertex3;
     }
 
+    public Vector3D normal() {
+        double a1 = vertex2.getX() - vertex1.getX();
+        double b1 = vertex2.getY() - vertex1.getY();
+        double c1 = vertex2.getZ() - vertex1.getZ();
+        double a2 = vertex3.getX() - vertex1.getX();
+        double b2 = vertex3.getY() - vertex1.getY();
+        double c2 = vertex3.getZ() - vertex1.getZ();
+
+        Vector3D PQ = new Vector3D(a1, b1, c1);
+        Vector3D PR = new Vector3D(a2, b2, c2);
+
+        return Vector3D.crossProduct(PQ, PR);
+    }
+
     public Triangle3D transformation(Matrix4x4 matrix) {
         HomogeneousCoord v1 = matrix.multiplyOnHomo(vertex1);
         HomogeneousCoord v2 = matrix.multiplyOnHomo(vertex2);
