@@ -56,7 +56,8 @@ public class Translation {
         matrix.setM44(1.);
 
         matrix.setM14(transl.getX());
-        matrix.setM24(transl.getY());
+        // because of implementation. (0, 0) in other angle
+        matrix.setM24(-1 * transl.getY());
         matrix.setM34(transl.getZ());
         return matrix;
     }

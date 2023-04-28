@@ -25,7 +25,7 @@ public class Test {
 
 
         this.scene = new Scene();
-        ToTranslate.translate(scene.getModelInstance().getTranslation(), -20, -35, 21);
+        ToTranslate.translate(scene.getModelInstance().getTranslation(), -20, 35, 21);
     }
 
     public List<Triangle> convert(RenderObject renderObject) {
@@ -38,8 +38,9 @@ public class Test {
     }
 
 
+
     public RenderObject makeAnimation() {
-        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0.01, 0.02, 0);
+        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0.01, 0);
         RenderObject renderObject = new RenderObject(this.scene, this.model);
         renderObject.init();
         return renderObject;
