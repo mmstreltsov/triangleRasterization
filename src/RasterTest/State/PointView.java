@@ -36,8 +36,6 @@ public class PointView implements Transformation {
 
     private PointView(double d, double vWidth, double vHeight) {
         this.d = d;
-        this.cWidth = cWidth;
-        this.cHeight = cHeight;
         this.vWidth = vWidth;
         this.vHeight = vHeight;
     }
@@ -45,7 +43,7 @@ public class PointView implements Transformation {
     private PointView() {
         this.d = 10.;
         this.vWidth = 640.;
-        this.vHeight = 480;
+        this.vHeight = 480.;
     }
 
     @Override

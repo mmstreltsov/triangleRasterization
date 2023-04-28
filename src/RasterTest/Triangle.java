@@ -10,7 +10,7 @@ public class Triangle {
         this.x3 = x3;
         this.y3 = y3;
     }
-    void normalize() {
+    public void normalize() {
         if (y1 > y2) {
             int tmp = y1;
             y1 = y2;
@@ -69,4 +69,8 @@ public class Triangle {
         return a;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x1 + ", " + y1 + ") , (" + x2 + ", " + y2 + "), (" + x3 + ", " + y3 + ")";
+    }
 }

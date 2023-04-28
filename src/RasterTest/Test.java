@@ -15,17 +15,17 @@ public class Test {
     public Scene scene;
     public Model model;
 
-    Test() {
+    public Test() {
         this.model = new Model();
-        Coord3D x = new Coord3D(30., 0., 0.);
-        Coord3D y = new Coord3D(-30., 0., 0.);
-        Coord3D z = new Coord3D(0., 30., 0.);
+        Coord3D x = new Coord3D(5., 0., 0.);
+        Coord3D y = new Coord3D(-5., 0., 0.);
+        Coord3D z = new Coord3D(0., 60., 0.);
 
         this.model.setTriangulation(new ArrayList<>(List.of(new Triangle3D(x, y, z))));
 
 
         this.scene = new Scene();
-        ToTranslate.translate(scene.getModelInstance().getTranslation(), 0, 0, 3);
+        ToTranslate.translate(scene.getModelInstance().getTranslation(), 0, 0, 0);
 
     }
 
@@ -40,7 +40,7 @@ public class Test {
 
 
     public RenderObject makeAnimation() {
-        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0.01, 0.01);
+        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0, 0.);
         RenderObject renderObject = new RenderObject(this.scene, this.model);
         renderObject.init();
         return renderObject;

@@ -1,8 +1,6 @@
 package RasterTest;
 
-import RasterTest.PixelScreen;
 import RasterTest.State.Math.Triangle2D;
-import RasterTest.Triangle;
 
 public class Converter {
 
