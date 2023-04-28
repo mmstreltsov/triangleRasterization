@@ -16,8 +16,9 @@ public class Scale {
         this.scale = scale;
     }
 
+    // default = (1, -1, 1) because of implementation (canvas 0,0 at up-left. ViewPoint (0, 0) at left-down)
     public Scale() {
-        scale = new Vector3D(1, 1, 1);
+        scale = new Vector3D(1, -1, 1);
     }
 
     public Matrix4x4 scaling() {

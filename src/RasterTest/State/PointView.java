@@ -12,6 +12,7 @@ public class PointView implements Transformation {
 
     private double vWidth;
 
+    private static final double vWidth_DEFAULT = 50;
 
     private double vHeight;
 
@@ -42,8 +43,8 @@ public class PointView implements Transformation {
 
     private PointView() {
         this.d = 10.;
-        this.vWidth = 640.;
-        this.vHeight = 480.;
+        this.vHeight = vWidth_DEFAULT;
+        this.vWidth = vHeight * PixelScreen.resolutionX / PixelScreen.resolutionY;
     }
 
     @Override

@@ -20,8 +20,8 @@ public class Camera implements Transformation {
     }
 
     private Camera() {
-        offset = new Translation(new Vector3D(0, 0, -10), true);
-        rotation = new Rotation(new EulerAngles(0., 0., 0.), true);
+        offset = new Translation(new Vector3D(0, 0, -15), true);
+        rotation = new Rotation(new EulerAngles( 0, 0., 0.), true);
     }
 
     @Override
