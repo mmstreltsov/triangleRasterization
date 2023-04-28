@@ -1,5 +1,7 @@
 package RasterTest.State;
 
+import RasterTest.State.Math.Coord2D;
+import RasterTest.State.Math.HomogeneousCoord;
 import RasterTest.State.Math.Matrix4x4;
 
 public class Scene implements Transformation {
@@ -36,6 +38,15 @@ public class Scene implements Transformation {
     @Override
     public Matrix4x4 transformation() {
         return M_proj().multiplyOnMatrix(M_cam()).multiplyOnMatrix(M_mod());
+    }
+
+
+    /**
+     * Нужно добавить обработку случаев z == 0, z < 0 (когда камера слишком близко)
+     */
+    public static Coord2D getting2DCoordinate(HomogeneousCoord coord) {
+        Coord2D coord2D = new Coord2D(coord.getX() / coord.getZ(), coord.getY() / coord.getZ(), coord.getZ());
+        return coord2D;
     }
 
     public ModelInstance getModelInstance() {

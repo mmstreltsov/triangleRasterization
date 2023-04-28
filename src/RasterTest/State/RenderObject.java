@@ -27,9 +27,9 @@ public class RenderObject {
             HomogeneousCoord v2 = transform.multiplyOnHomo(it.getVertex2());
             HomogeneousCoord v3 = transform.multiplyOnHomo(it.getVertex3());
 
-            Coord2D a = new Coord2D(v1.getX(), v1.getY(), v1.getZ());
-            Coord2D b = new Coord2D(v2.getX(), v2.getY(), v2.getZ());
-            Coord2D c = new Coord2D(v3.getX(), v3.getY(), v3.getZ());
+            Coord2D a = Scene.getting2DCoordinate(v1);
+            Coord2D b = Scene.getting2DCoordinate(v2);
+            Coord2D c = Scene.getting2DCoordinate(v3);
 
             triangles.add(new Triangle2D(a, b, c));
         });
