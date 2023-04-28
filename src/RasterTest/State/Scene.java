@@ -11,15 +11,19 @@ public class Scene implements Transformation {
     private final Camera camera;
     private final PointView pointView;
 
+    private final Light light;
+
     public Scene(ModelInstance modelInstance) {
         this.modelInstance = modelInstance;
         this.camera = Camera.fabric();
         this.pointView = PointView.fabric();
+        this.light = Light.fabric();
     }
 
     public Scene() {
         this.modelInstance = new ModelInstance();
         this.camera = Camera.fabric();
+        this.light = Light.fabric();
         this.pointView = PointView.fabric();
     }
 
@@ -45,7 +49,8 @@ public class Scene implements Transformation {
      * Нужно добавить обработку случаев z == 0, z < 0 (когда камера слишком близко)
      */
     public static Coord2D getting2DCoordinate(HomogeneousCoord coord) {
-        Coord2D coord2D = new Coord2D(coord.getX() / coord.getZ(), coord.getY() / coord.getZ(), coord.getZ());
+        double z = coord.getZ();
+        Coord2D coord2D = new Coord2D(coord.getX() / z, coord.getY() / z, coord.getZ());
         return coord2D;
     }
 
