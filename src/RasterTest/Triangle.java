@@ -25,6 +25,15 @@ public class Triangle {
         this.x3 = x3;
         this.y3 = y3;
     }
+
+    public List<Point> getTrianglePoints() {
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(x1, y1));
+        points.add(new Point(x2, y2));
+        points.add(new Point(x3, y3));
+        return points;
+    }
+
     public void normalize() {
         if (y1 > y2) {
             int tmp = y1;
@@ -52,14 +61,7 @@ public class Triangle {
         }
     }
 
-    private int[][] findTriangleSidesVectors(Triangle triangle) {
-        int[] vector12 = new int[] {x2 - x1, y2 - y1};
-        int[] vector23 = new int[] {x3 - x2, y3 - y2};
-        int[] vector31 = new int[] {x1 - x3, y1 - y3};
-        return new int[][] {vector12, vector23, vector31};
-    }
-
-    public static Point findSegmentsIntersection(Point p1, Point p2, Point p3, Point p4) {
+    private static Point findSegmentsIntersection(Point p1, Point p2, Point p3, Point p4) {
         double x1 = p1.x, y1 = p1.y;
         double x2 = p2.x, y2 = p2.y;
         double x3 = p3.x, y3 = p3.y;
@@ -83,7 +85,7 @@ public class Triangle {
         }
     }
 
-    public static boolean isInsideSegment(Point2D p, Point start, Point end) {
+    private static boolean isInsideSegment(Point2D p, Point start, Point end) {
         double minX = Math.min(start.x, end.x);
         double maxX = Math.max(start.x, end.x);
         double minY = Math.min(start.y, end.y);
@@ -91,8 +93,8 @@ public class Triangle {
         return p.getX() >= minX && p.getX() <= maxX && p.getY() >= minY && p.getY() <= maxY;
     }
 
-    public ArrayList<Point> findTriangleCanvasIntersection(int canvas_width, int canvas_height) {
-        ArrayList<Point> points = new ArrayList<>();
+    public List<Point> findTriangleCanvasIntersection(int canvas_width, int canvas_height) {
+        List<Point> points = new ArrayList<>();
         Point tp1 = new Point(x1, y1);
         Point tp2 = new Point(x2, y2);
         Point tp3 = new Point(x3, y3);
@@ -100,10 +102,10 @@ public class Triangle {
 //        for (Point i : triangles_points) {
 //            System.out.println(i);
 //        }
-        Point cp1 = new Point(280, 180);
-        Point cp2 = new Point(280, 300);
-        Point cp3 = new Point(340, 300);
-        Point cp4 = new Point(340, 180);
+        Point cp1 = new Point(0, 0);
+        Point cp2 = new Point(0, canvas_height);
+        Point cp3 = new Point(canvas_width, canvas_height);
+        Point cp4 = new Point(canvas_width, 0);
 
         Point[] canvas_points = new Point[] {cp1, cp2, cp3, cp4};
         for (int i = 0; i < 3; i++) {
@@ -114,9 +116,6 @@ public class Triangle {
                     points.add(result);
                 }
             }
-        }
-        for (Point i : points) {
-            System.out.println(i);
         }
         return points;
     }

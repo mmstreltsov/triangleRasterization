@@ -8,7 +8,7 @@ import java.util.List;
 public class TriangleHelper {
 
 
-    public static List<Point> orderVertices(List<Point> vertices) {
+    public List<Point> orderVertices(List<Point> vertices) {
         List<Point> orderedVertices = new ArrayList<>();
         int n = vertices.size();
         if (n < 3) {
@@ -62,4 +62,38 @@ public class TriangleHelper {
         return triangles;
     }
 
+    public boolean[] pointInRectangle(Triangle triangle, int canvas_width, int canvas_height) {
+        List<Point> points = triangle.getTrianglePoints();
+        Point r1 = new Point(0, 0);
+        Point r2 = new Point(0, canvas_height);
+        Point r3 = new Point(canvas_width, canvas_height);
+        Point r4 = new Point(canvas_width, 0);
+        boolean[] contains = new boolean[3];
+        int i = 0;
+        for (Point p : points) {
+            if (vectorProduct(r1, r4, p) < 0) {
+                contains[i] = false;
+            } else if (vectorProduct(r4, r3, p) < 0) {
+                contains[i] = false;
+            } else if (vectorProduct(r3, r2, p) < 0) {
+                contains[i] = false;
+            } else contains[i] = vectorProduct(r2, r1, p) >= 0;
+            i++;
+        }
+        return contains;
+    }
+
+    private static int vectorProduct(Point a, Point b, Point c) {
+        return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
+    }
+
+    public List<Point> addTrianglePoints (Triangle triangle, boolean[] triangle_points_status, List<Point> points) {
+        List<Point> triangle_points = triangle.getTrianglePoints();
+        for (int i = 0; i < 3; i++) {
+            if (triangle_points_status[i] && !points.contains(triangle_points.get(i))) {
+                points.add(triangle_points.get(i));
+            }
+        }
+        return points;
+    }
 }
