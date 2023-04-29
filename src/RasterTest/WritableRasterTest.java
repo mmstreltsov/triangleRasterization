@@ -12,19 +12,24 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 
 public class WritableRasterTest extends JFrame {
 
-    public static final int DEFAULT_WIDTH = PixelScreen.resolutionX;
-    public static final int DEFAULT_HEIGHT = PixelScreen.resolutionY;
+    public static final int DEFAULT_WIDTH = PixelScreen.getResolutionX();
+    public static final int DEFAULT_HEIGHT = PixelScreen.getResolutionY();
+    public static final int DEFAULT_WINDOW_WIDTH = PixelScreen.getResolutionX();
+    public static final int DEFAULT_WINDOW_HEIGHT = DEFAULT_HEIGHT + 70;
     private JLabel fps;
     private PixelScreen canvas;
 
     public static void main(String[] args) throws IOException {
         JFrame f = new WritableRasterTest();
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setResizable(false);
         f.setVisible(true);
 
 
@@ -34,8 +39,7 @@ public class WritableRasterTest extends JFrame {
 
     public WritableRasterTest(){
         setTitle("WritableRasterTest");
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
+        setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
         canvas = new PixelScreen();
         add(canvas, BorderLayout.CENTER);
 
@@ -71,7 +75,6 @@ public class WritableRasterTest extends JFrame {
                 }
             }
         });
-
         add(panel, BorderLayout.NORTH);
 
     }
@@ -107,10 +110,20 @@ public class WritableRasterTest extends JFrame {
                 RenderObject renderObject = test.makeAnimation();
                 Triangle triangle = test.convert(renderObject).get(0);
                 triangle.normalize();
-                //screen.fillPixels(blueColorPixel);
-                screen.drawTriangle(triangle, blueColorPixel);
-                Thread.sleep(25);
+                List<Point> points = triangle.findTriangleCanvasIntersection(640, 480);
+                TriangleHelper helper = new TriangleHelper();
+                List<Point> ordered_points = helper.orderVertices(points);
+                List<Triangle> triangles = helper.triangulateConvexPolygon(ordered_points);
+                for (Triangle i : triangles) {
+                    i.normalize();
+                    screen.drawTriangle(i, blueColorPixel);
+                    Thread.sleep(500);
+                }
                 canvas.Clear();
+                //screen.fillPixels(blueColorPixel);
+//                screen.drawTriangle(triangle, blueColorPixel);
+//                Thread.sleep(25);
+//                canvas.Clear();
             }
         }
     }

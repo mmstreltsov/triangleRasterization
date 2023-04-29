@@ -12,9 +12,9 @@ public class PixelScreen extends Canvas{
     private final WritableRaster wr;
 
     public PixelScreen() {
-        this.setBackground(Color.BLACK);
-        this.bi = new BufferedImage(resolutionX,resolutionY,BufferedImage.TYPE_INT_RGB);
+        this.bi = new BufferedImage(resolutionX, resolutionY, BufferedImage.TYPE_INT_RGB);
         this.wr = this.bi.getRaster();
+        this.setSize(new Dimension(resolutionX, resolutionY));
     }
 
     public void fillPixels(int[] color) {
@@ -51,11 +51,11 @@ public class PixelScreen extends Canvas{
         g.drawImage(this.bi, 0, 0, null);
     }
 
-    public int getResolutionX() {
+    public static int getResolutionX() {
         return resolutionX;
     }
 
-    public int getResolutionY() {
+    public static int getResolutionY() {
         return resolutionY;
     }
 
