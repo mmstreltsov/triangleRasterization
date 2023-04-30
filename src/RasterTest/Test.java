@@ -40,11 +40,8 @@ public class Test {
 
 
 
-    double[] arr = new double[] {1, 2, 3, 4, 5, 4, 3, 2, 1, -1, -2, -3, -4, -5, -4, -3, -2, -1,};
-    int i = 0;
     public RenderObject makeAnimation() {
-        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0, 1);
-//        ToTranslate.translate(Camera.fabric().getOffset(), 0 ,0, arr[i++ % arr.length]);
+        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 5, 1);
         RenderObject renderObject = new RenderObject(this.scene, this.model);
         renderObject.init();
         return renderObject;

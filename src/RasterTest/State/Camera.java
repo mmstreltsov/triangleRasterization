@@ -24,31 +24,31 @@ public class Camera implements Transformation {
 
     private Camera() {
         offset = new Translation(new Vector3D(0, 0, -15), true);
-        makeCenterDefault();
-        makeUpDefault();
+        center = new Vector3D(0, 0, 1);
+        up = new Vector3D(0, 1, 0);
     }
 
-    private void makeCenterDefault() {
-        this.center = this.offset.getTransl().additional(new Vector3D(0, 0, 1)).toVector();
+    private Vector3D makeCenterDefault() {
+        return this.offset.getTransl().additional(this.center).toVector();
     }
 
-    private void makeUpDefault(){
-        this.up = new Vector3D(0, 1, 0).normalized();
+    private Vector3D makeUpDefault(){
+        return this.up.normalized();
     }
 
     @Override
     public Matrix4x4 transformation() {
-        makeCenterDefault();
-        makeUpDefault();
+        Vector3D center = makeCenterDefault();
+        Vector3D up = makeUpDefault();
 
         Vector3D eye = offset.getTransl();
         Matrix4x4 matrix;
         Vector3D z = center.subtracting(eye).toVector().normalized();
-        if (Vector3D.crossProduct(z, this.up).magnitude() < 1e-7) {
+        if (Vector3D.crossProduct(z, up).magnitude() < 1e-7) {
             matrix = new Matrix4x4(1);
         }
         else {
-            Vector3D x = Vector3D.crossProduct(this.up, z).normalized();
+            Vector3D x = Vector3D.crossProduct(up, z).normalized();
             Vector3D y = Vector3D.crossProduct(z, x).normalized();
             matrix = BasisChange.matrix(x, y, z);
         }
