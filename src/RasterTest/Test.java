@@ -18,8 +18,8 @@ public class Test {
 
     public Test() {
         this.model = new Model();
-        Coord3D x = new Coord3D(40., 0., 0.);
-        Coord3D y = new Coord3D(-40., 0., 0.);
+        Coord3D x = new Coord3D(30., 0., 0.);
+        Coord3D y = new Coord3D(-30., 0., 0.);
         Coord3D z = new Coord3D(0., 25., 0.);
 
         this.model.setTriangulation(new ArrayList<>(List.of(new Triangle3D(x, y, z))));

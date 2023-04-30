@@ -5,7 +5,7 @@ import RasterTest.State.Math.Matrix4x4;
 
 public class PointView implements Transformation {
 
-    public static PointView pointView;
+    private static PointView pointView;
     private double d;
     private double cWidth = PixelScreen.resolutionX;
     private double cHeight = PixelScreen.resolutionY;

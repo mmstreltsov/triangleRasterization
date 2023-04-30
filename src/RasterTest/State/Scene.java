@@ -1,5 +1,6 @@
 package RasterTest.State;
 
+import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Math.Coord2D;
 import RasterTest.State.Math.HomogeneousCoord;
 import RasterTest.State.Math.Matrix4x4;
@@ -50,6 +51,10 @@ public class Scene implements Transformation {
      */
     public static Coord2D getting2DCoordinate(HomogeneousCoord coord) {
         double z = coord.getZ();
+        if (z <= PointView.fabric().getD()) {
+            ToTranslate.translate(Camera.fabric().getOffset(), 0, 0, -z);
+            throw new RuntimeException("Camera Translation");
+        }
         Coord2D coord2D = new Coord2D(coord.getX() / z, coord.getY() / z, coord.getZ());
         return coord2D;
     }
