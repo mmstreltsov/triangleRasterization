@@ -1,5 +1,6 @@
 package RasterTest.State;
 
+import RasterTest.State.Animation.Rotation;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Math.BasisChange;
 import RasterTest.State.Math.Matrix4x4;
@@ -12,6 +13,9 @@ public class Camera implements Transformation {
 
     private static Camera camera;
     private Translation offset;
+
+
+    private Rotation rotation;
     private Vector3D center;
     private Vector3D up;
 
@@ -22,20 +26,35 @@ public class Camera implements Transformation {
         return camera;
     }
 
+    private Vector3D rotateCenter(){
+        return rotation.rotating().multiplyOnHomo(this.center).toVector();
+    }
+
+    private Vector3D rotateUp() {
+        return rotation.rotating().multiplyOnHomo(this.up).toVector();
+    }
+
     private Camera() {
-        offset = new Translation(new Vector3D(0, 0, -15), true);
-        center = new Vector3D(0, 0, 1);
-        up = new Vector3D(0, 1, 0);
+        this.offset = new Translation(new Vector3D(0, 0, -15), true);
+        this.rotation = new Rotation(0, 0, 0);
+        this.center = new Vector3D(0, 0, 1);
+        this.up = new Vector3D(0, 1, 0);
     }
 
     private Vector3D makeCenterDefault() {
-        return this.offset.getTransl().additional(this.center).toVector();
+        Vector3D center = rotateCenter();
+        return this.offset.getTransl().additional(center.normalized()).toVector();
     }
 
     private Vector3D makeUpDefault(){
-        return this.up.normalized();
+        Vector3D up = rotateUp();
+        return up.normalized();
     }
 
+
+    /**
+     * TODO: С поворотом до сих пор что-то не так (с поворотом относительно OY)
+     */
     @Override
     public Matrix4x4 transformation() {
         Vector3D center = makeCenterDefault();
@@ -65,11 +84,13 @@ public class Camera implements Transformation {
         this.offset = new Translation(offset, true);
     }
 
-    public Vector3D getCenter() {
-        return center;
+    public Rotation getRotation() {
+        return rotation;
     }
 
-    public void setCenter(Vector3D center) {
-        this.center = center;
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
     }
+
+
 }

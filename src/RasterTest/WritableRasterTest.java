@@ -106,7 +106,7 @@ public class WritableRasterTest extends JFrame {
 
         private void draw() throws InterruptedException {
             Test test = new Test();
-
+z
             while(true) {
                 RenderObject renderObject = test.makeAnimation();
                 Triangle triangle = test.convert(renderObject).get(0);

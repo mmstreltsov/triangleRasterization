@@ -21,12 +21,12 @@ public class CameraAnimTest {
             case 'a' -> ToTranslate.translate(Camera.fabric().getOffset(), -1, 0, 0);
             case 's' -> ToTranslate.translate(Camera.fabric().getOffset(), 0, 0, -1);
             case 'd' -> ToTranslate.translate(Camera.fabric().getOffset(), 1, 0, 0);
-//            case ',' -> ToRotate.rotate(Camera.fabric().getRotation(), -1, 0, 0);
-//            case 'l' -> ToRotate.rotate(Camera.fabric().getRotation(), 1, 0, 0);
-//            case '.' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, 1, 0);
-//            case ';' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, -1, 0);
-//            case '/' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, 0, 1);
-//            case '\'' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, 0, -1);
+            case ',' -> ToRotate.rotate(Camera.fabric().getRotation(), -1, 0, 0);
+            case 'l' -> ToRotate.rotate(Camera.fabric().getRotation(), 1, 0, 0);
+            case '.' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, 1, 0);
+            case ';' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, -1, 0);
+            case '/' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, 0, 1);
+            case '\'' -> ToRotate.rotate(Camera.fabric().getRotation(), 0, 0, -1);
             default -> {
             }
         }
