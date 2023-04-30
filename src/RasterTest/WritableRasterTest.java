@@ -1,5 +1,6 @@
 package RasterTest;
 
+import RasterTest.CameraAnimation.KeyChecker;
 import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Camera;
@@ -31,10 +32,6 @@ public class WritableRasterTest extends JFrame {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setResizable(false);
         f.setVisible(true);
-
-
-        /// TESTING METHOD
-        CameraAnimTest.testing();
     }
 
     public WritableRasterTest(){
@@ -51,6 +48,10 @@ public class WritableRasterTest extends JFrame {
         panel.add(fps);
         panel.add(pixelButton);
         panel.add(arrayButton);
+
+        JTextField textField = new JTextField();
+        textField.addKeyListener(new KeyChecker());
+        panel.add(textField);
 
         group.add(pixelButton);
         group.add(arrayButton);
@@ -107,12 +108,12 @@ public class WritableRasterTest extends JFrame {
             Test test = new Test();
 
             while(true) {
-//                RenderObject renderObject = test.makeAnimation();
-//                Triangle triangle = test.convert(renderObject).get(0);
+                RenderObject renderObject = test.makeAnimation();
+                Triangle triangle = test.convert(renderObject).get(0);
                 //пример 1
                 //Triangle triangle = new Triangle(200, -200, 100, 200, 500, 200);
                 //пример 2
-                Triangle triangle = new Triangle(200, -200, 100, 200, 800, 200);
+//                Triangle triangle = new Triangle(200, -200, 100, 200, 800, 200);
                 //пример 3 обычный треугольник
                 //Triangle triangle = new Triangle(200, 0, 100, 200, 500, 200);
                 //пример 4 канвас помещается в треугольник
@@ -124,12 +125,12 @@ public class WritableRasterTest extends JFrame {
                 if (triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2] && points.isEmpty()) {
                     //нет пересечений треугольника с канвасом, треугольник помещается в канвас
                     screen.drawTriangle(triangle, blueColorPixel);
-                    Thread.sleep(500);
+                    Thread.sleep(5);
                     canvas.Clear();
                 } else if (!(triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2]) && points.isEmpty()) {
                     //нет пересечений треугольника с канвасом, канвас помещается в треугольник, рисуем канвас
                     screen.fillPixels(blueColorPixel);
-                    Thread.sleep(500);
+                    Thread.sleep(5);
                     canvas.Clear();
                 } else {
                     //есть точки пересечения с канвасом
@@ -140,7 +141,7 @@ public class WritableRasterTest extends JFrame {
                     for (Triangle i : triangles) {
                         i.normalize();
                         screen.drawTriangle(i, blueColorPixel);
-                        Thread.sleep(500);
+                        Thread.sleep(5);
                     }
                     canvas.Clear();
                 }

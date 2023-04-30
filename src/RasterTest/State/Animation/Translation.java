@@ -56,4 +56,10 @@ public class Translation {
         }
         return matrix;
     }
+
+    @Override
+    public String toString() {
+        return "Translation{" +
+                "transl=" + transl;
+    }
 }

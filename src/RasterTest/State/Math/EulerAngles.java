@@ -104,4 +104,12 @@ public class EulerAngles {
     }
 
 
+    @Override
+    public String toString() {
+        return "EulerAngles{" +
+                "alpha=" + alpha +
+                ", beta=" + beta +
+                ", gamma=" + gamma +
+                '}';
+    }
 }

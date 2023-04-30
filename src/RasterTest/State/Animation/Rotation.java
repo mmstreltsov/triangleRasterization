@@ -56,4 +56,10 @@ public class Rotation {
         return matrix;
     }
 
+    @Override
+    public String toString() {
+        return "Rotation{" +
+                "rotation=" + rotation +
+                '}';
+    }
 }
