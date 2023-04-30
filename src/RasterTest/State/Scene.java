@@ -52,7 +52,7 @@ public class Scene implements Transformation {
     public static Coord2D getting2DCoordinate(HomogeneousCoord coord) {
         double z = coord.getZ();
         if (z <= PointView.fabric().getD()) {
-            ToTranslate.translate(Camera.fabric().getOffset(), 0, 0, -z);
+            ToTranslate.translate(Camera.fabric().getOffset(), 0, 0, PointView.fabric().getD() - z);
             throw new RuntimeException("Camera Translation");
         }
         Coord2D coord2D = new Coord2D(coord.getX() / z, coord.getY() / z, coord.getZ());

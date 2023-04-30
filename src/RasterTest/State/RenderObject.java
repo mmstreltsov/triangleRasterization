@@ -25,9 +25,9 @@ public class RenderObject {
         try {
             models.getTriangulation().forEach(it -> {
                 Matrix4x4 transform = scene.transformation();
-                HomogeneousCoord v1 = transform.multiplyOnHomo(it.getVertex1());
-                HomogeneousCoord v2 = transform.multiplyOnHomo(it.getVertex2());
-                HomogeneousCoord v3 = transform.multiplyOnHomo(it.getVertex3());
+                Coord3D v1 = transform.multiplyOnHomo(it.getVertex1()).toPoint();
+                Coord3D v2 = transform.multiplyOnHomo(it.getVertex2()).toPoint();
+                Coord3D v3 = transform.multiplyOnHomo(it.getVertex3()).toPoint();
 
                 Coord2D a = Scene.getting2DCoordinate(v1);
                 Coord2D b = Scene.getting2DCoordinate(v2);

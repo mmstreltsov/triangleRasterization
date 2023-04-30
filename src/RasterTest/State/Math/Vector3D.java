@@ -7,9 +7,19 @@ public class Vector3D extends HomogeneousCoord {
 
     public static Vector3D normalized(Vector3D a) {
         double val = magnitude(a);
+        if (val < 1e-7) {
+            return a;
+        }
         return new Vector3D(a.getX() / val, a.getY() / val, a.getZ() / val);
     }
 
+    public Vector3D normalized() {
+        return Vector3D.normalized(this);
+    }
+
+    public double magnitude() {
+        return Vector3D.magnitude(this);
+    }
     public static Vector3D crossProduct(Vector3D a, Vector3D b) {
         double s1 = a.getY() * b.getZ() - a.getZ() * b.getY();
         double s2 = a.getZ() * b.getX() - a.getX() * b.getZ();

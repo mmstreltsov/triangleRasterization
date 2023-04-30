@@ -13,6 +13,13 @@ public class HomogeneousCoord {
         this.w = w;
     }
 
+    public Vector3D toVector() {
+        return new Vector3D(x, y, z);
+    }
+
+    public Coord3D toPoint() {
+        return new Coord3D(x, y, z);
+    }
     @Override
     public String toString() {
         return "(" + x + ") + (" + y + ") + (" + z + ")";
