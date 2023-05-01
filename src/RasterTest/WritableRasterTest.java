@@ -4,6 +4,7 @@ import RasterTest.CameraAnimation.KeyChecker;
 import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Camera;
+import RasterTest.State.Math.EulerAngles;
 import RasterTest.State.RenderObject;
 
 import javax.swing.*;
@@ -105,11 +106,14 @@ public class WritableRasterTest extends JFrame {
         }
 
         private void draw() throws InterruptedException {
-            Test test = new Test();
+            Render render = new Initialization().getRender();
+            RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
 
             while(true) {
-                RenderObject renderObject = test.makeAnimation();
-                Triangle triangle = test.convert(renderObject).get(0);
+                render.animObjectRotate(renderObject, new EulerAngles(0, 2, 1));
+                List<Triangle> triangleRendered = render.render();
+                Triangle triangle = triangleRendered.get(0);
+
                 //пример 1
                 //Triangle triangle = new Triangle(200, -200, 100, 200, 500, 200);
                 //пример 2

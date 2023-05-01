@@ -41,7 +41,7 @@ public class Test {
 
 
     public RenderObject makeAnimation() {
-        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0, 1);
+        ToRotate.rotate(this.scene.getModelInstance().getRotation(), 0, 0, 0);
         RenderObject renderObject = new RenderObject(this.scene, this.model);
         renderObject.init();
         return renderObject;
