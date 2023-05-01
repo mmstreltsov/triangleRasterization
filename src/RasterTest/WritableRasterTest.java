@@ -105,57 +105,24 @@ public class WritableRasterTest extends JFrame {
             Initialization initialization = new Initialization();
             Render render = initialization.getRender();
             RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
-
             while(true) {
                 List<Triangle> triangleRendered = render.render();
                 Triangle triangle = triangleRendered.get(0);
+                TriangleHelper helper = new TriangleHelper();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Animate.defaultAnim(renderObject);
                     }
                 }).start();
-
-
-
-                //пример 1
-                //Triangle triangle = new Triangle(200, -200, 100, 200, 500, 200);
-                //пример 2
-//                Triangle triangle = new Triangle(200, -200, 100, 200, 800, 200);
-                //пример 3 обычный треугольник
-                //Triangle triangle = new Triangle(200, 0, 100, 200, 500, 200);
-                //пример 4 канвас помещается в треугольник
-                //Triangle triangle = new Triangle(-1000, 1000, 300, -1000, 1000, 1000);
-                triangle.normalize();
-                TriangleHelper helper = new TriangleHelper();
-                List<Point> points = triangle.findTriangleCanvasIntersection(screen.getWidth(), screen.getHeight());
-                boolean[] triangle_points_status = helper.pointInRectangle(triangle, screen.getWidth(), screen.getHeight());
-                if (triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2] && points.isEmpty()) {
-                    //нет пересечений треугольника с канвасом, треугольник помещается в канвас
-                    screen.drawTriangle(triangle, blueColorPixel);
-                    Thread.sleep(5);
-                    canvas.Clear();
-                } else if (!(triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2]) && points.isEmpty()) {
-                    //нет пересечений треугольника с канвасом, канвас помещается в треугольник, рисуем канвас
-                    screen.fillPixels(blackColorPixel);
-                    Thread.sleep(5);
-                    canvas.Clear();
-                } else {
-                    //есть точки пересечения с канвасом
-                    //добавляем в points точки треугольника если они лежат в канвасе
-                    points = helper.addTrianglePoints(triangle, triangle_points_status, points);
-                    List<Point> ordered_points = helper.orderVertices(points);
-                    List<Triangle> triangles = helper.triangulateConvexPolygon(ordered_points);
-                    if (triangles != null) {
-                        for (Triangle i : triangles) {
-                            i.normalize();
-                            screen.drawTriangle(i, blueColorPixel);
-                        }
-                        Thread.sleep(5);
-                        canvas.Clear();
+                List<Triangle> triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
+                if (triangles != null) {
+                    for (Triangle i : triangles) {
+                        screen.drawTriangle(i, blueColorPixel);
                     }
+                    Thread.sleep(5);
+                    canvas.Clear();
                 }
-
             }
         }
     }

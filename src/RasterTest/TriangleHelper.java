@@ -96,4 +96,34 @@ public class TriangleHelper {
         }
         return points;
     }
+
+
+    public List<Triangle> triangleProcessing(Triangle triangle, int width, int height) {
+        List<Triangle> triangles = new ArrayList<>();
+        triangle.normalize();
+        TriangleHelper helper = new TriangleHelper();
+        List<Point> points = triangle.findTriangleCanvasIntersection(width, height);
+        boolean[] triangle_points_status = helper.pointInRectangle(triangle, width, height);
+        if (triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2] && points.isEmpty()) {
+            //нет пересечений треугольника с канвасом, треугольник помещается в канвас
+            triangles.add(triangle);
+            return triangles;
+        } else if (!(triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2]) && points.isEmpty()) {
+            //нет пересечений треугольника с канвасом, канвас помещается в треугольник, рисуем канвас
+            return null;
+        } else {
+            //есть точки пересечения с канвасом
+            //добавляем в points точки треугольника если они лежат в канвасе
+            points = helper.addTrianglePoints(triangle, triangle_points_status, points);
+            List<Point> ordered_points = helper.orderVertices(points);
+            triangles = helper.triangulateConvexPolygon(ordered_points);
+            if (triangles != null) {
+                for (Triangle i : triangles) {
+                    i.normalize();
+                }
+                return triangles;
+            }
+            return null;
+        }
+    }
 }
