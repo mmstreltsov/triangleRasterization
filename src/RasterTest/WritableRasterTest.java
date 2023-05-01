@@ -2,10 +2,6 @@ package RasterTest;
 
 import RasterTest.CameraAnimation.KeyChecker;
 import RasterTest.State.Animation.Animate;
-import RasterTest.State.Animation.ToTranslate;
-import RasterTest.State.Animation.Translation;
-import RasterTest.State.Camera;
-import RasterTest.State.Math.EulerAngles;
 import RasterTest.State.RenderObject;
 
 import javax.swing.*;
@@ -13,10 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.List;
 
 

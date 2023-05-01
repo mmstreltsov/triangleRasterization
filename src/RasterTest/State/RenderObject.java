@@ -36,7 +36,7 @@ public class RenderObject {
                 Coord2D c = Scene.getting2DCoordinate(v3);
 
                 Triangle2D tmp = new Triangle2D(a, b, c);
-                tmp.setLightCoefficient(it.getLightCoefficient());
+                tmp.setLightCoefficient(lightning(it));
 
                 triangles.add(tmp);
             });
@@ -46,6 +46,21 @@ public class RenderObject {
             }
             init();
         }
+    }
+
+
+
+    // ВРЕМЕННОЕ РЕШЕНИЕ. Лучше переделать, так как второй применяется матрица для преобразования модели
+    private double lightning(Triangle3D it) {
+        Matrix4x4 modelTransformation = scene.getModelInstance().transformation();
+
+        Coord3D v1 = modelTransformation.multiplyOnHomo(it.getVertex1()).toPoint();
+        Coord3D v2 = modelTransformation.multiplyOnHomo(it.getVertex2()).toPoint();
+        Coord3D v3 = modelTransformation.multiplyOnHomo(it.getVertex3()).toPoint();
+
+
+        double lightCoefficient = Vector3D.cosAngleBetweenVectors(Light.fabric().getDirection(), Triangle3D.normal(v1, v2, v3));
+        return lightCoefficient;
     }
 
     public Scene getScene() {

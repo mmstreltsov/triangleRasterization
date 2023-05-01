@@ -9,21 +9,14 @@ public class Triangle3D {
     private Coord3D vertex2;
     private Coord3D vertex3;
 
-    public double getLightCoefficient() {
-        return lightCoefficient;
-    }
-
-    private double lightCoefficient;
 
     public Triangle3D(Coord3D vertex1, Coord3D vertex2, Coord3D vertex3) {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
         this.vertex3 = vertex3;
-
-        this.lightCoefficient = Vector3D.cosAngleBetweenVectors(Light.fabric().getDirection(), this.normal());
     }
 
-    public Vector3D normal() {
+    public static Vector3D normal(Coord3D vertex1, Coord3D vertex2, Coord3D vertex3) {
         double a1 = vertex2.getX() - vertex1.getX();
         double b1 = vertex2.getY() - vertex1.getY();
         double c1 = vertex2.getZ() - vertex1.getZ();
@@ -36,6 +29,7 @@ public class Triangle3D {
 
         return Vector3D.crossProduct(PQ, PR);
     }
+
 
     public Triangle3D transformation(Matrix4x4 matrix) {
         HomogeneousCoord v1 = matrix.multiplyOnHomo(vertex1);

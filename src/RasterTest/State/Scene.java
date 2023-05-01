@@ -46,6 +46,7 @@ public class Scene implements Transformation {
     }
 
 
+
     /**
      * TODO: до сих пор есть ошибка с логикой
      */
