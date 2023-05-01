@@ -103,12 +103,12 @@ public class WritableRasterTest extends JFrame {
 
         private void draw() throws InterruptedException {
             Initialization initialization = new Initialization();
+            TriangleHelper helper = new TriangleHelper();
             Render render = initialization.getRender();
             RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
             while(true) {
                 List<Triangle> triangleRendered = render.render();
                 Triangle triangle = triangleRendered.get(0);
-                TriangleHelper helper = new TriangleHelper();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
