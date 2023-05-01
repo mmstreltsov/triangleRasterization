@@ -1,7 +1,16 @@
 package RasterTest.State;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RenderState {
-    private List<RenderObject> renderObjects;
+    public RenderState() {
+        this.renderObjects = new ArrayList<>();
+    }
+
+    public List<RenderObject> getRenderObjects() {
+        return renderObjects;
+    }
+
+    private final List<RenderObject> renderObjects;
 }

@@ -47,7 +47,7 @@ public class Scene implements Transformation {
 
 
     /**
-     * Нужно добавить обработку случаев z == 0, z < 0 (когда камера слишком близко)
+     * TODO: до сих пор есть ошибка с логикой
      */
     public static Coord2D getting2DCoordinate(HomogeneousCoord coord) {
         double z = coord.getZ();

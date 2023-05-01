@@ -6,23 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RenderObject {
-    private Scene scene;
-    private Model models;
+
+
+    private final Scene scene;
+    private final Model models;
 
     public List<Triangle2D> getTriangles() {
         return triangles;
     }
 
-    private List<Triangle2D> triangles;
+    private List<Triangle2D> triangles = new ArrayList<>();
 
     public RenderObject(Scene scene, Model models) {
         this.scene = scene;
         this.models = models;
-        triangles = new ArrayList<>();
     }
 
     public void init() {
         try {
+            triangles = new ArrayList<>();
             models.getTriangulation().forEach(it -> {
                 Matrix4x4 transform = scene.transformation();
                 Coord3D v1 = transform.multiplyOnHomo(it.getVertex1()).toPoint();
@@ -42,8 +44,11 @@ public class RenderObject {
             if (!e.getMessage().equals("Camera Translation")) {
                 throw new RuntimeException(e);
             }
-            triangles = new ArrayList<>();
             init();
         }
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 }
