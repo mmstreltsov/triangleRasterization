@@ -10,6 +10,7 @@ public class PixelScreen extends Canvas{
     public static final int resolutionY = 480;
     private final BufferedImage bi;
     private final WritableRaster wr;
+    private final int[] blackColorPixel = new int[]{0, 0, 0};
 
     public PixelScreen() {
         this.bi = new BufferedImage(resolutionX, resolutionY, BufferedImage.TYPE_INT_RGB);
@@ -35,7 +36,7 @@ public class PixelScreen extends Canvas{
     public void Clear() {
         for(int x = 0; x < resolutionX; x++) {
             for(int y = 0; y < resolutionY; y++) {
-                this.wr.setPixel(x, y, new int[]{0, 0, 0});
+                this.wr.setPixel(x, y, blackColorPixel);
             }
         }
     }

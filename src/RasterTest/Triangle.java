@@ -3,11 +3,13 @@ package RasterTest;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Triangle {
     private int x1, y1, x2, y2, x3, y3;
     private double lightCoefficient = 0;
+    private int[] pixelColor = new int[]{0, 0, 255};
 
     public double getLightCoefficient() {
         return lightCoefficient;
@@ -17,6 +19,12 @@ public class Triangle {
         this.lightCoefficient = lightCoefficient;
     }
 
+    public int[] getPixelColor() {
+        this.calculatePixelColor();
+        return pixelColor;
+    }
+
+
     public Triangle(int x1, int y1, int x2, int y2, int x3, int y3) {
         this.x1 = x1;
         this.y1 = y1;
@@ -24,6 +32,12 @@ public class Triangle {
         this.y2 = y2;
         this.x3 = x3;
         this.y3 = y3;
+    }
+
+    private void calculatePixelColor() {
+        for (int i = 0; i < pixelColor.length; i++) {
+            pixelColor[i] *= lightCoefficient;
+        }
     }
 
     public List<Point> getTrianglePoints() {

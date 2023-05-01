@@ -98,6 +98,7 @@ public class WritableRasterTest extends JFrame {
             Initialization initialization = new Initialization();
             Render render = initialization.getRender();
             RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
+            int[] pixelColor;
             while(true) {
                 List<Triangle> triangleRendered = render.render();
                 Triangle triangle = triangleRendered.get(0);
@@ -109,8 +110,9 @@ public class WritableRasterTest extends JFrame {
                 }).start();
                 List<Triangle> triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
                 if (triangles != null) {
+                    pixelColor = triangle.getPixelColor();
                     for (Triangle i : triangles) {
-                        screen.drawTriangle(i, blueColorPixel);
+                        screen.drawTriangle(i, pixelColor);
                     }
                     Thread.sleep(5);
                     canvas.Clear();
