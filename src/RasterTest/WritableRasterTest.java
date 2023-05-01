@@ -82,17 +82,12 @@ public class WritableRasterTest extends JFrame {
 
     class BackgroundWorker implements  Runnable {
         private final int[] blueColorPixel = new int[]{155, 0, 255};
-        private int[] blueColorArray;
+        private final int[] blackColorPixel = new int[]{0, 0, 0};
+        //private int[] blueColorArray;
         private final PixelScreen screen;
 
         BackgroundWorker(PixelScreen screen) {
             this.screen = screen;
-            int w = DEFAULT_WIDTH;
-            int h = DEFAULT_HEIGHT;
-            blueColorArray = new int[w * h * 3];
-            for (int i = 2; i < w * h * 3; i += 3) {
-                blueColorArray[i] = 255;
-            }
         }
 
         @Override
@@ -129,7 +124,7 @@ public class WritableRasterTest extends JFrame {
                     canvas.Clear();
                 } else if (!(triangle_points_status[0] && triangle_points_status[1] && triangle_points_status[2]) && points.isEmpty()) {
                     //нет пересечений треугольника с канвасом, канвас помещается в треугольник, рисуем канвас
-                    screen.fillPixels(blueColorPixel);
+                    screen.fillPixels(blackColorPixel);
                     Thread.sleep(5);
                     canvas.Clear();
                 } else {
@@ -138,12 +133,14 @@ public class WritableRasterTest extends JFrame {
                     points = helper.addTrianglePoints(triangle, triangle_points_status, points);
                     List<Point> ordered_points = helper.orderVertices(points);
                     List<Triangle> triangles = helper.triangulateConvexPolygon(ordered_points);
-                    for (Triangle i : triangles) {
-                        i.normalize();
-                        screen.drawTriangle(i, blueColorPixel);
+                    if (triangles != null) {
+                        for (Triangle i : triangles) {
+                            i.normalize();
+                            screen.drawTriangle(i, blueColorPixel);
+                        }
                         Thread.sleep(5);
+                        canvas.Clear();
                     }
-                    canvas.Clear();
                 }
 
             }
