@@ -28,6 +28,7 @@ public class WritableRasterTest extends JFrame {
     public static final int DEFAULT_WINDOW_HEIGHT = DEFAULT_HEIGHT + 70;
     private JLabel fps;
     private PixelScreen canvas;
+    private final TriangleHelper helper = new TriangleHelper();
 
     public static void main(String[] args) throws IOException {
         JFrame f = new WritableRasterTest();
@@ -103,7 +104,6 @@ public class WritableRasterTest extends JFrame {
 
         private void draw() throws InterruptedException {
             Initialization initialization = new Initialization();
-            TriangleHelper helper = new TriangleHelper();
             Render render = initialization.getRender();
             RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
             while(true) {
