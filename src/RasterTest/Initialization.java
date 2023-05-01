@@ -7,8 +7,6 @@ import RasterTest.State.Model;
 import RasterTest.State.RenderObject;
 import RasterTest.State.Scene;
 
-import java.util.List;
-
 public class Initialization {
     private final Render render = new Render();
 
