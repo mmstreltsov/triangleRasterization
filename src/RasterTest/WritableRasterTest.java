@@ -6,8 +6,7 @@ import RasterTest.State.RenderObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,8 +21,9 @@ public class WritableRasterTest extends JFrame {
     private PixelScreen canvas;
     private final TriangleHelper helper = new TriangleHelper();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         JFrame f = new WritableRasterTest();
+
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setResizable(false);
         f.setVisible(true);
@@ -44,9 +44,14 @@ public class WritableRasterTest extends JFrame {
         panel.add(pixelButton);
         panel.add(arrayButton);
 
-        JTextField textField = new JTextField();
-        textField.addKeyListener(new KeyChecker());
-        panel.add(textField);
+        /// For animation
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap inputMap = panel.getInputMap(condition);
+        ActionMap actionMap = panel.getActionMap();
+
+        KeyChecker.init(inputMap, actionMap);
+        /// For animation
+
 
         group.add(pixelButton);
         group.add(arrayButton);
@@ -114,7 +119,7 @@ public class WritableRasterTest extends JFrame {
                     for (Triangle i : triangles) {
                         screen.drawTriangle(i, pixelColor);
                     }
-                    Thread.sleep(5);
+//                    Thread.sleep(5);
                     canvas.Clear();
                 }
             }

@@ -8,7 +8,7 @@ import RasterTest.State.RenderObject;
 public class Animate {
 
     public static void defaultAnim(RenderObject renderObject) {
-        Animate.animObjectRotate(renderObject, new EulerAngles(0, 2, 1));
+        Animate.animObjectRotate(renderObject, new EulerAngles(0, 2./10, 1/10.));
     }
 
 
