@@ -35,11 +35,31 @@ public class Camera implements Transformation {
     }
 
     private Camera() {
-        this.offset = new Translation(new Vector3D(0, 0, -15), true);
-        this.rotation = new Rotation(0, 0, 0);
-        this.center = new Vector3D(0, 0, 1);
-        this.up = new Vector3D(0, 1, 0);
+        makeDefaultCamera();
     }
+    public void makeDefaultCamera() {
+        this.offset = getDefaultOffset();
+        this.rotation = getDefaultRotation();
+        this.center = getDefaultCenter();
+        this.up = getDefaultUp();
+    }
+
+    private Translation getDefaultOffset() {
+        return new Translation(new Vector3D(0, 0, -15), true);
+    }
+
+    private Rotation getDefaultRotation() {
+        return new Rotation(0, 0, 0);
+    }
+
+    private Vector3D getDefaultCenter() {
+        return new Vector3D(0, 0, 1);
+    }
+
+    private Vector3D getDefaultUp() {
+        return new Vector3D(0, 1, 0);
+    }
+
 
     private Vector3D makeCenterDefault() {
         Vector3D center = rotateCenter();

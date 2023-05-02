@@ -1,10 +1,11 @@
 package RasterTest.CameraAnimation;
 
 import RasterTest.State.Animation.Animate;
+import RasterTest.State.Camera;
 
 public class CameraAnimTest {
     public static char[] getChars() {
-        return new char[]{'w', 'a', 's', 'd', 'q', 'e', ',', 'l', '.', ';', '/', '\''};
+        return new char[]{'w', 'a', 's', 'd', 'q', 'e', ',', 'l', '.', ';', '/', '\'', ' '};
     }
     public static void testing(char c) {
         switch (c) {
@@ -20,6 +21,7 @@ public class CameraAnimTest {
             case ';' -> Animate.animCameraRotate(0, 1, 0);
             case '/' -> Animate.animCameraRotate(0, 0, -1);
             case '\'' -> Animate.animCameraRotate(0, 0, 1);
+            case ' ' -> Camera.fabric().makeDefaultCamera();
             default -> {
             }
         }
