@@ -83,6 +83,14 @@ public class TriangleHelper {
         return contains;
     }
 
+    public boolean pointInTriangle(Point p, Point a, Point b, Point c) {
+        double area = Math.abs((a.x - c.x) * (b.y - a.y) - (a.x - b.x) * (c.y - a.y));
+        double area1 = Math.abs((a.x - p.x) * (b.y - a.y) - (a.x - b.x) * (p.y - a.y));
+        double area2 = Math.abs((b.x - p.x) * (c.y - b.y) - (b.x - c.x) * (p.y - b.y));
+        double area3 = Math.abs((c.x - p.x) * (a.y - c.y) - (c.x - a.x) * (p.y - c.y));
+        return (area1 + area2 + area3 == area);
+    }
+
     private static int vectorProduct(Point a, Point b, Point c) {
         return (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
     }

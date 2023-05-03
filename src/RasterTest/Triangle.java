@@ -98,6 +98,7 @@ public class Triangle {
 
     public List<Point> findTriangleCanvasIntersection(int canvas_width, int canvas_height) {
         List<Point> points = new ArrayList<>();
+        TriangleHelper helper = new TriangleHelper();
         Point tp1 = new Point(x1, y1);
         Point tp2 = new Point(x2, y2);
         Point tp3 = new Point(x3, y3);
@@ -109,6 +110,19 @@ public class Triangle {
         Point cp2 = new Point(0, canvas_height);
         Point cp3 = new Point(canvas_width, canvas_height);
         Point cp4 = new Point(canvas_width, 0);
+
+        if (helper.pointInTriangle(cp1, tp1, tp2, tp3)) {
+            points.add(cp1);
+        }
+        if (helper.pointInTriangle(cp2, tp1, tp2, tp3)) {
+            points.add(cp2);
+        }
+        if (helper.pointInTriangle(cp3, tp1, tp2, tp3)) {
+            points.add(cp3);
+        }
+        if (helper.pointInTriangle(cp4, tp1, tp2, tp3)) {
+            points.add(cp4);
+        }
 
         Point[] canvas_points = new Point[] {cp1, cp2, cp3, cp4};
         for (int i = 0; i < 3; i++) {
