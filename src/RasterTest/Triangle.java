@@ -36,7 +36,7 @@ public class Triangle {
 
     private void calculatePixelColor() {
         for (int i = 0; i < pixelColor.length; i++) {
-            pixelColor[i] *= lightCoefficient;
+            pixelColor[i] *= (0.6 * lightCoefficient + 0.4);
         }
     }
 

@@ -105,23 +105,24 @@ public class WritableRasterTest extends JFrame {
             RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
             int[] pixelColor;
             while(true) {
-                List<Triangle> triangleRendered = render.render();
-                Triangle triangle = triangleRendered.get(0);
+                List<Triangle> triangles = render.render();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Animate.defaultAnim(renderObject);
                     }
                 }).start();
-                List<Triangle> triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
-                if (triangles != null) {
-                    pixelColor = triangle.getPixelColor();
-                    for (Triangle i : triangles) {
-                        screen.drawTriangle(i, pixelColor);
+                for (Triangle triangle : triangles) {
+                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
+                    if (clipping_triangles != null) {
+                        pixelColor = triangle.getPixelColor();
+                        for (Triangle i : clipping_triangles) {
+                            screen.drawTriangle(i, pixelColor);
+                        }
+//                      Thread.sleep(5);
+                        screen.drawCanvas();
+                        canvas.Clear();
                     }
-//                    Thread.sleep(5);
-                    screen.drawCanvas();
-                    canvas.Clear();
                 }
             }
         }
