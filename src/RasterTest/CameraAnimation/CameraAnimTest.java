@@ -1,6 +1,6 @@
 package RasterTest.CameraAnimation;
 
-import RasterTest.State.Animation.Animate;
+import RasterTest.Animate;
 import RasterTest.State.Camera;
 
 public class CameraAnimTest {

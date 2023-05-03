@@ -1,15 +1,12 @@
 package RasterTest;
 
 import RasterTest.CameraAnimation.KeyChecker;
-import RasterTest.State.Animation.Animate;
 import RasterTest.State.RenderObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 
@@ -40,7 +37,9 @@ public class WritableRasterTest extends JFrame {
         ButtonGroup group = new ButtonGroup();
         JRadioButton startButton = new JRadioButton("Start", false);
         JRadioButton startAnimation = new JRadioButton("Start Animation", false);
+        startAnimation.addActionListener(e -> Animate.setIsAnimate(true));
         JRadioButton stopAnimation = new JRadioButton("Stop Animation", false);
+        stopAnimation.addActionListener(e -> Animate.setIsAnimate(false));
         fps = new JLabel("FPS: 0");
         panel.add(fps);
         panel.add(startButton);
