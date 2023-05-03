@@ -45,6 +45,9 @@ public class PixelScreen extends Canvas{
         for (int[] ints : a) {
             drawLine(ints[0], ints[1], ints[2], color);
         }
+    }
+
+    public void drawCanvas() {
         this.paint(this.getGraphics());
     }
 

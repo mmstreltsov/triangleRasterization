@@ -120,6 +120,7 @@ public class WritableRasterTest extends JFrame {
                         screen.drawTriangle(i, pixelColor);
                     }
 //                    Thread.sleep(5);
+                    screen.drawCanvas();
                     canvas.Clear();
                 }
             }
