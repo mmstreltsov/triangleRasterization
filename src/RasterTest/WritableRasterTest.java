@@ -1,7 +1,6 @@
 package RasterTest;
 
 import RasterTest.CameraAnimation.KeyChecker;
-import RasterTest.State.Animation.Animate;
 import RasterTest.State.RenderObject;
 
 import javax.swing.*;
@@ -120,10 +119,11 @@ public class WritableRasterTest extends JFrame {
                             screen.drawTriangle(i, pixelColor);
                         }
 //                      Thread.sleep(5);
-                        screen.drawCanvas();
-                        canvas.Clear();
+
                     }
                 }
+                screen.drawCanvas();
+                canvas.Clear();
             }
         }
     }

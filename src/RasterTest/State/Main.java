@@ -2,7 +2,7 @@ package RasterTest.State;
 
 import RasterTest.Initialization;
 import RasterTest.Render;
-import RasterTest.State.Animation.Animate;
+import RasterTest.Animate;
 import RasterTest.State.Math.EulerAngles;
 import RasterTest.Triangle;
 

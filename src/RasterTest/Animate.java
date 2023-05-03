@@ -1,5 +1,8 @@
-package RasterTest.State.Animation;
+package RasterTest;
 
+import RasterTest.State.Animation.ToRotate;
+import RasterTest.State.Animation.ToScale;
+import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Camera;
 import RasterTest.State.Math.EulerAngles;
 import RasterTest.State.Math.Vector3D;
@@ -8,7 +11,7 @@ import RasterTest.State.RenderObject;
 public class Animate {
 
     public static void defaultAnim(RenderObject renderObject) {
-        Animate.animObjectRotate(renderObject, new EulerAngles(0, 2./10, 1/10.));
+        Animate.animObjectRotate(renderObject, new EulerAngles(0, 0.2, 0.1));
     }
 
 
