@@ -80,31 +80,20 @@ public class Triangle {
         double x2 = p2.x, y2 = p2.y;
         double x3 = p3.x, y3 = p3.y;
         double x4 = p4.x, y4 = p4.y;
-
-        double denominator = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
-        if (denominator == 0) {
+        double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        if (d == 0) { // отрезки параллельны
             return null;
         }
-
-        double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
-        double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
-        double ix = x1 + ua * (x2 - x1);
-        double iy = y1 + ua * (y2 - y1);
-        Point2D intersection = new Point2D.Double(ix, iy);
-
-        if (isInsideSegment(intersection, p1, p2) && isInsideSegment(intersection, p3, p4)) {
-            return new Point((int)intersection.getX(), (int)intersection.getY());
-        } else {
+        double xi = ((x3 - x4) * (x1 * y2 - y1 * x2) - (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
+        double yi = ((y3 - y4) * (x1 * y2 - y1 * x2) - (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
+        Point intersection = new Point((int) xi, (int) yi);
+        if (xi < Math.min(x1, x2) || xi > Math.max(x1, x2) ||
+                xi < Math.min(x3, x4) || xi > Math.max(x3, x4) ||
+                yi < Math.min(y1, y2) || yi > Math.max(y1, y2) ||
+                yi < Math.min(y3, y4) || yi > Math.max(y3, y4)) { // точка пересечения находится вне отрезков
             return null;
         }
-    }
-
-    private static boolean isInsideSegment(Point2D p, Point start, Point end) {
-        double minX = Math.min(start.x, end.x);
-        double maxX = Math.max(start.x, end.x);
-        double minY = Math.min(start.y, end.y);
-        double maxY = Math.max(start.y, end.y);
-        return p.getX() >= minX && p.getX() <= maxX && p.getY() >= minY && p.getY() <= maxY;
+        return intersection;
     }
 
     public List<Point> findTriangleCanvasIntersection(int canvas_width, int canvas_height) {
