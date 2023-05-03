@@ -37,9 +37,7 @@ public class WritableRasterTest extends JFrame {
         ButtonGroup group = new ButtonGroup();
         JRadioButton startButton = new JRadioButton("Start", false);
         JRadioButton startAnimation = new JRadioButton("Start Animation", false);
-        startAnimation.addActionListener(e -> Animate.setIsAnimate(true));
         JRadioButton stopAnimation = new JRadioButton("Stop Animation", false);
-        stopAnimation.addActionListener(e -> Animate.setIsAnimate(false));
         fps = new JLabel("FPS: 0");
         panel.add(fps);
         panel.add(startButton);
@@ -69,18 +67,9 @@ public class WritableRasterTest extends JFrame {
                 }
             }
         });
+        startAnimation.addActionListener(e -> Animate.setIsAnimateTrue());
+        stopAnimation.addActionListener(e -> Animate.setIsAnimateFalse());
 
-
-        startAnimation.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //код анимации
-            }
-        });
-        stopAnimation.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //вернуться в исходный режим
-            }
-        });
 
         add(panel, BorderLayout.NORTH);
     }

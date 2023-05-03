@@ -18,12 +18,12 @@ public class Initialization {
         Coord3D v3 = new Coord3D(0., 25., 0.);
         model.getTriangulation().add(new Triangle3D(v1, v2, v3));
 
-        //УДАЛИТЬ ЭТО
-        Coord3D v12 = new Coord3D(0., 30., 0.);
-        Coord3D v22 = new Coord3D(0., -30., 0.);
-        Coord3D v32 = new Coord3D(25., 0, 0.);
-        model.getTriangulation().add(new Triangle3D(v12, v22, v32));
-        //УДАЛИТЬ ЭТО
+//        //УДАЛИТЬ ЭТО
+//        Coord3D v12 = new Coord3D(0., 30., 0.);
+//        Coord3D v22 = new Coord3D(0., -30., 0.);
+//        Coord3D v32 = new Coord3D(25., 0, 0.);
+//        model.getTriangulation().add(new Triangle3D(v12, v22, v32));
+//        //УДАЛИТЬ ЭТО
 
         Scene scene = new Scene();
         ToTranslate.translate(scene.getModelInstance().getTranslation(), 0, 0, 20);

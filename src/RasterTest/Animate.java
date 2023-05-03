@@ -10,13 +10,13 @@ import RasterTest.State.RenderObject;
 
 public class Animate {
 
-    public static boolean isIsAnimate() {
-        return isAnimate;
+    public static void setIsAnimateTrue() {
+        Animate.isAnimate = true;
+    }
+    public static void setIsAnimateFalse() {
+        Animate.isAnimate = false;
     }
 
-    public static void setIsAnimate(boolean isAnimate) {
-        Animate.isAnimate = isAnimate;
-    }
 
     private static boolean isAnimate = false;
     public static void defaultAnim(RenderObject renderObject) {
