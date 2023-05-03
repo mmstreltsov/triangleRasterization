@@ -36,32 +36,6 @@ public class WritableRasterTest extends JFrame {
         setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
         canvas = new PixelScreen();
         add(canvas, BorderLayout.CENTER);
-        canvas.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2) {
-                    System.out.println("double click");
-                    //Вернуть в исходное состояние
-                }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
         JPanel panel = new JPanel();
         ButtonGroup group = new ButtonGroup();
         JRadioButton startButton = new JRadioButton("Start", false);
