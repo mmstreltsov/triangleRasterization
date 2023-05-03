@@ -1,8 +1,5 @@
-package RasterTest;
+package RasterTest.State.Animation;
 
-import RasterTest.State.Animation.ToRotate;
-import RasterTest.State.Animation.ToScale;
-import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Camera;
 import RasterTest.State.Math.EulerAngles;
 import RasterTest.State.Math.Vector3D;
