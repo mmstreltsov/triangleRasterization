@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 
@@ -29,20 +31,47 @@ public class WritableRasterTest extends JFrame {
         f.setVisible(true);
     }
 
-    public WritableRasterTest(){
+    public WritableRasterTest() {
         setTitle("WritableRasterTest");
         setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
         canvas = new PixelScreen();
         add(canvas, BorderLayout.CENTER);
+        canvas.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2) {
+                    System.out.println("double click");
+                    //Вернуть в исходное состояние
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         JPanel panel = new JPanel();
         ButtonGroup group = new ButtonGroup();
-        JRadioButton pixelButton = new JRadioButton("Pixel-by-Pixel", false);
-        JRadioButton arrayButton = new JRadioButton("Buffered Array", false);
+        JRadioButton startButton = new JRadioButton("Start", false);
+        JRadioButton startAnimation = new JRadioButton("Start Animation", false);
+        JRadioButton stopAnimation = new JRadioButton("Stop Animation", false);
         fps = new JLabel("FPS: 0");
         panel.add(fps);
-        panel.add(pixelButton);
-        panel.add(arrayButton);
+        panel.add(startButton);
+        panel.add(startAnimation);
+        panel.add(stopAnimation);
 
         /// For animation
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -53,12 +82,13 @@ public class WritableRasterTest extends JFrame {
         /// For animation
 
 
-        group.add(pixelButton);
-        group.add(arrayButton);
+        group.add(startButton);
+        group.add(startAnimation);
+        group.add(stopAnimation);
 
         final BackgroundWorker backgroundWorker = new BackgroundWorker(canvas);
         final Thread background = new Thread(backgroundWorker);
-        pixelButton.addActionListener(new ActionListener() {
+        startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!background.isAlive()) {
                     background.setDaemon(true);
@@ -68,16 +98,18 @@ public class WritableRasterTest extends JFrame {
         });
 
 
-        arrayButton.addActionListener(new ActionListener() {
+        startAnimation.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!background.isAlive()) {
-                    background.setDaemon(true);
-                    background.start();
-                }
+                //код анимации
             }
         });
+        stopAnimation.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //вернуться в исходный режим
+            }
+        });
+
         add(panel, BorderLayout.NORTH);
-
     }
 
     class BackgroundWorker implements  Runnable {
@@ -120,10 +152,10 @@ public class WritableRasterTest extends JFrame {
                             screen.drawTriangle(i, pixelColor);
                         }
 //                      Thread.sleep(5);
-                        screen.drawCanvas();
-                        canvas.Clear();
                     }
                 }
+                screen.drawCanvas();
+                canvas.Clear();
             }
         }
     }

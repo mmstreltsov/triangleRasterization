@@ -1,16 +1,19 @@
 package RasterTest;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import javax.swing.JFrame;
 
-public class PixelScreen extends Canvas{
+public class PixelScreen extends Canvas {
     public static final int resolutionX = 640;
     public static final int resolutionY = 480;
     private final BufferedImage bi;
     private final WritableRaster wr;
     private final int[] blackColorPixel = new int[]{0, 0, 0};
+
 
     public PixelScreen() {
         this.bi = new BufferedImage(resolutionX, resolutionY, BufferedImage.TYPE_INT_RGB);
