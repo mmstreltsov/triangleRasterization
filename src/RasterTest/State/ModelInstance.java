@@ -1,5 +1,6 @@
 package RasterTest.State;
 
+import RasterTest.State.Animation.Animate;
 import RasterTest.State.Animation.Rotation;
 import RasterTest.State.Animation.Scale;
 import RasterTest.State.Animation.Translation;
@@ -31,6 +32,12 @@ public class ModelInstance implements Transformation {
         matrix = matrix.multiplyOnMatrix(rotation.rotating());
         matrix = matrix.multiplyOnMatrix(scale.scaling());
         return matrix;
+    }
+
+    public void animationStep(AnimateModelInstance other) {
+        Animate.animObjectScale(this, other.getScale().getScale());
+        Animate.animObjectRotate(this, other.getRotation().getRotation());
+        Animate.animObjectTrans(this, other.getTranslation().getTransl());
     }
 
     public Scale getScale() {

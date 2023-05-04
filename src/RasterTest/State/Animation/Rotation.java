@@ -1,34 +1,34 @@
 package RasterTest.State.Animation;
 
-import RasterTest.State.Math.EulerAngles;
+import RasterTest.State.Math.Angles;
 import RasterTest.State.Math.Matrix4x4;
 
 public class Rotation {
 
-    private EulerAngles rotation;
+    private Angles rotation;
     private boolean isReversed;
 
-    public EulerAngles getRotation() {
+    public Angles getRotation() {
         return rotation;
     }
 
 
-    public void setRotation(EulerAngles rotation) {
+    public void setRotation(Angles rotation) {
         this.rotation = rotation;
     }
     public void setRotation(double x, double y, double z) {
-        this.rotation = new EulerAngles(x, y, z);
+        this.rotation = new Angles(x, y, z);
     }
 
     public Rotation(double x, double y, double z) {
-        this.rotation = new EulerAngles(x, y, z);
+        this.rotation = new Angles(x, y, z);
     }
 
-    public Rotation(EulerAngles rotation) {
+    public Rotation(Angles rotation) {
         this.rotation = rotation;
     }
 
-    public Rotation(EulerAngles rotation, boolean isReversed) {
+    public Rotation(Angles rotation, boolean isReversed) {
         this.isReversed = isReversed;
         this.rotation = rotation;
     }
@@ -38,7 +38,7 @@ public class Rotation {
     }
 
     public Rotation() {
-        this.rotation = new EulerAngles(0., 0., 0.);
+        this.rotation = new Angles(0., 0., 0.);
     }
 
     public Matrix4x4 rotating() {

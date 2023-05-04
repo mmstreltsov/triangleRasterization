@@ -2,8 +2,8 @@ package RasterTest.State;
 
 import RasterTest.Initialization;
 import RasterTest.Render;
-import RasterTest.Animate;
-import RasterTest.State.Math.EulerAngles;
+import RasterTest.State.Animation.Animate;
+import RasterTest.State.Math.Angles;
 import RasterTest.Triangle;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class Main {
         RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
 
         while(true) {
-            Animate.animObjectRotate(renderObject, new EulerAngles(0, 2, 1));
+            Animate.animObjectRotate(renderObject, new Angles(0, 2, 1));
             List<Triangle> triangleRendered = render.render();
             Triangle triangle = triangleRendered.get(0);
 

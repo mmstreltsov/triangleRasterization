@@ -1,13 +1,13 @@
 package RasterTest;
 
 import RasterTest.CameraAnimation.KeyChecker;
-import RasterTest.State.RenderObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class WritableRasterTest extends JFrame {
@@ -34,6 +34,7 @@ public class WritableRasterTest extends JFrame {
         canvas = new PixelScreen();
         add(canvas, BorderLayout.CENTER);
         JPanel panel = new JPanel();
+//        panel.setDoubleBuffered(true);
         ButtonGroup group = new ButtonGroup();
         JRadioButton startButton = new JRadioButton("Start", false);
         JRadioButton startAnimation = new JRadioButton("Start Animation", false);
@@ -67,8 +68,8 @@ public class WritableRasterTest extends JFrame {
                 }
             }
         });
-        startAnimation.addActionListener(e -> Animate.setIsAnimateTrue());
-        stopAnimation.addActionListener(e -> Animate.setIsAnimateFalse());
+        startAnimation.addActionListener(e -> Animation.setIsAnimateTrue());
+        stopAnimation.addActionListener(e -> Animation.setIsAnimateFalse());
 
 
         add(panel, BorderLayout.NORTH);
@@ -93,19 +94,16 @@ public class WritableRasterTest extends JFrame {
             }
         }
 
+
         private void draw() throws InterruptedException {
             Initialization initialization = new Initialization();
             Render render = initialization.getRender();
-            RenderObject renderObject = render.getRenderState().getRenderObjects().get(0);
             int[] pixelColor;
+
+
             while(true) {
                 List<Triangle> triangles = render.render();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Animate.defaultAnim(renderObject);
-                    }
-                }).start();
+
                 for (Triangle triangle : triangles) {
                     List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
                     if (clipping_triangles != null) {
@@ -113,7 +111,6 @@ public class WritableRasterTest extends JFrame {
                         for (Triangle i : clipping_triangles) {
                             screen.drawTriangle(i, pixelColor);
                         }
-//                      Thread.sleep(5);
                     }
                 }
                 screen.drawCanvas();

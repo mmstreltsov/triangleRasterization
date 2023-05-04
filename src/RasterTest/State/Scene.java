@@ -1,5 +1,6 @@
 package RasterTest.State;
 
+import RasterTest.Animation;
 import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Math.Coord2D;
 import RasterTest.State.Math.HomogeneousCoord;
@@ -9,20 +10,20 @@ public class Scene implements Transformation {
 
 
     private ModelInstance modelInstance;
+
+    private AnimateModelInstance animationStep;
     private final Camera camera;
     private final PointView pointView;
-
     private final Light light;
 
     public Scene(ModelInstance modelInstance) {
+        this();
         this.modelInstance = modelInstance;
-        this.camera = Camera.fabric();
-        this.pointView = PointView.fabric();
-        this.light = Light.fabric();
     }
 
     public Scene() {
         this.modelInstance = new ModelInstance();
+        this.animationStep = new AnimateModelInstance();
         this.camera = Camera.fabric();
         this.light = Light.fabric();
         this.pointView = PointView.fabric();
@@ -37,6 +38,9 @@ public class Scene implements Transformation {
     }
 
     private Matrix4x4 M_mod() {
+        if (Animation.isIsAnimate()) {
+            modelInstance.animationStep(this.animationStep);
+        }
         return modelInstance.transformation();
     }
 
@@ -44,7 +48,6 @@ public class Scene implements Transformation {
     public Matrix4x4 transformation() {
         return M_proj().multiplyOnMatrix(M_cam()).multiplyOnMatrix(M_mod());
     }
-
 
 
     /**
@@ -67,4 +70,13 @@ public class Scene implements Transformation {
     public void setModelInstance(ModelInstance modelInstance) {
         this.modelInstance = modelInstance;
     }
+
+    public ModelInstance getAnimationStep() {
+        return animationStep;
+    }
+
+    public void setAnimationStep(AnimateModelInstance animationStep) {
+        this.animationStep = animationStep;
+    }
+
 }

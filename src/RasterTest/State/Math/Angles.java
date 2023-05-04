@@ -2,14 +2,14 @@ package RasterTest.State.Math;
 
 import java.lang.Math;
 
-public class EulerAngles {
+public class Angles {
 
-    public EulerAngles() {
+    public Angles() {
         alpha = 0.;
         beta = 0.;
         gamma = 0.;
     }
-    public EulerAngles(double alpha, double beta, double gamma) {
+    public Angles(double alpha, double beta, double gamma) {
         this.alpha = alpha;
         this.beta = beta;
         this.gamma = gamma;
