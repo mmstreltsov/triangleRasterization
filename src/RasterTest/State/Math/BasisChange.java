@@ -1,7 +1,19 @@
 package RasterTest.State.Math;
 
-public class BasisChange {
-    public static Matrix4x4 matrix(Vector3D x, Vector3D y, Vector3D z) {
+
+/**
+ * Интерфейс с одним заранее определенным методом. Служит для генерации матрицы перевода в другой базис.
+ */
+public interface BasisChange {
+
+    /**
+     * Генерирует матрицу перехода в новый базис.
+     * @param x вектор базиса
+     * @param y вектор базиса
+     * @param z вектор базиса
+     * @return матрица перехода
+     */
+    static Matrix4x4 matrix(Vector3D x, Vector3D y, Vector3D z) {
         Matrix4x4 matrix = new Matrix4x4();
 
         matrix.setM11(x.getX());
