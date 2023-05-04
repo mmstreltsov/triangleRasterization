@@ -25,8 +25,8 @@ public class RenderObject {
     public void init() {
         try {
             triangles = new ArrayList<>();
+            Matrix4x4 transform = scene.transformation();
             models.getTriangulation().forEach(it -> {
-                Matrix4x4 transform = scene.transformation();
                 Coord3D v1 = transform.multiplyOnHomo(it.getVertex1()).toPoint();
                 Coord3D v2 = transform.multiplyOnHomo(it.getVertex2()).toPoint();
                 Coord3D v3 = transform.multiplyOnHomo(it.getVertex3()).toPoint();
