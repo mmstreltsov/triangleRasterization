@@ -1,6 +1,7 @@
 package RasterTest;
 
 import RasterTest.State.Animation.Animate;
+import RasterTest.State.Animation.Rotation;
 import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Angles;
 import RasterTest.State.Math.Triangle3D;
@@ -30,7 +31,8 @@ public class Initialization {
         Scene scene = new Scene();
         Animate.animObjectTrans(scene.getModelInstance(), new Vector3D(0, 0, 20));
 
-        Animate.animObjectRotate(scene.getAnimationStep(), new Angles(0, 4, 2));
+        // Set animation
+        scene.getAnimationStep().setRotation(new Rotation(0, 0.2, 0.1));
         RenderObject renderObject = new RenderObject(scene, model);
         this.render.insert(renderObject);
     }
