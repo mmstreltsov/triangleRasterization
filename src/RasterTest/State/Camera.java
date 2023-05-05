@@ -7,18 +7,37 @@ import RasterTest.State.Math.Matrix4x4;
 import RasterTest.State.Math.Vector3D;
 
 
-
-//GluLookAt
+/**
+ * Класс для инициализации камеры с помощью идей из GluLookAt.
+ * Создается лишь 1 экземпляр класса
+ */
 public class Camera implements Transformation {
-
+    /**
+     * Поле, хранящее единственный экземпляр
+     */
     private static Camera camera;
+    /**
+     * Класс Перемещения. Определяет местоположения точки камеры
+     */
     private Translation offset;
 
-
+    /**
+     * Класс Вращения. Определяет вращение аттрибутов камеры
+     */
     private Rotation rotation;
+    /**
+     * Вектор, указывающий точку, куда смотрит камера. "Точка взгляда"
+     */
     private Vector3D center;
+    /**
+     * Вектор, указывающий, где "вверх" камеры
+     */
     private Vector3D up;
 
+    /**
+     * Фабричный метод для инициализации класса.
+     * @return ссылку на единственный инстанс
+     */
     public static Camera fabric() {
         if (camera == null) {
             camera = new Camera();
@@ -26,17 +45,33 @@ public class Camera implements Transformation {
         return camera;
     }
 
+    /**
+     * Приватный дефолтный конструктор. Делегирует инициализацию другому методу (см. makeDefaultCamera)
+     */
+    private Camera() {
+        makeDefaultCamera();
+    }
+    /**
+     * Применяет вращение на аттрибут камеры "Точка взгляда"
+     * @return Новый вектор
+     */
     private Vector3D rotateCenter(){
         return rotation.rotating().multiplyOnHomo(this.center).toVector();
     }
 
+    /**
+     * Применяет вращение на аттрибут камеры "Вверх"
+     * @return Новый вектор
+     */
     private Vector3D rotateUp() {
         return rotation.rotating().multiplyOnHomo(this.up).toVector();
     }
 
-    private Camera() {
-        makeDefaultCamera();
-    }
+    /**
+     * Инициализирует каждое поле дефолтным значением
+     * (см. getDefault*, * in [Offset, Rotation, Center, Up])
+     * Может вызываться снаружи.
+     */
     public void makeDefaultCamera() {
         this.offset = getDefaultOffset();
         this.rotation = getDefaultRotation();
@@ -44,36 +79,58 @@ public class Camera implements Transformation {
         this.up = getDefaultUp();
     }
 
+    /**
+     * Дефолтная инициализация. Смещение (0, 0, -15), Флаг обратного отображения включен (true)
+     */
     private Translation getDefaultOffset() {
         return new Translation(new Vector3D(0, 0, -15), true);
     }
 
+    /**
+     * Дефолтная инициализация. Вращение (0, 0, 0)
+     */
     private Rotation getDefaultRotation() {
         return new Rotation(0, 0, 0);
     }
 
+    /**
+     * Дефолтная инициализация. Вектор (0, 0, 1)
+     */
     private Vector3D getDefaultCenter() {
         return new Vector3D(0, 0, 1);
     }
 
+    /**
+     * Дефолтная инициализация. Вектор (0, 1, 0)
+     */
     private Vector3D getDefaultUp() {
         return new Vector3D(0, 1, 0);
     }
 
-
+    /**
+     * Приведение вектора Center к необходимому виду:
+     * применение вращения, нормализация, перемещение в нужную точку (учитывается само смещение камеры)
+     * @return Новый вектор
+     */
     private Vector3D makeCenterDefault() {
         Vector3D center = rotateCenter();
         return this.offset.getTransl().additional(center.normalized()).toVector();
     }
-
+    /**
+     * Приведение вектора Up к необходимому виду:
+     * применение вращения, нормализация
+     * @return Новый вектор
+     */
     private Vector3D makeUpDefault(){
         Vector3D up = rotateUp();
         return up.normalized();
     }
 
-
     /**
-     * TODO: С поворотом до сих пор что-то не так (с поворотом относительно OY)
+     * Генерируется матрица перевода координат в поле зрения камеры.
+     * 1 этап: смещение камеры
+     * 2 этап: строится новый базис по аттрибутам камеры. Генерируется матрица перехода в новый базис
+     * @return Матрица преобразования
      */
     @Override
     public Matrix4x4 transformation() {
@@ -111,6 +168,4 @@ public class Camera implements Transformation {
     public void setRotation(Rotation rotation) {
         this.rotation = rotation;
     }
-
-
 }

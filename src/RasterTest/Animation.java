@@ -8,10 +8,8 @@ public class Animation {
         Animation.isAnimate = false;
     }
 
-
     public static boolean isIsAnimate() {
         return isAnimate;
     }
-
     private static boolean isAnimate = false;
 }
