@@ -14,7 +14,7 @@ public class Translation {
     /**
      * Поле, хранящее флаг, если объект требует обратного перемещения (Для камеры, например)
      */
-    private boolean isReversed;
+    private final boolean isReversed;
 
     /**
      * Конструктор от параметров. Флаг Reversed устанавливается как false

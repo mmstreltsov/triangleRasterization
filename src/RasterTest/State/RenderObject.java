@@ -5,51 +5,68 @@ import RasterTest.State.Math.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, объединяющий модель и правила ее преобразования в поле зрения камеры
+ */
 public class RenderObject {
-
-
+    /**
+     * Поле, хранящее сцену объекта
+     */
     private final Scene scene;
+    /**
+     * Поле, хранящее объект
+     */
     private final Model models;
 
+    /**
+     * Поле, хранящее коллекцию сгенерированных 2D треугольников данной модели в данной сцене
+     */
+    private List<Triangle2D> triangles = new ArrayList<>();
     public List<Triangle2D> getTriangles() {
         return triangles;
     }
 
-    private List<Triangle2D> triangles = new ArrayList<>();
-
+    /**
+     * Конструктор от двух параметров
+     * @param scene сцена фигуры
+     * @param models фигура
+     */
     public RenderObject(Scene scene, Model models) {
         this.scene = scene;
         this.models = models;
     }
 
+    /**
+     * Метод для инициализации поля triangles.
+     */
     public void init() {
-        try {
-            triangles = new ArrayList<>();
-            Matrix4x4 transform = scene.transformation();
-            models.getTriangulation().forEach(it -> {
+        triangles = new ArrayList<>();
+        Matrix4x4 transform = scene.transformation();
+        models.getTriangulation().forEach(it -> {
 
-                Triangle3D transformTriangle = it.transformation(transform);
+            Triangle3D transformTriangle = it.transformation(transform);
 
-                Coord2D a = Scene.getting2DCoordinate(transformTriangle.getVertex1());
-                Coord2D b = Scene.getting2DCoordinate(transformTriangle.getVertex2());
-                Coord2D c = Scene.getting2DCoordinate(transformTriangle.getVertex3());
+            Coord2D a = Scene.getting2DCoordinate(transformTriangle.getVertex1());
+            Coord2D b = Scene.getting2DCoordinate(transformTriangle.getVertex2());
+            Coord2D c = Scene.getting2DCoordinate(transformTriangle.getVertex3());
 
-                Triangle2D tmp = new Triangle2D(a, b, c);
-                tmp.setLightCoefficient(lightning(it));
+            Triangle2D tmp = new Triangle2D(a, b, c);
+            tmp.setLightCoefficient(lightning(it));
 
-                triangles.add(tmp);
-            });
-        } catch (RuntimeException e) {
-            if (!e.getMessage().equals("Camera Translation")) {
-                throw new RuntimeException(e);
-            }
-            init();
-        }
+            triangles.add(tmp);
+        });
     }
 
 
-
-    // ВРЕМЕННОЕ РЕШЕНИЕ. Лучше переделать, так как второй применяется матрица для преобразования модели
+    // Минусы решения: второй считается матрица для преобразования модели
+    /**
+     * Метод, считающий и выставляющий коэффициент света для заданного 3D треугольника.
+     * Договоренность: коэффициент света = abs(0.6 * cosA + 0.4), модуль от формулы.
+     * Стоит модуль, так как треугольник двусторонний (отрицательный косинус показывает обратную сторону, но для нас это одно и то же)
+     * Формула подобрана так, чтобы переходы были не такими резкими
+     * @param it 3D треугольник
+     * @return коэффициент света
+     */
     private double lightning(Triangle3D it) {
         Matrix4x4 modelTransformation = scene.getModelInstance().transformation();
 
