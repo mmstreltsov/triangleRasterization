@@ -3,41 +3,61 @@ package RasterTest.State.Animation;
 import RasterTest.State.Math.Matrix4x4;
 import RasterTest.State.Math.Vector3D;
 
+/**
+ * Класс-обертка над Vector3D c учетом Reversed операций. Служит для перемещения объектов в 3D
+ */
 public class Translation {
+    /**
+     * Поле, хранящее Вектор
+     */
     private Vector3D transl;
+    /**
+     * Поле, хранящее флаг, если объект требует обратного перемещения (Для камеры, например)
+     */
     private boolean isReversed;
-    public Vector3D getTransl() {
-        return transl;
-    }
 
-    public void setTransl(Vector3D transl) {
-        this.transl = transl;
-    }
-    public void setTranslation(double x, double y, double z) {
-        this.transl = new Vector3D(x, y, z);
-    }
-
-
+    /**
+     * Конструктор от параметров. Флаг Reversed устанавливается как false
+     * @param x X-координата
+     * @param y Y-координата
+     * @param z Z-координата
+     */
     public Translation(double x, double y, double z) {
         this.transl = new Vector3D(x, y, z);
+        this.isReversed = false;
     }
+
+    /**
+     * Конструктор от вектора. Флаг Reversed устанавливается как false
+     * @param transl Вектор
+     */
     public Translation(Vector3D transl) {
         this.transl = transl;
-    }
-    public Translation(Translation other, boolean isReversed) {
-        this.isReversed = isReversed;
-        this.transl = other.getTransl();
+        this.isReversed = false;
     }
 
-    public Translation(Vector3D other, boolean isReversed) {
+
+    /**
+     * Конструктор от вектора и от заданного флага Reversed
+     * @param transl Вектор
+     * @param isReversed Установить флаг, если требуется обратное перемещения (Для камеры, например)
+     */
+    public Translation(Vector3D transl, boolean isReversed) {
         this.isReversed = isReversed;
-        this.transl = other;
+        this.transl = transl;
     }
 
+    /**
+     * Дефолтный конструктор, инициализация нулями. Флаг -- false
+     */
     public Translation() {
         this.transl = new Vector3D(0, 0, 0);
+        this.isReversed = false;
     }
-
+    /**
+     * Генерация матрицы перемещения с учетом флага Reversed (тогда выполнится обратное перемещение)
+     * @return матрица
+     */
     public Matrix4x4 translating() {
         Matrix4x4 matrix = new Matrix4x4();
         matrix.setM11(1.);
@@ -61,5 +81,16 @@ public class Translation {
     public String toString() {
         return "Translation{" +
                 "transl=" + transl;
+    }
+
+    public Vector3D getTransl() {
+        return transl;
+    }
+
+    public void setTransl(Vector3D transl) {
+        this.transl = transl;
+    }
+    public void setTransl(double x, double y, double z) {
+        this.transl = new Vector3D(x, y, z);
     }
 }

@@ -101,7 +101,7 @@ public class Camera implements Transformation {
     }
 
     public void setOffset(Translation offset) {
-        this.offset = new Translation(offset, true);
+        this.offset = new Translation(offset.getTransl(), true);
     }
 
     public Rotation getRotation() {
