@@ -27,13 +27,12 @@ public class RenderObject {
             triangles = new ArrayList<>();
             Matrix4x4 transform = scene.transformation();
             models.getTriangulation().forEach(it -> {
-                Coord3D v1 = transform.multiplyOnHomo(it.getVertex1()).toPoint();
-                Coord3D v2 = transform.multiplyOnHomo(it.getVertex2()).toPoint();
-                Coord3D v3 = transform.multiplyOnHomo(it.getVertex3()).toPoint();
 
-                Coord2D a = Scene.getting2DCoordinate(v1);
-                Coord2D b = Scene.getting2DCoordinate(v2);
-                Coord2D c = Scene.getting2DCoordinate(v3);
+                Triangle3D transformTriangle = it.transformation(transform);
+
+                Coord2D a = Scene.getting2DCoordinate(transformTriangle.getVertex1());
+                Coord2D b = Scene.getting2DCoordinate(transformTriangle.getVertex2());
+                Coord2D c = Scene.getting2DCoordinate(transformTriangle.getVertex3());
 
                 Triangle2D tmp = new Triangle2D(a, b, c);
                 tmp.setLightCoefficient(lightning(it));
@@ -59,7 +58,9 @@ public class RenderObject {
         Coord3D v3 = modelTransformation.multiplyOnHomo(it.getVertex3()).toPoint();
 
 
-        double lightCoefficient = Vector3D.cosAngleBetweenVectors(Light.fabric().getDirection(), Triangle3D.normal(v1, v2, v3));
+        // Договоримся, тут модуль косинуса
+        double lightCoefficient = Math.abs(Vector3D.cosAngleBetweenVectors(Light.fabric().getDirection(), Triangle3D.normal(v1, v2, v3)));
+        lightCoefficient = (lightCoefficient * 0.6 + 0.4);
         return lightCoefficient;
     }
 

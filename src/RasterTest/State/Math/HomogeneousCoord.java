@@ -1,11 +1,33 @@
 package RasterTest.State.Math;
 
+/**
+ * Однородная система координат в 3D пространстве
+ */
 public class HomogeneousCoord {
+    /**
+     * X-координата
+     */
     private double x;
+    /**
+     * Y-координата
+     */
     private double y;
+    /**
+     * Z-координата
+     */
     private double z;
+    /**
+     * Флаг для определения. 0 - вектор. иначе - точка
+     */
     private double w;
 
+    /**
+     *
+     * @param x X-координата
+     * @param y Y-координата
+     * @param z Z-координата
+     * @param w Флаг для определения. 0 - вектор. иначе - точка
+     */
     public HomogeneousCoord(double x, double y, double z, double w) {
         this.x = x;
         this.y = y;
@@ -13,10 +35,18 @@ public class HomogeneousCoord {
         this.w = w;
     }
 
+    /**
+     * Генерация Вектора по данным координатам
+     * @return Вектор
+     */
     public Vector3D toVector() {
         return new Vector3D(x, y, z);
     }
 
+    /**
+     * Генерация Точки по данным координатам
+     * @return Точка
+     */
     public Coord3D toPoint() {
         return new Coord3D(x, y, z);
     }
@@ -25,10 +55,20 @@ public class HomogeneousCoord {
         return "(" + x + ") + (" + y + ") + (" + z + ")";
     }
 
+    /**
+     * Сумма однородных систем координат. Суммируется с данным
+     * @param other второе слагаемое
+     * @return Новую однородную систему координат
+     */
     public HomogeneousCoord additional(HomogeneousCoord other) {
         return new HomogeneousCoord(x + other.x, y + other.y, z + other.z, w + other.w);
     }
 
+    /**
+     * Разность однородных систем координат. Вычитается из данной
+     * @param other вычитаемое
+     * @return Новую однородную систему координат
+     */
     public HomogeneousCoord subtracting(HomogeneousCoord other) {
         return new HomogeneousCoord(x - other.x, y - other.y, z - other.z, w - other.w);
     }

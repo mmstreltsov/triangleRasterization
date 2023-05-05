@@ -43,42 +43,26 @@ public class Angles {
     private double gamma;
 
 
-    /**
-     * Геттер
-     */
     public double getAlpha() {
         return alpha;
     }
 
-    /**
-     * Сеттер
-     */
     public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
-    /**
-     * Геттер
-     */
     public double getBeta() {
         return beta;
     }
-    /**
-     * Сеттер
-     */
+
     public void setBeta(double beta) {
         this.beta = beta;
     }
 
-    /**
-     * Геттер
-     */
     public double getGamma() {
         return gamma;
     }
-    /**
-     * Сеттер
-     */
+
     public void setGamma(double gamma) {
         this.gamma = gamma;
     }
@@ -183,10 +167,6 @@ public class Angles {
         return matrix;
     }
 
-    /**
-     * Преобразование класса в строку
-     * @return
-     */
     @Override
     public String toString() {
         return "EulerAngles{" +
