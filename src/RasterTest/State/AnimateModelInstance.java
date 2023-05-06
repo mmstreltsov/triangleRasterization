@@ -1,8 +1,12 @@
 package RasterTest.State;
 
-import RasterTest.State.Animation.Scale;
-
+/**
+ * Класс-обертка над ModelInstance. Служит для задания Шага Анимации.
+ */
 public class AnimateModelInstance extends ModelInstance{
+    /**
+     * Дефолтный конструктор
+     */
     public AnimateModelInstance() {
         super();
     }

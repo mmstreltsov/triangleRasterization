@@ -3,16 +3,24 @@ package RasterTest;
 import RasterTest.State.Animation.Animate;
 import RasterTest.State.Animation.Rotation;
 import RasterTest.State.Math.Coord3D;
-import RasterTest.State.Math.Angles;
 import RasterTest.State.Math.Triangle3D;
 import RasterTest.State.Math.Vector3D;
 import RasterTest.State.Model;
 import RasterTest.State.RenderObject;
 import RasterTest.State.Scene;
 
+/**
+ * Класс-инициализатор. Создает модель и сцену по авторским настройкам
+ */
 public class Initialization {
+    /**
+     * Рендер всех объектов
+     */
     private final Render render = new Render();
 
+    /**
+     * Вся инициализация происходит в конструкторе
+     */
     public Initialization() {
         Model model = new Model();
 
@@ -31,7 +39,7 @@ public class Initialization {
         Scene scene = new Scene();
         Animate.animObjectTrans(scene.getModelInstance(), new Vector3D(0, 0, 20));
 
-        // Set animatio
+        // Set animation
         scene.getAnimationStep().setRotation(new Rotation(0, 0.2, 0.1));
         RenderObject renderObject = new RenderObject(scene, model);
         this.render.insert(renderObject);

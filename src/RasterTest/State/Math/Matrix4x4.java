@@ -1,10 +1,19 @@
 package RasterTest.State.Math;
 
+/**
+ * Матрица размера 4х4
+ */
 public class Matrix4x4 {
 
+    /**
+     * Инициализация нулевой матрицы
+     */
     public Matrix4x4() {
     }
 
+    /**
+     * Конструктор от 16ти параметров -- все элементы матрицы задаются построчно
+     */
     public Matrix4x4(double m11, double m12, double m13, double m14,
                      double m21, double m22, double m23, double m24,
                      double m31, double m32, double m33, double m34,
@@ -27,6 +36,10 @@ public class Matrix4x4 {
         this.m44 = m44;
     }
 
+    /**
+     * Конструктор возвращает единичную матрицу, помноженную на Лямбду
+     * @param lambda число
+     */
     public Matrix4x4(double lambda) {
         this.m11 = lambda;
         this.m22 = lambda;
@@ -34,6 +47,10 @@ public class Matrix4x4 {
         this.m44 = lambda;
     }
 
+    /**
+     * Копи-конструктор
+     * @param other Другая матрица 4х4
+     */
     public Matrix4x4(Matrix4x4 other) {
         this.m11 = other.m11;
         this.m12 = other.m12;
@@ -52,6 +69,12 @@ public class Matrix4x4 {
         this.m43 = other.m43;
         this.m44 = other.m44;
     }
+
+    /**
+     * Перемножение матриц 4х4 по правилам математики. Умножает матрицу на данную.
+     * @param otherMatrix второй множитель
+     * @return Новая матрица
+     */
 
     public Matrix4x4 multiplyOnMatrix(Matrix4x4 otherMatrix) {
         double resultM11 = (m11 * otherMatrix.m11) + (m12 * otherMatrix.m21) + (m13 * otherMatrix.m31) + (m14 * otherMatrix.m41);
@@ -78,6 +101,11 @@ public class Matrix4x4 {
                 resultM41, resultM42, resultM43, resultM44);
     }
 
+    /**
+     * Умножение матрицы на Однородную систему координат по правилам математики.
+     * @param row Однородная система координат
+     * @return Новая однородная система координат
+     */
     public HomogeneousCoord multiplyOnHomo(HomogeneousCoord row) {
         double x = row.getX();
         double y = row.getY();

@@ -2,9 +2,21 @@ package RasterTest.State.Math;
 
 import java.util.Objects;
 
+
+/**
+ * Класс для хранения 2D координат вершины
+ */
 public class Coord2D {
+
+    /**
+     * X-координата
+     */
     private double x;
+    /**
+     * Y-координата
+     */
     private double y;
+
 
 
     @Override
@@ -12,14 +24,30 @@ public class Coord2D {
         return "(" + x  + ", " + + y + ')';
     }
 
+
+    /**
+     * Z-координата, нужна для формирования Z-буфера
+     */
     private double zCoord;
 
+
+    /**
+     * Конструктор от двух координат
+     * @param x X-координата
+     * @param y Y-координата
+     */
     public Coord2D(double x, double y) {
         this.x = x;
         this.y = y;
         this.zCoord = 0;
     }
 
+    /**
+     * Конструктор от трех координат
+     * @param x X-координата
+     * @param y Y-координата
+     * @param zCoord Z-координата для Z-буфера
+     */
     public Coord2D(double x, double y, double zCoord) {
         this.x = x;
         this.y = y;
@@ -42,13 +70,6 @@ public class Coord2D {
         this.y = y;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Coord2D coord2D = (Coord2D) o;
-        return Double.compare(coord2D.x, x) == 0 && Double.compare(coord2D.y, y) == 0;
-    }
     public double getzCoord() {
         return zCoord;
     }
@@ -56,9 +77,4 @@ public class Coord2D {
     public void setzCoord(double zCoord) {
         this.zCoord = zCoord;
     }
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
 }

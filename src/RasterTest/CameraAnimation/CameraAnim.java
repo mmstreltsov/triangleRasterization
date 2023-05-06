@@ -3,10 +3,23 @@ package RasterTest.CameraAnimation;
 import RasterTest.State.Animation.Animate;
 import RasterTest.State.Camera;
 
-public class CameraAnimTest {
+/**
+ * Класс служит для анимации камеры. Задает кнопки и действия на них
+ */
+public class CameraAnim {
+
+    /**
+     * Поддерживает список доступных кнопок
+     * @return массив чаров
+     */
     public static char[] getChars() {
         return new char[]{'w', 'a', 's', 'd', 'q', 'e', ',', 'l', '.', ';', '/', '\'', ' '};
     }
+
+    /**
+     * Выполнение действия в зависимости от переданного значения char
+     * @param c нажатая клавиша
+     */
     public static void testing(char c) {
         switch (c) {
             case 'w' -> Animate.animCameraTransl(0, 0, 1);

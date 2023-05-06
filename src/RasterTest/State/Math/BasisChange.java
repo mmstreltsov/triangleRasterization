@@ -8,9 +8,9 @@ public interface BasisChange {
 
     /**
      * Генерирует матрицу перехода в новый базис.
-     * @param x вектор базиса
-     * @param y вектор базиса
-     * @param z вектор базиса
+     * @param x вектор1 базиса
+     * @param y вектор2 базиса
+     * @param z вектор3 базиса
      * @return матрица перехода
      */
     static Matrix4x4 matrix(Vector3D x, Vector3D y, Vector3D z) {
