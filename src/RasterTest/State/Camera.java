@@ -3,6 +3,7 @@ package RasterTest.State;
 import RasterTest.State.Animation.Rotation;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Math.BasisChange;
+import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Matrix4x4;
 import RasterTest.State.Math.Vector3D;
 
@@ -107,24 +108,24 @@ public class Camera implements Transformation {
         return new Vector3D(0, 1, 0);
     }
 
-    /**
-     * Приведение вектора Center к необходимому виду:
-     * применение вращения, нормализация, перемещение в нужную точку (учитывается само смещение камеры)
-     * @return Новый вектор
-     */
-    private Vector3D makeCenterDefault() {
-        Vector3D center = rotateCenter();
-        return this.offset.getTransl().additional(center.normalized()).toVector();
-    }
-    /**
-     * Приведение вектора Up к необходимому виду:
-     * применение вращения, нормализация
-     * @return Новый вектор
-     */
-    private Vector3D makeUpDefault(){
-        Vector3D up = rotateUp();
-        return up.normalized();
-    }
+//    /**
+//     * Приведение вектора Center к необходимому виду:
+//     * применение вращения, нормализация, перемещение в нужную точку (учитывается само смещение камеры)
+//     * @return Новый вектор
+//     */
+//    private Vector3D makeCenterDefault() {
+//        Vector3D center = rotateCenter();
+//        return this.offset.getTransl().additional(center.normalized()).toVector();
+//    }
+//    /**
+//     * Приведение вектора Up к необходимому виду:
+//     * применение вращения, нормализация
+//     * @return Новый вектор
+//     */
+//    private Vector3D makeUpDefault(){
+//        Vector3D up = rotateUp();
+//        return up.normalized();
+//    }
 
     /**
      * Генерируется матрица перевода координат в поле зрения камеры.
@@ -134,20 +135,11 @@ public class Camera implements Transformation {
      */
     @Override
     public Matrix4x4 transformation() {
-        Vector3D center = makeCenterDefault();
-        Vector3D up = makeUpDefault();
+        Vector3D center = getActualCenter();
+        Vector3D up = getActualUp();
 
-        Vector3D eye = offset.getTransl();
-        Matrix4x4 matrix;
-        Vector3D z = center.subtracting(eye).toVector().normalized();
-        if (Vector3D.crossProduct(z, up).magnitude() < 1e-7) {
-            matrix = new Matrix4x4(1);
-        }
-        else {
-            Vector3D x = Vector3D.crossProduct(up, z).normalized();
-            Vector3D y = Vector3D.crossProduct(z, x).normalized();
-            matrix = BasisChange.matrix(x, y, z);
-        }
+        Vector3D right = Vector3D.crossProduct(center, up).normalized();
+        Matrix4x4 matrix = BasisChange.matrix(right, up, center);
 
         matrix = matrix.multiplyOnMatrix(offset.translating());
         return matrix;

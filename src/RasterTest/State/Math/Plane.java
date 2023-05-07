@@ -75,7 +75,7 @@ public class Plane {
 
     @Override
     public String toString() {
-        return "A: " + A + " B: " + B + " C: " + C + " D: " + D;
+        return A + "x + " + B + "y +" + C + "z + " + D;
     }
 
     public double getA() {
