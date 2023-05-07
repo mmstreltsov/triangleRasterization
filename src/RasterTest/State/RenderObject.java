@@ -43,13 +43,14 @@ public class RenderObject {
     public void init() {
         triangles = new ArrayList<>();
 
-        Matrix4x4 transform = scene.transformation();
+        List<Triangle3D> afterFirstTransformation = makeTransform(models.getTriangulation(), scene.transformationStep1());
 
-        List<Triangle3D> afterTransform = makeTransform(transform);
+        List<Triangle3D> afterClipping = clipping(afterFirstTransformation);
 
-        List<Triangle3D> afterClipping = clipping(afterTransform);
+        List<Triangle3D> afterSecondTransform = makeTransform(afterClipping, scene.transformationStep2());
 
-        afterClipping.forEach(it -> {
+
+        afterSecondTransform.forEach(it -> {
 
             Coord2D a = Scene.getting2DCoordinate(it.getVertex1());
             Coord2D b = Scene.getting2DCoordinate(it.getVertex2());
@@ -62,8 +63,8 @@ public class RenderObject {
         });
     }
 
-    private List<Triangle3D> makeTransform(Matrix4x4 transform) {
-        return models.getTriangulation().stream().map(it -> it.transformation(transform)).toList();
+    private List<Triangle3D> makeTransform(List<Triangle3D> list,  Matrix4x4 transform) {
+        return list.stream().map(it -> it.transformation(transform)).toList();
     }
 
     private List<Triangle3D> clipping(List<Triangle3D> list) {

@@ -30,11 +30,15 @@ public class Plane {
         double rightPart = - (this.D + (this.A * point.getX() + this.B * point.getY() + this.C * point.getZ()));
         double leftPart = this.A * vector.getX() + this.B * vector.getY() + this.C * vector.getZ();
         if (Math.abs(leftPart) < EPS) {
-            throw new RuntimeException("Unexpected value. Vector is parallel to plane");
+            return point;
         }
         double t = rightPart / leftPart;
         Coord3D intersect = new Coord3D(point.getX() + vector.getX() * t, point.getY() + vector.getY() * t, point.getZ() + vector.getZ() * t);
         return intersect;
+    }
+
+    public Coord3D findPointProjection(Coord3D point) {
+       return intersectionWithLine(this.normal, point);
     }
 
     @Override
@@ -62,16 +66,4 @@ public class Plane {
         return normal;
     }
 
-    public static void main(String[] args) {
-        Coord3D point = new Coord3D(7, 3.3, -21);
-        Vector3D vec1 = new Vector3D(5, 3, 2);
-        Vector3D vec2 = new Vector3D(5, 23, 2);
-
-        Plane plane = new Plane(vec1, vec2, point);
-
-        System.out.println(plane.getNormal());
-        System.out.println(plane);
-
-
-    }
 }

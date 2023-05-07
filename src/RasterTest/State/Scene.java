@@ -9,7 +9,7 @@ import RasterTest.State.Math.Matrix4x4;
 /**
  *  Правила ее преобразования в поле зрения камеры
  */
-public class Scene implements Transformation {
+public class Scene {
 
     /**
      * Поле, хранящее правила преобразования модели в глобальную систему координат
@@ -83,15 +83,22 @@ public class Scene implements Transformation {
         return modelInstance.transformation();
     }
 
-    /**
-     * Итоговая матрица преобразования M = M_proj * M_cam * M_trans в заданном порядке
-     * @return Матрица
-     */
-    @Override
-    public Matrix4x4 transformation() {
-        return M_proj().multiplyOnMatrix(M_cam()).multiplyOnMatrix(M_mod());
+//    /**
+//     * Итоговая матрица преобразования M = M_proj * M_cam * M_trans в заданном порядке
+//     * @return Матрица
+//     */
+//    @Override
+//    public Matrix4x4 transformation() {
+//        return M_proj().multiplyOnMatrix(M_cam()).multiplyOnMatrix(M_mod());
+//    }
+
+    public Matrix4x4 transformationStep1() {
+        return M_mod();
     }
 
+    public Matrix4x4 transformationStep2() {
+        return M_proj().multiplyOnMatrix(M_cam());
+    }
 
     /**
      * Получение 2D координат из однородной системы координат.
