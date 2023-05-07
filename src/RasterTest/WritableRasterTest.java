@@ -20,6 +20,11 @@ public class WritableRasterTest extends JFrame {
     private PixelScreen canvas;
     private final TriangleHelper helper = new TriangleHelper();
 
+    private static long lastFpsCheck = 0;
+    private static int currentFps = 0;
+    private static int totalFrames = 0;
+
+
     public static void main(String[] args) {
         JFrame f = new WritableRasterTest();
 
@@ -102,19 +107,29 @@ public class WritableRasterTest extends JFrame {
 
 
             while(true) {
+                if (System.nanoTime() - lastFpsCheck > 1_000_000_000) {
+                    lastFpsCheck = System.nanoTime();
+                    currentFps = totalFrames;
+                    totalFrames = 0;
+                    fps.setText("FPS " + currentFps);
+                }
+
                 List<Triangle> triangles = render.render();
 
                 for (Triangle triangle : triangles) {
-                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
+                    List<Triangle> clipping_triangles = List.of(triangle); // delete this
+//                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
                     if (clipping_triangles != null) {
                         pixelColor = triangle.getPixelColor();
                         for (Triangle i : clipping_triangles) {
+                            i.normalize(); // delete this
                             screen.drawTriangle(i, pixelColor);
                         }
                     }
                 }
                 screen.drawCanvas();
                 canvas.Clear();
+                totalFrames++;
             }
         }
     }

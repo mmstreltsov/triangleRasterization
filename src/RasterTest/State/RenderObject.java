@@ -38,11 +38,14 @@ public class RenderObject {
 
     /**
      * Метод для инициализации поля triangles.
+     * Анимация происходит здесь: для треугольников применяются параметры с текущего кадра
      */
     public void init() {
         triangles = new ArrayList<>();
         Matrix4x4 transform = scene.transformation();
-        models.getTriangulation().forEach(it -> {
+        List<Triangle3D> afterClipping = clipping(models.getTriangulation());
+
+        afterClipping.forEach(it -> {
 
             Triangle3D transformTriangle = it.transformation(transform);
 
@@ -55,6 +58,12 @@ public class RenderObject {
 
             triangles.add(tmp);
         });
+    }
+
+    private List<Triangle3D> clipping(List<Triangle3D> list) {
+        Clipping clipping = new Clipping(Camera.fabric(), PointView.fabric(), list);
+        clipping.init();
+        return clipping.getListAfterClipping();
     }
 
 

@@ -42,6 +42,7 @@ public class Initialization {
         // Set animation
         scene.getAnimationStep().setRotation(new Rotation(0, 0.2, 0.1));
         RenderObject renderObject = new RenderObject(scene, model);
+
         this.render.insert(renderObject);
     }
 
