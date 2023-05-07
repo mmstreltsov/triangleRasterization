@@ -38,7 +38,7 @@ public class Initialization {
 //        //УДАЛИТЬ ЭТО
 
         Scene scene = new Scene();
-        Animate.animObjectTrans(scene.getModelInstance(), new Vector3D(100, 0, 20));
+        Animate.animObjectTrans(scene.getModelInstance(), new Vector3D(0, 0, 20));
 
         // Set animation
         scene.getAnimationStep().setRotation(new Rotation(0, 0.2, 0.1));

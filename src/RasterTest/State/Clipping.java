@@ -37,7 +37,6 @@ public class Clipping {
         Coord3D viewCenter = point.additional(eye.multiplyOnScalar(d)).toPoint();
 
         insidePoint = viewCenter;
-//        System.out.println(viewCenter);
 
         Coord3D leftUp = viewCenter.additional(up.multiplyOnScalar(heightHalf))
                 .additional(right.multiplyOnScalar(-widthHalf)).toPoint();
@@ -48,11 +47,6 @@ public class Clipping {
         Coord3D rightDown = viewCenter.additional(up.multiplyOnScalar(-heightHalf))
                 .additional(right.multiplyOnScalar(widthHalf)).toPoint();
 
-//        System.out.println(leftUp);
-//        System.out.println(rightUp);
-//        System.out.println(rightDown);
-//        System.out.println(leftDown);
-
 
         List<Plane> ret = new ArrayList<>();
         ret.add(new Plane(leftUp, rightUp, point));
@@ -61,9 +55,6 @@ public class Clipping {
         ret.add(new Plane(leftDown, leftUp, point));
 
         ret.add(new Plane(leftUp, rightUp, rightDown));
-
-//        ret.forEach(System.out::println);
-//        System.out.println();
 
         return ret;
     }
@@ -101,9 +92,6 @@ public class Clipping {
                 Coord3D p2 = points[1];
                 Coord3D p3 = points[2];
 
-                if (badGuys > 0) {
-                    System.out.println(badGuys);
-                }
                 if (badGuys == 0) {
                     newList.add(it);
                 } else if (badGuys == 3) {
