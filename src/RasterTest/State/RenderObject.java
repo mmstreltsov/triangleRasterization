@@ -38,11 +38,13 @@ public class RenderObject {
 
     /**
      * Метод для инициализации поля triangles.
-     * Анимация происходит здесь: для треугольников применяются параметры с текущего кадра
+     * Анимация происходит здесь: для треугольников применяются параметры с текущего кадра.
+     * Также применяется клиппинг.
      */
     public void init() {
         triangles = new ArrayList<>();
 
+        scene.makeAnimation();
         List<Triangle3D> afterFirstTransformation = makeTransform(models.getTriangulation(), scene.transformationStep1());
 
         List<Triangle3D> afterClipping = clipping(afterFirstTransformation);
@@ -63,18 +65,28 @@ public class RenderObject {
         });
     }
 
+    /**
+     * Применение матрицы трансформации к заданной коллекции
+     * @param list Коллекция треугольников в 3D
+     * @param transform Матрица преобразования
+     * @return Новая коллекция
+     */
     private List<Triangle3D> makeTransform(List<Triangle3D> list,  Matrix4x4 transform) {
         return list.stream().map(it -> it.transformation(transform)).toList();
     }
 
+    /**
+     * Применение клиппинга в данный кадр для заданной коллекции треугольников
+     * @param list Коллекция треугольников в 3D
+     * @return обработанная коллекция треугольников
+     */
     private List<Triangle3D> clipping(List<Triangle3D> list) {
-        Clipping clipping = new Clipping(Camera.fabric(), PointView.fabric(), list);
+        Clipping clipping = new Clipping(list);
         clipping.init();
         return clipping.getListAfterClipping();
     }
 
 
-    // Минусы решения: второй считается матрица для преобразования модели
     /**
      * Метод, считающий и выставляющий коэффициент света для заданного 3D треугольника.
      * Договоренность: коэффициент света = abs(0.6 * cosA + 0.4), модуль от формулы.
@@ -84,7 +96,7 @@ public class RenderObject {
      * @return коэффициент света
      */
     private double lightning(Triangle3D it) {
-        Matrix4x4 modelTransformation = scene.getModelInstance().transformation();
+        Matrix4x4 modelTransformation = scene.transformationStep1();
 
         Coord3D v1 = modelTransformation.multiplyOnHomo(it.getVertex1()).toPoint();
         Coord3D v2 = modelTransformation.multiplyOnHomo(it.getVertex2()).toPoint();

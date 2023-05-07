@@ -9,18 +9,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Clipping {
+    /**
+     * Коллекция плоскостей, которые будут ограничивать пространство
+     */
     private final List<Plane> planes;
+
+    /**
+     * Коллекция треугольников до Клиппинга
+     */
     private List<Triangle3D> listTriangle3D;
 
+    /**
+     * Точка всех областей для определения стороны (внутри/снаружи)
+     */
     private Coord3D insidePoint;
+
+    /**
+     * Итоговая коллекция треугольников после Клиппинга
+     */
     private final List<Triangle3D> listAfterClipping = new ArrayList<>();
 
 
-    public Clipping(Camera camera, PointView pointView, List<Triangle3D> listTriangle3D) {
-        this.planes = generatePlanes(camera, pointView);
+    /**
+     * Конструктор от коллекции треугольников, что подлежат клиппингу
+     */
+    public Clipping(List<Triangle3D> listTriangle3D) {
+        this.planes = generatePlanes(Camera.fabric(), PointView.fabric());
         this.listTriangle3D = listTriangle3D;
     }
 
+    /**
+     * Метод для генерации Плоскостей в зависимости от текущего положения камеры и экрана перед ней на заданном фокусном расстоянии
+     * @return Коллекцию плоскостей
+     */
     private List<Plane> generatePlanes(Camera camera, PointView pointView) {
 
         Coord3D point = camera.getOffset().getTransl().toPoint();
@@ -59,6 +80,9 @@ public class Clipping {
         return ret;
     }
 
+    /**
+     * Метод, выполняющий клиппинг: треугольники пересобираются для каждой из плоскостей в коллекции.
+     */
     public void init() {
         for (Plane plane : planes) {
             List<Triangle3D> newList = new ArrayList<>();
@@ -120,6 +144,14 @@ public class Clipping {
         listAfterClipping.addAll(listTriangle3D);
     }
 
+
+    /**
+     * Метод-помощник для переобозначения точек в нужном порядке: все true значения булеан массива уйдет в конец
+     * @param isBad Массив булевых значений
+     * @param points Массив точек
+     * @param first Индекс первого элемента массива
+     * @param last Индекс последнего элемента массива
+     */
     private void reordering(boolean[] isBad, Coord3D[] points, int first, int last) {
         if (first >= last) {
             return;

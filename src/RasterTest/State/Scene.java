@@ -1,7 +1,6 @@
 package RasterTest.State;
 
 import RasterTest.Animation;
-import RasterTest.State.Animation.ToTranslate;
 import RasterTest.State.Math.Coord2D;
 import RasterTest.State.Math.HomogeneousCoord;
 import RasterTest.State.Math.Matrix4x4;
@@ -9,7 +8,7 @@ import RasterTest.State.Math.Matrix4x4;
 /**
  *  Правила ее преобразования в поле зрения камеры
  */
-public class Scene {
+public class Scene implements Transformation {
 
     /**
      * Поле, хранящее правила преобразования модели в глобальную систему координат
@@ -77,25 +76,36 @@ public class Scene {
      * @return Матрица
      */
     private Matrix4x4 M_mod() {
-        if (Animation.isIsAnimate()) {
-            modelInstance.animationStep(this.animationStep);
-        }
         return modelInstance.transformation();
     }
 
-//    /**
-//     * Итоговая матрица преобразования M = M_proj * M_cam * M_trans в заданном порядке
-//     * @return Матрица
-//     */
-//    @Override
-//    public Matrix4x4 transformation() {
-//        return M_proj().multiplyOnMatrix(M_cam()).multiplyOnMatrix(M_mod());
-//    }
+    public void makeAnimation() {
+        if (Animation.isIsAnimate()) {
+            modelInstance.animationStep(this.animationStep);
+        }
+    }
 
+    /**
+     * Итоговая матрица преобразования M = M_proj * M_cam * M_trans в заданном порядке
+     * @return Матрица
+     */
+    @Override
+    public Matrix4x4 transformation() {
+        return transformationStep2().multiplyOnMatrix(transformationStep1());
+    }
+
+    /**
+     * Анимация разбита на 2 шага. Первый шаг - преобразование модели в глобальную систему координат
+     * @return матрица преобразования
+     */
     public Matrix4x4 transformationStep1() {
         return M_mod();
     }
 
+    /**
+     * Анимация разбита на 2 шага. Второй шаг - применение преобразований Камеры и Проекции на канвас.
+     * @return матрица преобразования
+     */
     public Matrix4x4 transformationStep2() {
         return M_proj().multiplyOnMatrix(M_cam());
     }

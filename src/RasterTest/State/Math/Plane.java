@@ -1,12 +1,33 @@
 package RasterTest.State.Math;
 
+/**
+ * Класс для задания плоскости в 3D. Задается уравнение плоскости.
+ */
 public class Plane {
+    /**
+     * Коэффициент при x
+     */
     private final double A;
+    /**
+     * Коэффициент при y
+     */
     private final double B;
+    /**
+     * Коэффициент при z
+     */
     private final double C;
+    /**
+     * Свободный коэффициент
+     */
     private final double D;
+    /**
+     * Храним отдельно вектор нормали
+     */
     private final Vector3D normal;
 
+    /**
+     * Конструктор от двух векторов и точки
+     */
     public Plane(Vector3D v1, Vector3D v2, Coord3D point) {
         v1 = v1.normalized();
         v2 = v2.normalized();
@@ -20,11 +41,18 @@ public class Plane {
         this.D = -(this.A * point.getX() + this.B * point.getY() + this.C * point.getZ());
     }
 
+    /**
+     * Конструктор от трех точек
+     */
     public Plane(Coord3D point1, Coord3D point2, Coord3D point3) {
         this(point1.subtracting(point3).toVector(), point2.subtracting(point3).toVector(), point3);
     }
 
     private final static double EPS = 1e-7;
+
+    /**
+     * Метод для поиска пересечения прямой с данной плоскостью. Прямая задается вектором направления и точкой на прямой.
+     */
     public Coord3D intersectionWithLine(Vector3D vector, Coord3D point) {
         vector = vector.normalized();
         double rightPart = - (this.D + (this.A * point.getX() + this.B * point.getY() + this.C * point.getZ()));
@@ -37,6 +65,10 @@ public class Plane {
         return intersect;
     }
 
+
+    /**
+     * Поиск проекции точки на плоскость
+     */
     public Coord3D findPointProjection(Coord3D point) {
        return intersectionWithLine(this.normal, point);
     }
