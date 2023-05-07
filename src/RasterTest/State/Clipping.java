@@ -24,7 +24,6 @@ public class Clipping {
 
         Coord3D point = camera.getOffset().getTransl().toPoint();
 
-
         Vector3D eye = camera.getActualCenter().normalized();
         Vector3D up = camera.getActualUp().normalized();
         Vector3D right = Vector3D.crossProduct(eye, up).multiplyOnScalar(-1).normalized();
@@ -61,8 +60,8 @@ public class Clipping {
 
         ret.add(new Plane(leftUp, rightUp, rightDown));
 
-        ret.forEach(System.out::println);
-        System.out.println();
+//        ret.forEach(System.out::println);
+//        System.out.println();
 
         return ret;
     }

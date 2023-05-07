@@ -42,22 +42,28 @@ public class RenderObject {
      */
     public void init() {
         triangles = new ArrayList<>();
+
         Matrix4x4 transform = scene.transformation();
-        List<Triangle3D> afterClipping = clipping(models.getTriangulation());
+
+        List<Triangle3D> afterTransform = makeTransform(transform);
+
+        List<Triangle3D> afterClipping = clipping(afterTransform);
 
         afterClipping.forEach(it -> {
 
-            Triangle3D transformTriangle = it.transformation(transform);
-
-            Coord2D a = Scene.getting2DCoordinate(transformTriangle.getVertex1());
-            Coord2D b = Scene.getting2DCoordinate(transformTriangle.getVertex2());
-            Coord2D c = Scene.getting2DCoordinate(transformTriangle.getVertex3());
+            Coord2D a = Scene.getting2DCoordinate(it.getVertex1());
+            Coord2D b = Scene.getting2DCoordinate(it.getVertex2());
+            Coord2D c = Scene.getting2DCoordinate(it.getVertex3());
 
             Triangle2D tmp = new Triangle2D(a, b, c);
             tmp.setLightCoefficient(lightning(it));
 
             triangles.add(tmp);
         });
+    }
+
+    private List<Triangle3D> makeTransform(Matrix4x4 transform) {
+        return models.getTriangulation().stream().map(it -> it.transformation(transform)).toList();
     }
 
     private List<Triangle3D> clipping(List<Triangle3D> list) {

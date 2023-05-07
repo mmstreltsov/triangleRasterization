@@ -8,6 +8,9 @@ public class Plane {
     private final Vector3D normal;
 
     public Plane(Vector3D v1, Vector3D v2, Coord3D point) {
+        v1 = v1.normalized();
+        v2 = v2.normalized();
+
         this.normal = Vector3D.crossProduct(v1, v2).normalized();
 
         this.A = normal.getX();

@@ -42,6 +42,7 @@ public class Render {
     public List<Triangle> render() {
         List<Triangle> ret = new ArrayList<>();
         renderState.getRenderObjects().forEach(it -> {
+
             it.init();
             it.getTriangles().forEach(triangle2D -> {
                 ret.add(Converter.convert(triangle2D));
