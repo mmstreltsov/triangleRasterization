@@ -38,23 +38,39 @@ public class RenderObject {
 
     /**
      * Метод для инициализации поля triangles.
+     * Анимация происходит здесь: для треугольников применяются параметры с текущего кадра
      */
     public void init() {
         triangles = new ArrayList<>();
-        Matrix4x4 transform = scene.transformation();
-        models.getTriangulation().forEach(it -> {
 
-            Triangle3D transformTriangle = it.transformation(transform);
+        List<Triangle3D> afterFirstTransformation = makeTransform(models.getTriangulation(), scene.transformationStep1());
 
-            Coord2D a = Scene.getting2DCoordinate(transformTriangle.getVertex1());
-            Coord2D b = Scene.getting2DCoordinate(transformTriangle.getVertex2());
-            Coord2D c = Scene.getting2DCoordinate(transformTriangle.getVertex3());
+        List<Triangle3D> afterClipping = clipping(afterFirstTransformation);
+
+        List<Triangle3D> afterSecondTransform = makeTransform(afterClipping, scene.transformationStep2());
+
+
+        afterSecondTransform.forEach(it -> {
+
+            Coord2D a = Scene.getting2DCoordinate(it.getVertex1());
+            Coord2D b = Scene.getting2DCoordinate(it.getVertex2());
+            Coord2D c = Scene.getting2DCoordinate(it.getVertex3());
 
             Triangle2D tmp = new Triangle2D(a, b, c);
             tmp.setLightCoefficient(lightning(it));
 
             triangles.add(tmp);
         });
+    }
+
+    private List<Triangle3D> makeTransform(List<Triangle3D> list,  Matrix4x4 transform) {
+        return list.stream().map(it -> it.transformation(transform)).toList();
+    }
+
+    private List<Triangle3D> clipping(List<Triangle3D> list) {
+        Clipping clipping = new Clipping(Camera.fabric(), PointView.fabric(), list);
+        clipping.init();
+        return clipping.getListAfterClipping();
     }
 
 

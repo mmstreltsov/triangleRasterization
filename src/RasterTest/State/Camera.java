@@ -168,4 +168,15 @@ public class Camera implements Transformation {
     public void setRotation(Rotation rotation) {
         this.rotation = rotation;
     }
+
+    public Vector3D getActualCenter() {
+        Vector3D center = rotateCenter();
+        return center.normalized();
+    }
+
+    public Vector3D getActualUp() {
+        Vector3D up = rotateUp();
+        return up.normalized();
+    }
+
 }

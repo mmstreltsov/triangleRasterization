@@ -2,6 +2,7 @@ package RasterTest;
 
 import RasterTest.State.Animation.Animate;
 import RasterTest.State.Animation.Rotation;
+import RasterTest.State.Animation.Translation;
 import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Triangle3D;
 import RasterTest.State.Math.Vector3D;
@@ -41,7 +42,9 @@ public class Initialization {
 
         // Set animation
         scene.getAnimationStep().setRotation(new Rotation(0, 0.2, 0.1));
+//        scene.getAnimationStep().setTranslation(new Translation(0.05, 0, 0));
         RenderObject renderObject = new RenderObject(scene, model);
+
         this.render.insert(renderObject);
     }
 

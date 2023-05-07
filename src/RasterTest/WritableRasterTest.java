@@ -23,6 +23,11 @@ public class WritableRasterTest extends JFrame {
     private static boolean bufferReady = false;
     private static boolean drawReady = true;
 
+    private static long lastFpsCheck = 0;
+    private static int currentFps = 0;
+    private static int totalFrames = 0;
+
+
     public static void main(String[] args) {
         JFrame f = new WritableRasterTest();
 
@@ -104,7 +109,8 @@ public class WritableRasterTest extends JFrame {
                 int [][][] buffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
                 List<Triangle> triangles = render.render();
                 for (Triangle triangle : triangles) {
-                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
+                    List<Triangle> clipping_triangles = List.of(triangle); // delete this
+//                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
                     if (clipping_triangles != null) {
                         pixelColor = triangle.getPixelColor();
                         for (Triangle i : clipping_triangles) {

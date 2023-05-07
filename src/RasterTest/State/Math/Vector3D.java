@@ -28,6 +28,10 @@ public class Vector3D extends HomogeneousCoord {
         return new Vector3D(a.getX() / val, a.getY() / val, a.getZ() / val);
     }
 
+    public Vector3D multiplyOnScalar(double lambda) {
+        return new Vector3D(this.getX() * lambda, this.getY() * lambda, this.getZ() * lambda);
+    }
+
     /**
      * Нормализация вектора
      * @return Отнормированный вектор
