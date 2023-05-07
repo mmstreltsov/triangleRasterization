@@ -37,22 +37,12 @@ public class Render {
 
     /**
      * Рендер кадра. Вызывает init для всех объектов коллекции. Собирает Треугольники для канваса
-     * !Добавлена фича (В совокупности с методом Scene.getting2DCoordinate):
-     * !Когда камера слишком близко к объекту => камера уезжает на нужное расстояние, и весь рендер пересобирается
-     * @return
+     * @return коллекцию треугольников
      */
     public List<Triangle> render() {
         List<Triangle> ret = new ArrayList<>();
         renderState.getRenderObjects().forEach(it -> {
-            try {
-                it.init();
-            }
-            catch (RuntimeException e) {
-                if (!e.getMessage().equals("Camera Translation")) {
-                    throw new RuntimeException(e);
-                }
-                render();
-            }
+            it.init();
             it.getTriangles().forEach(triangle2D -> {
                 ret.add(Converter.convert(triangle2D));
             });

@@ -24,15 +24,10 @@ public class Clipping {
 
         Coord3D point = camera.getOffset().getTransl().toPoint();
 
-//        System.out.println(point);
 
         Vector3D eye = camera.getActualCenter().normalized();
         Vector3D up = camera.getActualUp().normalized();
-        Vector3D right = Vector3D.crossProduct(eye, up).normalized();
-
-//        System.out.println("eye" + eye);
-//        System.out.println("up" + up);
-//        System.out.println("right" + right);
+        Vector3D right = Vector3D.crossProduct(eye, up).multiplyOnScalar(-1).normalized();
 
         double heightHalf = pointView.getvHeight() / 2;
         double widthHalf = pointView.getvWidth() / 2;
@@ -64,7 +59,10 @@ public class Clipping {
         ret.add(new Plane(rightDown, leftDown, point));
         ret.add(new Plane(leftDown, leftUp, point));
 
-//        ret.forEach(System.out::println);
+        ret.add(new Plane(leftUp, rightUp, rightDown));
+
+        ret.forEach(System.out::println);
+        System.out.println();
 
         return ret;
     }
@@ -89,9 +87,9 @@ public class Clipping {
                 Vector3D v3 = p3.subtracting(planePoint).toVector();
 
                 int badGuys = 0;
-                badGuys = Vector3D.cosAngleBetweenVectors(normal, v1) < 0 ? badGuys + 1 : badGuys;
-                badGuys = Vector3D.cosAngleBetweenVectors(normal, v2) < 0 ? badGuys + 1 : badGuys;
-                badGuys = Vector3D.cosAngleBetweenVectors(normal, v3) < 0 ? badGuys + 1 : badGuys;
+                badGuys = Vector3D.cosAngleBetweenVectors(normal, v1) > 0 ? badGuys + 1 : badGuys;
+                badGuys = Vector3D.cosAngleBetweenVectors(normal, v2) > 0 ? badGuys + 1 : badGuys;
+                badGuys = Vector3D.cosAngleBetweenVectors(normal, v3) > 0 ? badGuys + 1 : badGuys;
 
                 if (badGuys > 0) {
                     System.out.println(badGuys);
@@ -103,10 +101,10 @@ public class Clipping {
                     continue;
                 } else if (badGuys == 1) {
                     //reordering
-                    if (Vector3D.cosAngleBetweenVectors(normal, v1) < 0) {
+                    if (Vector3D.cosAngleBetweenVectors(normal, v1) > 0) {
                         p1 = p3;
                         p3 = it.getVertex1();
-                    } else if (Vector3D.cosAngleBetweenVectors(normal, v2) < 0) {
+                    } else if (Vector3D.cosAngleBetweenVectors(normal, v2) > 0) {
                         p2 = p3;
                         p3 = it.getVertex2();
                     }
@@ -117,10 +115,10 @@ public class Clipping {
                     newList.add(new Triangle3D(p1, p2, p12));
                     newList.add(new Triangle3D(p1, p11, p12));
                 } else if (badGuys == 2) {
-                    if (Vector3D.cosAngleBetweenVectors(normal, v2) >= 0) {
+                    if (Vector3D.cosAngleBetweenVectors(normal, v2) <= 0) {
                         p1 = p2;
                         p2 = it.getVertex1();
-                    } else if (Vector3D.cosAngleBetweenVectors(normal, v3) >= 0) {
+                    } else if (Vector3D.cosAngleBetweenVectors(normal, v3) <= 0) {
                         p1 = p3;
                         p3 = it.getVertex1();
                     }

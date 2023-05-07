@@ -95,17 +95,11 @@ public class Scene implements Transformation {
 
     /**
      * Получение 2D координат из однородной системы координат.
-     * Добавлена фича (В совокупности с методом Render.render()):
-     * !Когда камера слишком близко к объекту => камера уезжает на нужное расстояние, и весь рендер пересобирается
      * @param coord Однородная система координат
      * @return 2D координату
      */
     public static Coord2D getting2DCoordinate(HomogeneousCoord coord) {
         double z = coord.getZ();
-        if (z <= PointView.fabric().getD()) {
-            ToTranslate.translate(Camera.fabric().getOffset(), 0, 0, -(PointView.fabric().getD() - z + 1));
-            throw new RuntimeException("Camera Translation");
-        }
         Coord2D coord2D = new Coord2D(coord.getX() / z, coord.getY() / z, coord.getZ());
         return coord2D;
     }
