@@ -114,6 +114,7 @@ public class WritableRasterTest extends JFrame {
                     if (clipping_triangles != null) {
                         pixelColor = triangle.getPixelColor();
                         for (Triangle i : clipping_triangles) {
+                            i.normalize();
                             buffer = screen.addTriangleToBuffer(i, pixelColor, buffer);
                         }
                     }
