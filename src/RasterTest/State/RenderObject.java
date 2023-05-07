@@ -51,7 +51,7 @@ public class RenderObject {
 
         List<Triangle3D> afterSecondTransform = makeTransform(afterClipping, scene.transformationStep2());
 
-
+        System.out.println(Camera.fabric().getOffset().getTransl().toPoint());
         afterSecondTransform.forEach(it -> {
 
             Coord2D a = Scene.getting2DCoordinate(it.getVertex1());

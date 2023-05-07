@@ -21,11 +21,11 @@ public class PointView implements Transformation {
     /**
      * Ширина Канваса -- инициализируется снаружи
      */
-    private double cWidth = PixelScreen.resolutionX;
+    private double cWidth = PixelScreen.resolutionX - 10;
     /**
      * Высота Канваса -- инициализируется снаружи
      */
-    private double cHeight = PixelScreen.resolutionY;
+    private double cHeight = PixelScreen.resolutionY - 10;
 
     /**
      * Ширина экрана
@@ -64,7 +64,7 @@ public class PointView implements Transformation {
      * Ширина = В пропорции канваса от дефолтной высоты
      */
     private PointView() {
-        this.d = 10.;
+        this.d = d_DEFAULT;
         this.vHeight = vHeight_DEFAULT;
         this.vWidth = vHeight * PixelScreen.resolutionX / PixelScreen.resolutionY;
     }

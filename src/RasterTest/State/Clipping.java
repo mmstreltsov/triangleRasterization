@@ -6,6 +6,7 @@ import RasterTest.State.Math.Triangle3D;
 import RasterTest.State.Math.Vector3D;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Clipping {
@@ -57,7 +58,7 @@ public class Clipping {
 
         Coord3D viewCenter = point.additional(eye.multiplyOnScalar(d)).toPoint();
 
-        insidePoint = viewCenter;
+        insidePoint = point.additional(eye.multiplyOnScalar(d*1.1)).toPoint();
 
         Coord3D leftUp = viewCenter.additional(up.multiplyOnScalar(heightHalf))
                 .additional(right.multiplyOnScalar(-widthHalf)).toPoint();
@@ -67,7 +68,6 @@ public class Clipping {
                 .additional(right.multiplyOnScalar(-widthHalf)).toPoint();
         Coord3D rightDown = viewCenter.additional(up.multiplyOnScalar(-heightHalf))
                 .additional(right.multiplyOnScalar(widthHalf)).toPoint();
-
 
         List<Plane> ret = new ArrayList<>();
         ret.add(new Plane(leftUp, rightUp, point));
