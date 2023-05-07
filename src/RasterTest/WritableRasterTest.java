@@ -7,7 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class WritableRasterTest extends JFrame {
@@ -17,8 +18,10 @@ public class WritableRasterTest extends JFrame {
     public static final int DEFAULT_WINDOW_WIDTH = PixelScreen.getResolutionX();
     public static final int DEFAULT_WINDOW_HEIGHT = DEFAULT_HEIGHT + 70;
     private JLabel fps;
-    private PixelScreen canvas;
+    private static PixelScreen canvas;
     private final TriangleHelper helper = new TriangleHelper();
+    private static boolean bufferReady = false;
+    private static boolean drawReady = true;
 
     private static long lastFpsCheck = 0;
     private static int currentFps = 0;
@@ -44,7 +47,7 @@ public class WritableRasterTest extends JFrame {
         JRadioButton startButton = new JRadioButton("Start", false);
         JRadioButton startAnimation = new JRadioButton("Start Animation", false);
         JRadioButton stopAnimation = new JRadioButton("Stop Animation", false);
-        fps = new JLabel("FPS: 0");
+        fps = new JLabel("FPS:" );
         panel.add(fps);
         panel.add(startButton);
         panel.add(startAnimation);
@@ -63,13 +66,14 @@ public class WritableRasterTest extends JFrame {
         group.add(startAnimation);
         group.add(stopAnimation);
 
-        final BackgroundWorker backgroundWorker = new BackgroundWorker(canvas);
-        final Thread background = new Thread(backgroundWorker);
+        BlockingQueue<int[][][]> queue = new LinkedBlockingQueue<>(2);
+        final Thread buffer = new Thread(new GetNextBuffer(queue));
+        final Thread background = new Thread(new BackgroundWorker(queue));
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (!background.isAlive()) {
-                    background.setDaemon(true);
+                if (!background.isAlive() && !buffer.isAlive()) {
                     background.start();
+                    buffer.start();
                 }
             }
         });
@@ -80,14 +84,49 @@ public class WritableRasterTest extends JFrame {
         add(panel, BorderLayout.NORTH);
     }
 
-    class BackgroundWorker implements  Runnable {
-        private final int[] blueColorPixel = new int[]{155, 0, 255};
-        private final int[] blackColorPixel = new int[]{0, 0, 0};
-        //private int[] blueColorArray;
-        private final PixelScreen screen;
 
-        BackgroundWorker(PixelScreen screen) {
-            this.screen = screen;
+
+    class GetNextBuffer implements Runnable {
+        private final BlockingQueue<int[][][]> queue;
+
+        GetNextBuffer(BlockingQueue<int[][][]> queue) {
+            this.queue = queue;
+        }
+        @Override
+        public void run() {
+            try {
+                calculateBuffer();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public void calculateBuffer() throws InterruptedException {
+            Initialization initialization = new Initialization();
+            Render render = initialization.getRender();
+            PixelScreen screen = new PixelScreen();
+            int[] pixelColor;
+            while(true) {
+                int [][][] buffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
+                List<Triangle> triangles = render.render();
+                for (Triangle triangle : triangles) {
+                    List<Triangle> clipping_triangles = List.of(triangle); // delete this
+//                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
+                    if (clipping_triangles != null) {
+                        pixelColor = triangle.getPixelColor();
+                        for (Triangle i : clipping_triangles) {
+                            buffer = screen.addTriangleToBuffer(i, pixelColor, buffer);
+                        }
+                    }
+                }
+                queue.put(buffer);
+            }
+        }
+    }
+
+    static class BackgroundWorker implements  Runnable {
+        private final BlockingQueue<int[][][]> queue;
+        BackgroundWorker(BlockingQueue<int[][][]> queue) {
+            this.queue = queue;
         }
 
         @Override
@@ -99,37 +138,12 @@ public class WritableRasterTest extends JFrame {
             }
         }
 
-
         private void draw() throws InterruptedException {
-            Initialization initialization = new Initialization();
-            Render render = initialization.getRender();
-            int[] pixelColor;
-
-
-            while(true) {
-                if (System.nanoTime() - lastFpsCheck > 1_000_000_000) {
-                    lastFpsCheck = System.nanoTime();
-                    currentFps = totalFrames;
-                    totalFrames = 0;
-                    fps.setText("FPS " + currentFps);
-                }
-
-                List<Triangle> triangles = render.render();
-
-                for (Triangle triangle : triangles) {
-                    List<Triangle> clipping_triangles = List.of(triangle); // delete this
-//                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
-                    if (clipping_triangles != null) {
-                        pixelColor = triangle.getPixelColor();
-                        for (Triangle i : clipping_triangles) {
-                            i.normalize(); // delete this
-                            screen.drawTriangle(i, pixelColor);
-                        }
-                    }
-                }
-                screen.drawCanvas();
-                canvas.Clear();
-                totalFrames++;
+            int [][][] buffer;
+            while (true) {
+                buffer = queue.take();
+                canvas.addBufferToCanvas(buffer);
+                canvas.drawCanvas();
             }
         }
     }
