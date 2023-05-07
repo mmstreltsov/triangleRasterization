@@ -106,6 +106,12 @@ public class WritableRasterTest extends JFrame {
             PixelScreen screen = new PixelScreen();
             int[] pixelColor;
             while(true) {
+                if (System.nanoTime() - lastFpsCheck > 1_000_000_000) {
+                    lastFpsCheck = System.nanoTime();
+                    currentFps = totalFrames;
+                    totalFrames = 0;
+                    fps.setText("FPS " + currentFps);
+                }
                 int [][][] buffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
                 List<Triangle> triangles = render.render();
                 for (Triangle triangle : triangles) {
@@ -120,6 +126,7 @@ public class WritableRasterTest extends JFrame {
                     }
                 }
                 queue.put(buffer);
+                totalFrames++;
             }
         }
     }
