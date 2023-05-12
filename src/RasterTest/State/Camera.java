@@ -3,7 +3,6 @@ package RasterTest.State;
 import RasterTest.State.Animation.Rotation;
 import RasterTest.State.Animation.Translation;
 import RasterTest.State.Math.BasisChange;
-import RasterTest.State.Math.Coord3D;
 import RasterTest.State.Math.Matrix4x4;
 import RasterTest.State.Math.Vector3D;
 
@@ -108,24 +107,6 @@ public class Camera implements Transformation {
         return new Vector3D(0, 1, 0);
     }
 
-//    /**
-//     * Приведение вектора Center к необходимому виду:
-//     * применение вращения, нормализация, перемещение в нужную точку (учитывается само смещение камеры)
-//     * @return Новый вектор
-//     */
-//    private Vector3D makeCenterDefault() {
-//        Vector3D center = rotateCenter();
-//        return this.offset.getTransl().additional(center.normalized()).toVector();
-//    }
-//    /**
-//     * Приведение вектора Up к необходимому виду:
-//     * применение вращения, нормализация
-//     * @return Новый вектор
-//     */
-//    private Vector3D makeUpDefault(){
-//        Vector3D up = rotateUp();
-//        return up.normalized();
-//    }
 
     /**
      * Генерируется матрица перевода координат в поле зрения камеры.
