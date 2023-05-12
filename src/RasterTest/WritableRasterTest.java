@@ -6,7 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -17,15 +20,11 @@ public class WritableRasterTest extends JFrame {
     public static final int DEFAULT_HEIGHT = PixelScreen.getResolutionY();
     public static final int DEFAULT_WINDOW_WIDTH = PixelScreen.getResolutionX();
     public static final int DEFAULT_WINDOW_HEIGHT = DEFAULT_HEIGHT + 70;
-    private JLabel fps;
+    private static JLabel fps;
     private static PixelScreen canvas;
-    private final TriangleHelper helper = new TriangleHelper();
-    private static boolean bufferReady = false;
-    private static boolean drawReady = true;
-
-    private static long lastFpsCheck = 0;
-    private static int currentFps = 0;
-    private static int totalFrames = 0;
+    private static final TriangleHelper helper = new TriangleHelper();
+    private static boolean isDoubleBuffering = false;
+    private static boolean is2DClipping = false;
 
 
     public static void main(String[] args) {
@@ -37,21 +36,28 @@ public class WritableRasterTest extends JFrame {
     }
 
     public WritableRasterTest() {
-        setTitle("WritableRasterTest");
+        setTitle("Rasterization");
         setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
         canvas = new PixelScreen();
         add(canvas, BorderLayout.CENTER);
         JPanel panel = new JPanel();
-//        panel.setDoubleBuffered(true);
-        ButtonGroup group = new ButtonGroup();
-        JRadioButton startButton = new JRadioButton("Start", false);
-        JRadioButton startAnimation = new JRadioButton("Start Animation", false);
-        JRadioButton stopAnimation = new JRadioButton("Stop Animation", false);
+        ButtonGroup start = new ButtonGroup();
+        JRadioButton startButton = new JRadioButton("Start");
+        start.add(startButton);
+        JCheckBox animationButton = new JCheckBox("Animation");
         fps = new JLabel("FPS:" );
+        JMenuBar menu = new JMenuBar();
+        JMenu settings = new JMenu("<html><p style='margin-top:2'>Settings");
+        JCheckBoxMenuItem clippingButton  = new JCheckBoxMenuItem("2D clipping");
+        JCheckBoxMenuItem doubleBufferingButton  = new JCheckBoxMenuItem("Double buffering");
+        settings.add(clippingButton);
+        settings.add(doubleBufferingButton);
+        menu.add(settings);
         panel.add(fps);
         panel.add(startButton);
-        panel.add(startAnimation);
-        panel.add(stopAnimation);
+        panel.add(animationButton);
+        panel.add(menu);
+
 
         /// For animation
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -62,23 +68,57 @@ public class WritableRasterTest extends JFrame {
         /// For animation
 
 
-        group.add(startButton);
-        group.add(startAnimation);
-        group.add(stopAnimation);
-
-        BlockingQueue<int[][][]> queue = new LinkedBlockingQueue<>(2);
-        final Thread buffer = new Thread(new GetNextBuffer(queue));
-        final Thread background = new Thread(new BackgroundWorker(queue));
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (!background.isAlive() && !buffer.isAlive()) {
-                    background.start();
-                    buffer.start();
+        animationButton.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    Animation.setIsAnimateTrue();
+                } else {
+                    Animation.setIsAnimateFalse();
                 }
             }
         });
-        startAnimation.addActionListener(e -> Animation.setIsAnimateTrue());
-        stopAnimation.addActionListener(e -> Animation.setIsAnimateFalse());
+
+        clippingButton.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                is2DClipping = e.getStateChange() == ItemEvent.SELECTED;
+            }
+        });
+
+
+
+        doubleBufferingButton.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                BlockingQueue<int[][][]> queue = new LinkedBlockingQueue<>(2);
+                Thread buffer = new Thread(new GetNextBuffer(queue));
+                Thread background = new Thread(new BackgroundWorker(queue));
+                Thread defaultMode;
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    isDoubleBuffering = true;
+                    if (!background.isAlive()) {
+                        background = new Thread(new BackgroundWorker(queue));
+                        background.start();
+                    }
+                    if (!buffer.isAlive()) {
+                        buffer.start();
+                    }
+                } else {
+                    defaultMode = new Thread(new DefaultMode());
+                    defaultMode.start();
+                    isDoubleBuffering = false;
+                }
+            }
+        });
+
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Thread defaultMode = new Thread(new DefaultMode());
+                defaultMode.start();
+            }
+        });
 
 
         add(panel, BorderLayout.NORTH);
@@ -86,7 +126,7 @@ public class WritableRasterTest extends JFrame {
 
 
 
-    class GetNextBuffer implements Runnable {
+    static class GetNextBuffer implements Runnable {
         private final BlockingQueue<int[][][]> queue;
 
         GetNextBuffer(BlockingQueue<int[][][]> queue) {
@@ -103,36 +143,39 @@ public class WritableRasterTest extends JFrame {
         public void calculateBuffer() throws InterruptedException {
             Initialization initialization = new Initialization();
             Render render = initialization.getRender();
-            PixelScreen screen = new PixelScreen();
             int[] pixelColor;
-            while(true) {
-                if (System.nanoTime() - lastFpsCheck > 1_000_000_000) {
-                    lastFpsCheck = System.nanoTime();
-                    currentFps = totalFrames;
-                    totalFrames = 0;
-                    fps.setText("FPS " + currentFps);
-                }
-                int [][][] buffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
+            List<Triangle> clipping_triangles;
+            int [][][] buffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
+            int [][][] nextBuffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
+            BufferRender bufferRender = new BufferRender();
+            while(isDoubleBuffering) {
                 List<Triangle> triangles = render.render();
+                nextBuffer = bufferRender.clearBuffer(nextBuffer);
                 for (Triangle triangle : triangles) {
-                    List<Triangle> clipping_triangles = List.of(triangle); // delete this
-//                    List<Triangle> clipping_triangles = helper.triangleProcessing(triangle, screen.getWidth(), screen.getHeight());
+                    if (!is2DClipping) {
+                        //включить 3Д клиппинг
+                        clipping_triangles = List.of(triangle); // delete this
+                    } else {
+                        //включить 2Д клиппинг
+                        clipping_triangles = helper.triangleProcessing(triangle, canvas.getWidth(), canvas.getHeight());
+                    }
                     if (clipping_triangles != null) {
                         pixelColor = triangle.getPixelColor();
                         for (Triangle i : clipping_triangles) {
                             i.normalize();
-                            buffer = screen.addTriangleToBuffer(i, pixelColor, buffer);
+                            nextBuffer = bufferRender.addTriangleToBuffer(i, pixelColor, nextBuffer);
                         }
                     }
                 }
+                buffer = bufferRender.cloneBuffer(nextBuffer, buffer);
                 queue.put(buffer);
-                totalFrames++;
             }
         }
     }
 
     static class BackgroundWorker implements  Runnable {
         private final BlockingQueue<int[][][]> queue;
+        Fps fpsCounter = new Fps();
         BackgroundWorker(BlockingQueue<int[][][]> queue) {
             this.queue = queue;
         }
@@ -148,10 +191,57 @@ public class WritableRasterTest extends JFrame {
 
         private void draw() throws InterruptedException {
             int [][][] buffer;
-            while (true) {
+            while (isDoubleBuffering) {
                 buffer = queue.take();
                 canvas.addBufferToCanvas(buffer);
                 canvas.drawCanvas();
+                int fpsResult = fpsCounter.fps();
+                if (fpsResult != -1) {
+                    fps.setText("FPS " + fpsResult);
+                }
+            }
+        }
+    }
+    static class DefaultMode implements  Runnable {
+        @Override
+        public void run() {
+            try {
+                draw();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private void draw() throws InterruptedException {
+            Fps fpsCounter = new Fps();
+            Initialization initialization = new Initialization();
+            Render render = initialization.getRender();
+            int[] pixelColor;
+            List<Triangle> clipping_triangles;
+            while (!isDoubleBuffering) {
+                List<Triangle> triangles = render.render();
+                canvas.Clear();
+                for (Triangle triangle : triangles) {
+                    if (!is2DClipping) {
+                        //включить 3Д клиппинг
+                        clipping_triangles = List.of(triangle); // delete this
+                    } else {
+                        //включить 2Д клиппинг
+                        clipping_triangles = helper.triangleProcessing(triangle, canvas.getWidth(), canvas.getHeight());
+                    }
+                    if (clipping_triangles != null) {
+                        pixelColor = triangle.getPixelColor();
+                        for (Triangle i : clipping_triangles) {
+                            i.normalize();
+                            canvas.drawTriangle(i, pixelColor);
+                        }
+                    }
+                }
+                canvas.drawCanvas();
+                int fpsResult = fpsCounter.fps();
+                if (fpsResult != -1) {
+                    fps.setText("FPS " + fpsResult);
+                }
             }
         }
     }

@@ -3,7 +3,6 @@ package RasterTest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.util.Arrays;
 
 public class PixelScreen extends Canvas {
     public static final int resolutionX = 640;
@@ -21,41 +20,27 @@ public class PixelScreen extends Canvas {
     }
 
 
-    public void ClearBuffer(int[][][] buffer) {
+    public void drawTriangle(Triangle triangle, int[] color) {
+        int[][] a = triangle.findCoordinates();
+        for (int[] ints : a) {
+            drawLine(ints[0], ints[1], ints[2], color);
+        }
+    }
+
+    public void drawLine(int x1, int x2, int y, int[] color) {
+        for (int x = x1; x < x2; x++) {
+            this.wr.setPixel(x, y, color);
+        }
+    }
+
+    public void Clear() {
         for(int x = 0; x < resolutionX; x++) {
-            for (int y = 0; y < resolutionY; y++) {
-                buffer[x][y] = blackColorPixel;
+            for(int y = 0; y < resolutionY; y++) {
+                this.wr.setPixel(x, y, blackColorPixel);
             }
         }
     }
 
-//    public void drawTriangle(Triangle triangle, int[] color) {
-//        int[][] a = triangle.findCoordinates();
-//        for (int[] ints : a) {
-//            drawLine(ints[0], ints[1], ints[2], color);
-//        }
-//    }
-
-//    public void drawLine(int x1, int x2, int y, int[] color) {
-//        for (int x = x1; x < x2; x++) {
-//            this.wr.setPixel(x, y, color);
-//        }
-//    }
-
-    public int[][][] addTriangleToBuffer(Triangle triangle, int[] color, int[][][] buffer) {
-        int[][] a = triangle.findCoordinates();
-        for (int[] ints : a) {
-            buffer = addLineToBuffer(ints[0], ints[1], ints[2], color, buffer);
-        }
-        return buffer;
-    }
-
-    public int[][][] addLineToBuffer(int x1, int x2, int y, int[] color, int[][][] buffer) {
-        for (int x = x1; x < x2; x++) {
-            buffer[x][y] = color;
-        }
-        return buffer;
-    }
 
     public void addBufferToCanvas(int[][][] buffer) {
         for(int x = 0; x < resolutionX; x++) {
