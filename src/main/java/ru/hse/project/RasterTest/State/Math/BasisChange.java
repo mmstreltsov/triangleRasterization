@@ -29,6 +29,8 @@ public interface BasisChange {
         matrix.setM33(z.getZ());
 
         matrix.setM44(1.);
+
+        matrix = matrix.inverse();
         return matrix;
     }
 }

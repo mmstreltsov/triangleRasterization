@@ -1,5 +1,7 @@
 package ru.hse.project.RasterTest.State.Math;
 
+import java.util.Arrays;
+
 /**
  * Матрица размера 4х4
  */
@@ -118,6 +120,68 @@ public class Matrix4x4 {
         double newW = m41 * x + m42 * y + m43 * z + m44 * w;
         return new HomogeneousCoord(newX, newY, newZ, newW);
     }
+
+    public Matrix4x4 inverse() {
+        initAlgebraicComplements();
+        double det = this.det();
+        if (Math.abs(det) < 1e-7) {
+            throw new RuntimeException("det == 0");
+        }
+        return this.enterMatrix().multiplyOnScalar(det);
+    }
+
+
+    private Matrix4x4 multiplyOnScalar(double scalar) {
+        return new Matrix4x4(
+                m11/scalar, m12/scalar, m13/scalar, m14/scalar,
+                m21/scalar, m22/scalar, m23/scalar, m24/scalar,
+                m31/scalar, m32/scalar, m33/scalar, m34/scalar,
+                m41/scalar, m42/scalar, m43/scalar, m44/scalar
+        );
+    }
+
+    private void initAlgebraicComplements() {
+        cofactors[0][0] = m22 * (m33 * m44 - m43 * m34) - m23 * (m32 * m44 - m42 * m34) + m24 * (m32 * m43 - m42 * m33);
+        cofactors[0][1] = -(m21 * (m33 * m44 - m43 * m34) - m23 * (m31 * m44 - m41 * m34) + m24 * (m31 * m43 - m41 * m33));
+        cofactors[0][2] = m21 * (m32 * m44 - m42 * m34) - m22 * (m31 * m44 - m41 * m34) + m24 * (m31 * m42 - m41 * m32);
+        cofactors[0][3] = -(m21 * (m32 * m43 - m42 * m33) - m22 * (m31 * m43 - m41 * m33) + m23 * (m31 * m42 - m41 * m32));
+        cofactors[1][0] = -(m12 * (m33 * m44 - m43 * m34) - m13 * (m32 * m44 - m42 * m34) + m14 * (m32 * m43 - m42 * m33));
+        cofactors[1][1] = m11 * (m33 * m44 - m43 * m34) - m13 * (m31 * m44 - m41 * m34) + m14 * (m31 * m43 - m41 * m33);
+        cofactors[1][2] = -(m11 * (m32 * m44 - m42 * m34) - m12 * (m31 * m44 - m41 * m34) + m14 * (m31 * m42 - m41 * m32));
+        cofactors[1][3] = m11 * (m32 * m43 - m42 * m33) - m12 * (m31 * m43 - m41 * m33) + m13 * (m31 * m42 - m41 * m32);
+        cofactors[2][0] = m12 * (m23 * m44 - m43 * m24) - m13 * (m22 * m44 - m42 * m24) + m14 * (m22 * m43 - m42 * m23);
+        cofactors[2][1] = -(m11 * (m23 * m44 - m43 * m24) - m13 * (m21 * m44 - m41 * m24) + m14 * (m21 * m43 - m41 * m23));
+        cofactors[2][2] = m11 * (m22 * m44 - m42 * m24) - m12 * (m21 * m44 - m41 * m24) + m14 * (m21 * m42 - m41 * m22);
+        cofactors[2][3] = -(m11 * (m22 * m43 - m42 * m23) - m12 * (m21 * m43 - m41 * m23) + m13 * (m21 * m42 - m41 * m22));
+        cofactors[3][0] = -(m12 * (m23 * m34 - m33 * m24) - m13 * (m22 * m34 - m32 * m24) + m14 * (m22 * m33 - m32 * m23));
+        cofactors[3][1] = m11 * (m23 * m34 - m33 * m24) - m13 * (m21 * m34 - m31 * m24) + m14 * (m21 * m33 - m31 * m23);
+        cofactors[3][2] = -(m11 * (m22 * m34 - m32 * m24) - m12 * (m21 * m34 - m31 * m24) + m14 * (m21 * m32 - m31 * m22));
+        cofactors[3][3] = m11 * (m22 * m33 - m32 * m23) - m12 * (m21 * m33 - m31 * m23) + m13 * (m21 * m32 - m31 * m22);
+    }
+
+    private double det() {
+        return m11 * cofactors[0][0] + m12 * cofactors[0][1] + m13 * cofactors[0][2] + m14 * cofactors[0][3];
+    }
+
+    private Matrix4x4 enterMatrix() {
+        return new Matrix4x4(
+                cofactors[0][0], cofactors[0][1], cofactors[0][2], cofactors[0][3],
+                cofactors[1][0], cofactors[1][1], cofactors[1][2], cofactors[1][3],
+                cofactors[2][0], cofactors[2][1], cofactors[2][2], cofactors[2][3],
+                cofactors[3][0], cofactors[3][1], cofactors[3][2], cofactors[3][3]
+        ).t();
+    }
+
+    private Matrix4x4 t() {
+        return new Matrix4x4(
+                m11, m21, m31, m41,
+                m12, m22, m32, m42,
+                m13, m23, m33, m43,
+                m14, m24, m34, m44
+        );
+    }
+
+
 
     public double getM11() {
         return m11;
@@ -247,6 +311,26 @@ public class Matrix4x4 {
         this.m44 = m44;
     }
 
+    @Override
+    public String toString() {
+        return  m11 + " " +
+                m12 + " " +
+                m13 + " " +
+                m14 + "\n" +
+                m21 + " " +
+                m22 + " " +
+                m23 + " " +
+                m24 +"\n" +
+                m31 + " " +
+                m32 + " " +
+                m33 + " " +
+                m34 + "\n" +
+                m41 + " " +
+                m42 + " " +
+                m43 + " " +
+                m44;
+    }
+
     private double m11;
     private double m12;
     private double m13;
@@ -263,5 +347,7 @@ public class Matrix4x4 {
     private double m42;
     private double m43;
     private double m44;
+
+    private final double[][] cofactors = new double[4][4];
 
 }

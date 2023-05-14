@@ -119,7 +119,11 @@ public class Camera implements Transformation {
         Vector3D center = getActualCenter();
         Vector3D up = getActualUp();
 
-        Vector3D right = Vector3D.crossProduct(center, up).normalized();
+        Vector3D right = Vector3D.crossProduct(center, up).multiplyOnScalar(-1).normalized();
+        System.out.println("center" + center);
+        System.out.println("up" + up);
+        System.out.println("right" + right);
+
         Matrix4x4 matrix = BasisChange.matrix(right, up, center);
 
         matrix = matrix.multiplyOnMatrix(offset.translating());

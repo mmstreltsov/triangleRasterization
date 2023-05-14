@@ -24,7 +24,7 @@ public class Initialization {
     public Initialization() {
         Model model = new Model();
 
-        Coord3D v1 = new Coord3D(30., 0., 0.);
+        Coord3D v1 = new Coord3D(50., 0., 0.);
         Coord3D v2 = new Coord3D(-30., 0., 0.);
         Coord3D v3 = new Coord3D(0., 25., 0.);
         model.getTriangulation().add(new Triangle3D(v1, v2, v3));
