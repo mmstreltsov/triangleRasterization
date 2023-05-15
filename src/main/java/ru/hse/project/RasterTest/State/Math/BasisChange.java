@@ -18,7 +18,7 @@ public interface BasisChange {
 
         matrix.setM11(x.getX());
         matrix.setM12(y.getX());
-        matrix.setM13(y.getX());
+        matrix.setM13(z.getX());
 
         matrix.setM21(x.getY());
         matrix.setM22(y.getY());

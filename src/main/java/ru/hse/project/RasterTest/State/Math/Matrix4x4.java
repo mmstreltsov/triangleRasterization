@@ -122,8 +122,10 @@ public class Matrix4x4 {
     }
 
     public Matrix4x4 inverse() {
+        System.out.println(this);
         initAlgebraicComplements();
         double det = this.det();
+        System.out.println(det);
         if (Math.abs(det) < 1e-7) {
             throw new RuntimeException("det == 0");
         }
