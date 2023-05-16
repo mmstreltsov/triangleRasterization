@@ -24,71 +24,73 @@ public class Initialization {
     public Initialization() {
         Model model = new Model();
 
-//        Coord3D v1 = new Coord3D(50., 0., 0.);
-//        Coord3D v2 = new Coord3D(-30., 0., 0.);
-//        Coord3D v3 = new Coord3D(0., 25., 0.);
-//        model.getTriangulation().add(new Triangle3D(v1, v2, v3));
+        Coord3D v1 = new Coord3D(30., -10., 0.);
+        Coord3D v2 = new Coord3D(-30., -10., 0.);
+        Coord3D v3 = new Coord3D(0., 20., 20.);
+        model.getTriangulation().add(new Triangle3D(v1, v2, v3));
 
 
-        // CUBE
-        model.getTriangulation().add(new Triangle3D(
-           new Coord3D(1, 1, 1), new Coord3D(1, 1, -1), new Coord3D(-1, 1, 1)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-1, 1, -1), new Coord3D(1, 1, -1), new Coord3D(-1, 1, 1)
-        ));
 
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(1, 1, 1), new Coord3D(1, 1, -1), new Coord3D(1, -1, 1)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(1, -1, -1), new Coord3D(1, 1, -1), new Coord3D(1, -1, 1)
-        ));
-
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(1, 1, 1), new Coord3D(-1, 1, 1), new Coord3D(1, -1, 1)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-1, -1, 1), new Coord3D(-1, 1, 1), new Coord3D(1, -1, 1)
-        ));
-
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-1, -1, -1), new Coord3D(-1, 1, -1), new Coord3D(1, -1, -1)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(1, 1,-1), new Coord3D(-1, 1, -1), new Coord3D(1, -1, -1)
-        ));
-
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-1, -1, -1), new Coord3D(1, -1, -1), new Coord3D(-1, -1, 1)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(1, -1, 1), new Coord3D(1, -1, -1), new Coord3D(-1, -1, 1)
-        ));
-
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-1, -1, -1), new Coord3D(-1, -1, 1), new Coord3D(-1, 1, -1)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-1, 1, 1), new Coord3D(-1, -1, 1), new Coord3D(-1, 1, -1)
-        ));
-
+//        // CUBE
+//        model.getTriangulation().add(new Triangle3D(
+//           new Coord3D(1, 1, 1), new Coord3D(1, 1, -1), new Coord3D(-1, 1, 1)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-1, 1, -1), new Coord3D(1, 1, -1), new Coord3D(-1, 1, 1)
+//        ));
+//
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(1, 1, 1), new Coord3D(1, 1, -1), new Coord3D(1, -1, 1)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(1, -1, -1), new Coord3D(1, 1, -1), new Coord3D(1, -1, 1)
+//        ));
+//
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(1, 1, 1), new Coord3D(-1, 1, 1), new Coord3D(1, -1, 1)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-1, -1, 1), new Coord3D(-1, 1, 1), new Coord3D(1, -1, 1)
+//        ));
+//
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-1, -1, -1), new Coord3D(-1, 1, -1), new Coord3D(1, -1, -1)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(1, 1,-1), new Coord3D(-1, 1, -1), new Coord3D(1, -1, -1)
+//        ));
+//
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-1, -1, -1), new Coord3D(1, -1, -1), new Coord3D(-1, -1, 1)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(1, -1, 1), new Coord3D(1, -1, -1), new Coord3D(-1, -1, 1)
+//        ));
+//
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-1, -1, -1), new Coord3D(-1, -1, 1), new Coord3D(-1, 1, -1)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-1, 1, 1), new Coord3D(-1, -1, 1), new Coord3D(-1, 1, -1)
+//        ));
+//
         //POINT_VIEW
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(-10, -10, 7), new Coord3D(-10, 10, 7), new Coord3D(10, -10, 7)
-        ));
-        model.getTriangulation().add(new Triangle3D(
-                new Coord3D(10, 10, 7), new Coord3D(-10, 10, 7), new Coord3D(10, -10, 7)
-        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(-10, -10, 7), new Coord3D(-10, 10, 7), new Coord3D(10, -10, 7)
+//        ));
+//        model.getTriangulation().add(new Triangle3D(
+//                new Coord3D(10, 10, 7), new Coord3D(-10, 10, 7), new Coord3D(10, -10, 7)
+//        ));
 
 
         Scene scene = new Scene();
-        Animate.animObjectTrans(scene.getModelInstance(), new Vector3D(0, 0, 55));
-        Animate.animObjectScale(scene.getModelInstance(), new Vector3D(3, 3, 3));
+        Animate.animObjectTrans(scene.getModelInstance(), new Vector3D(0, 0, 25));
+//        Animate.animObjectScale(scene.getModelInstance(), new Vector3D(10, 10, 10));
 
 
         // Set animation
-        scene.getAnimationStep().setRotation(new Rotation(0.3, 0, 0));
+        scene.getAnimationStep().setRotation(new Rotation(0.2, 0, 0));
+
 
         RenderObject renderObject = new RenderObject(scene, model);
 

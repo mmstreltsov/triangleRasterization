@@ -17,6 +17,19 @@ public class Triangle3D {
      */
     private Coord3D vertex3;
 
+    /**
+     * Храним коэффициент света.
+     */
+    private double lightCoefficient = 0;
+
+    public double getLightCoefficient() {
+        return lightCoefficient;
+    }
+    public void setLightCoefficient(double lightCoefficient) {
+        this.lightCoefficient = lightCoefficient;
+    }
+
+
 
     /**
      * Конструктор от трех 3D вершин
@@ -48,6 +61,7 @@ public class Triangle3D {
 
     /**
      * Применение матрицы преобразования к текущему 3D треугольнику
+     * Сохранение коэффициента света!
      * @param matrix матрица преобразования
      * @return Новый 3D треугольник
      */
@@ -56,7 +70,9 @@ public class Triangle3D {
         Coord3D v2 = matrix.multiplyOnHomo(vertex2).toPoint();
         Coord3D v3 = matrix.multiplyOnHomo(vertex3).toPoint();
 
-        return new Triangle3D(v1, v2, v3);
+        Triangle3D triangle3D = new Triangle3D(v1, v2, v3);
+        triangle3D.setLightCoefficient(this.getLightCoefficient());
+        return triangle3D;
     }
 
     @Override
