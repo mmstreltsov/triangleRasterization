@@ -4,12 +4,8 @@ import ru.hse.project.RasterTest.CameraAnimation.KeyChecker;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -26,6 +22,7 @@ public class WritableRasterTest extends JFrame {
     private static boolean isDoubleBuffering = false;
 
     private static boolean is2DClipping = false;
+    private static boolean isStarted = false;
 
     public static boolean isIs2DClipping() {
         return is2DClipping;
@@ -73,55 +70,44 @@ public class WritableRasterTest extends JFrame {
         /// For animation
 
 
-        animationButton.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    Animation.setIsAnimateTrue();
-                } else {
-                    Animation.setIsAnimateFalse();
+        animationButton.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                Animation.setIsAnimateTrue();
+            } else {
+                Animation.setIsAnimateFalse();
+            }
+        });
+
+        clippingButton.addItemListener(e -> is2DClipping = e.getStateChange() == ItemEvent.SELECTED);
+
+
+
+        doubleBufferingButton.addItemListener(e -> {
+            BlockingQueue<int[][][]> queue = new LinkedBlockingQueue<>(2);
+            Thread buffer = new Thread(new GetNextBuffer(queue));
+            Thread background = new Thread(new BackgroundWorker(queue));
+            Thread defaultMode;
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                isDoubleBuffering = true;
+                if (!background.isAlive()) {
+                    background = new Thread(new BackgroundWorker(queue));
+                    background.start();
                 }
-            }
-        });
-
-        clippingButton.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                is2DClipping = e.getStateChange() == ItemEvent.SELECTED;
-            }
-        });
-
-
-
-        doubleBufferingButton.addItemListener(new ItemListener() {
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                BlockingQueue<int[][][]> queue = new LinkedBlockingQueue<>(2);
-                Thread buffer = new Thread(new GetNextBuffer(queue));
-                Thread background = new Thread(new BackgroundWorker(queue));
-                Thread defaultMode;
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    isDoubleBuffering = true;
-                    if (!background.isAlive()) {
-                        background = new Thread(new BackgroundWorker(queue));
-                        background.start();
-                    }
-                    if (!buffer.isAlive()) {
-                        buffer.start();
-                    }
-                } else {
-                    defaultMode = new Thread(new DefaultMode());
-                    defaultMode.start();
-                    isDoubleBuffering = false;
+                if (!buffer.isAlive()) {
+                    buffer.start();
                 }
+            } else {
+                defaultMode = new Thread(new DefaultMode());
+                defaultMode.start();
+                isDoubleBuffering = false;
             }
         });
 
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        startButton.addActionListener(e -> {
+            if (!isStarted) {
                 Thread defaultMode = new Thread(new DefaultMode());
                 defaultMode.start();
+                isStarted = true;
             }
         });
 
@@ -154,21 +140,27 @@ public class WritableRasterTest extends JFrame {
             int [][][] nextBuffer = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT][3];
             BufferRender bufferRender = new BufferRender();
             while(isDoubleBuffering) {
-                List<Triangle> triangles = render.render();
                 nextBuffer = bufferRender.clearBuffer(nextBuffer);
-                for (Triangle triangle : triangles) {
-                    if (!is2DClipping) {
-                        //включить 3Д клиппинг
+                if (!is2DClipping) {
+                    List<Triangle> triangles = render.render();
+                    for (Triangle triangle : triangles) {
                         clipping_triangles = List.of(triangle); // delete this
-                    } else {
-                        //включить 2Д клиппинг
-                        clipping_triangles = helper.triangleProcessing(triangle, canvas.getWidth(), canvas.getHeight());
-                    }
-                    if (clipping_triangles != null) {
                         pixelColor = triangle.getPixelColor();
                         for (Triangle i : clipping_triangles) {
                             i.normalize();
                             nextBuffer = bufferRender.addTriangleToBuffer(i, pixelColor, nextBuffer);
+                        }
+                    }
+                } else {
+                    List<Triangle> triangles = render.render();
+                    for (Triangle triangle : triangles) {
+                        clipping_triangles = helper.triangleProcessing(triangle, canvas.getWidth(), canvas.getHeight());
+                        if (clipping_triangles != null) {
+                            pixelColor = triangle.getPixelColor();
+                            for (Triangle i : clipping_triangles) {
+                                i.normalize();
+                                nextBuffer = bufferRender.addTriangleToBuffer(i, pixelColor, nextBuffer);
+                            }
                         }
                     }
                 }
@@ -224,21 +216,27 @@ public class WritableRasterTest extends JFrame {
             int[] pixelColor;
             List<Triangle> clipping_triangles;
             while (!isDoubleBuffering) {
-                List<Triangle> triangles = render.render();
                 canvas.Clear();
-                for (Triangle triangle : triangles) {
-                    if (!is2DClipping) {
-                        //включить 3Д клиппинг
+                if (!is2DClipping) {
+                    List<Triangle> triangles = render.render();
+                    for (Triangle triangle : triangles) {
                         clipping_triangles = List.of(triangle); // delete this
-                    } else {
-                        //включить 2Д клиппинг
-                        clipping_triangles = helper.triangleProcessing(triangle, canvas.getWidth(), canvas.getHeight());
-                    }
-                    if (clipping_triangles != null) {
                         pixelColor = triangle.getPixelColor();
                         for (Triangle i : clipping_triangles) {
                             i.normalize();
                             canvas.drawTriangle(i, pixelColor);
+                        }
+                    }
+                } else {
+                    List<Triangle> triangles = render.render();
+                    for (Triangle triangle : triangles) {
+                        clipping_triangles = helper.triangleProcessing(triangle, canvas.getWidth(), canvas.getHeight());
+                        if (clipping_triangles != null) {
+                            pixelColor = triangle.getPixelColor();
+                            for (Triangle i : clipping_triangles) {
+                                i.normalize();
+                                canvas.drawTriangle(i, pixelColor);
+                            }
                         }
                     }
                 }
