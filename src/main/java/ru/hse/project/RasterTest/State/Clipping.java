@@ -69,11 +69,6 @@ public class Clipping {
         Coord3D rightDown = viewCenter.additional(up.multiplyOnScalar(-heightHalf))
                 .additional(right.multiplyOnScalar(widthHalf)).toPoint();
 
-//        System.out.println("LU " + leftUp);
-//        System.out.println("RU " + rightUp);
-//        System.out.println("RD " + rightDown);
-//        System.out.println("LD " + leftDown);
-
 
         List<Plane> ret = new ArrayList<>();
         ret.add(new Plane(leftUp, rightUp, point));
@@ -81,7 +76,6 @@ public class Clipping {
         ret.add(new Plane(rightDown, leftDown, point));
         ret.add(new Plane(leftDown, leftUp, point));
 
-//        ret.forEach(System.out::println);
 
         ret.add(new Plane(leftUp, rightUp, rightDown));
 

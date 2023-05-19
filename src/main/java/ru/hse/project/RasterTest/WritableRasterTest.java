@@ -24,7 +24,12 @@ public class WritableRasterTest extends JFrame {
     private static PixelScreen canvas;
     private static final TriangleHelper helper = new TriangleHelper();
     private static boolean isDoubleBuffering = false;
+
     private static boolean is2DClipping = false;
+
+    public static boolean isIs2DClipping() {
+        return is2DClipping;
+    }
 
 
     public static void main(String[] args) {

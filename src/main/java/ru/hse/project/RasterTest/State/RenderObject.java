@@ -1,6 +1,7 @@
 package ru.hse.project.RasterTest.State;
 
 import ru.hse.project.RasterTest.State.Math.*;
+import ru.hse.project.RasterTest.WritableRasterTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,15 @@ public class RenderObject {
         scene.makeAnimation();
         List<Triangle3D> afterFirstTransformation = makeTransform(models.getTriangulation(), scene.transformationStep1());
 
-        List<Triangle3D> afterClipping = clipping(afterFirstTransformation);
+        ///APPEND 2D CLIPPING
+        List<Triangle3D> afterClipping;
+        if (WritableRasterTest.isIs2DClipping()) {
+            afterClipping = afterFirstTransformation;   /// Nothing to do
+        }
+        else {
+            afterClipping = clipping(afterFirstTransformation);
+        }
+        ///
 
         setLightning(afterClipping);
         List<Triangle3D> afterSecondTransform = makeTransform(afterClipping, scene.transformationStep2());
