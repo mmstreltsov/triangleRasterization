@@ -7,7 +7,7 @@
 
 
 
-Запуск программы через Jar:
+Запуск программы через jar (нужен JDK 17+):
   <code> java -jar ${PATH_TO_FILE} </code>
  
  
